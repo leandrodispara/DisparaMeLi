@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DisparaMeLi — Conecte sua loja</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #f0f7f2;
+      --surface: #ffffff;
+      --green: #2ecc71;
+      --green-dark: #1a9e52;
+      --green-light: #d4f5e2;
+      --green-muted: #a8dfc0;
+      --text: #1a2e24;
+      --text-muted: #5a7a68;
+      --border: #cce8d8;
+      --meli-yellow: #ffe600;
+      --meli-blue: #3483fa;
+      --error: #e74c3c;
+      --radius: 16px;
+      --shadow: 0 4px 24px rgba(46,204,113,0.10);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background-image:
+        radial-gradient(circle at 20% 20%, rgba(46,204,113,0.08) 0%, transparent 60%),
+        radial-gradient(circle at 80% 80%, rgba(46,204,113,0.06) 0%, transparent 60%);
+    }
+
+    /* ── LOGO ── */
+    .logo {
+      text-align: center;
+      margin-bottom: 32px;
+      animation: fadeDown 0.6s ease;
+    }
+    .logo-icon {
+      width: 64px; height: 64px;
+      background: linear-gradient(135deg, var(--green), var(--green-dark));
+      border-radius: 18px;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 12px;
+      box-shadow: 0 8px 24px rgba(46,204,113,0.3);
+      font-size: 28px;
+    }
+    .logo h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--text);
+    }
+    .logo h1 span { color: var(--green-dark); }
+    .logo p {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1.5px solid var(--border);
+      box-shadow: var(--shadow);
+      width: 100%;
+      max-width: 420px;
+      overflow: hidden;
+      animation: fadeUp 0.6s ease 0.1s both;
+    }
+
+    /* ── STEPS ── */
+    .steps {
+      display: flex;
+      border-bottom: 1.5px solid var(--border);
+      background: var(--green-light);
+    }
+    .step {
+      flex: 1;
+      padding: 14px 8px;
+      text-align: center;
+      font-family: 'Syne', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--green-muted);
+      transition: all 0.3s;
+      position: relative;
+    }
+    .step.active { color: var(--green-dark); }
+    .step.done { color: var(--green); }
+    .step-num {
+      display: block;
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 2px;
+    }
+    .step.active .step-num { color: var(--green-dark); }
+    .step.done .step-num { color: var(--green); }
+
+    /* ── PANELS ── */
+    .panel { display: none; padding: 32px; }
+    .panel.active { display: block; animation: fadeUp 0.4s ease; }
+
+    .panel-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .panel-sub {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    /* ── FORM ELEMENTS ── */
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      color: var(--text);
+      background: var(--bg);
+      outline: none;
+      transition: border 0.2s, box-shadow 0.2s;
+      letter-spacing: 1px;
+    }
+    input:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(46,204,113,0.15);
+    }
+
+    /* ── BUTTONS ── */
+    .btn {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Syne', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 16px;
+    }
+    .btn-green {
+      background: linear-gradient(135deg, var(--green), var(--green-dark));
+      color: white;
+      box-shadow: 0 4px 16px rgba(46,204,113,0.3);
+    }
+    .btn-green:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(46,204,113,0.4); }
+    .btn-green:active { transform: translateY(0); }
+
+    .btn-meli {
+      background: var(--meli-yellow);
+      color: #1a1a1a;
+      box-shadow: 0 4px 16px rgba(255,230,0,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .btn-meli:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,230,0,0.5); }
+    .btn-meli .meli-logo { font-size: 20px; }
+
+    /* ── ALERT ── */
+    .alert {
+      display: none;
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-top: 12px;
+      font-weight: 500;
+    }
+    .alert.error { background: #fdf0ef; color: var(--error); border: 1px solid #f5c6c2; }
+    .alert.success { background: var(--green-light); color: var(--green-dark); border: 1px solid var(--green-muted); }
+    .alert.show { display: block; animation: fadeUp 0.3s ease; }
+
+    /* ── PAINEL SELLER ── */
+    .seller-header {
+      background: linear-gradient(135deg, var(--green-dark), var(--green));
+      padding: 24px 32px;
+      color: white;
+    }
+    .seller-header h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .seller-header p { font-size: 13px; opacity: 0.85; margin-top: 4px; }
+    .seller-nick {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-top: 8px;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      padding: 20px 32px;
+      border-bottom: 1.5px solid var(--border);
+    }
+    .metric {
+      background: var(--bg);
+      border-radius: 10px;
+      padding: 14px;
+      text-align: center;
+    }
+    .metric-val {
+      font-family: 'Syne', sans-serif;
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--green-dark);
+    }
+    .metric-label { font-size: 11px; color: var(--text-muted); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    /* ── CHAT IA ── */
+    .chat-section { padding: 24px 32px; }
+    .chat-section h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .chat-badge {
+      background: var(--green-light);
+      color: var(--green-dark);
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .chat-box {
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      height: 220px;
+      overflow-y: auto;
+      padding: 14px;
+      margin-bottom: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .msg {
+      max-width: 85%;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 13.5px;
+      line-height: 1.5;
+      animation: fadeUp 0.3s ease;
+    }
+    .msg.ia {
+      background: white;
+      border: 1.5px solid var(--border);
+      align-self: flex-start;
+      border-bottom-left-radius: 3px;
+    }
+    .msg.user {
+      background: linear-gradient(135deg, var(--green), var(--green-dark));
+      color: white;
+      align-self: flex-end;
+      border-bottom-right-radius: 3px;
+    }
+    .msg.loading { opacity: 0.6; font-style: italic; }
+
+    .chat-input-row {
+      display: flex;
+      gap: 8px;
+    }
+    .chat-input {
+      flex: 1;
+      padding: 12px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      background: var(--bg);
+      outline: none;
+      transition: border 0.2s;
+    }
+    .chat-input:focus { border-color: var(--green); }
+    .chat-send {
+      background: var(--green);
+      border: none;
+      border-radius: 10px;
+      color: white;
+      width: 44px;
+      cursor: pointer;
+      font-size: 18px;
+      transition: all 0.2s;
+    }
+    .chat-send:hover { background: var(--green-dark); transform: scale(1.05); }
+
+    .btn-logout {
+      margin: 0 32px 24px;
+      width: calc(100% - 64px);
+      padding: 10px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: 'Syne', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-logout:hover { border-color: var(--error); color: var(--error); }
+
+    /* ── FOOTER ── */
+    .footer {
+      margin-top: 24px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      animation: fadeUp 0.6s ease 0.2s both;
+    }
+    .footer span { color: var(--green-dark); font-weight: 600; }
+
+    /* ── SPINNER ── */
+    .spinner {
+      display: inline-block;
+      width: 16px; height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+  <div class="logo">
+    <div class="logo-icon">🚀</div>
+    <h1>Dispara<span>MeLi</span></h1>
+    <p>Plataforma inteligente para vendedores</p>
+  </div>
+
+  <div class="card" id="mainCard">
+
+    <!-- STEPS -->
+    <div class="steps" id="stepsBar">
+      <div class="step active" id="step1"><span class="step-num">1</span>Código</div>
+      <div class="step" id="step2"><span class="step-num">2</span>Conectar</div>
+      <div class="step" id="step3"><span class="step-num">3</span>Painel</div>
+    </div>
+
+    <!-- PANEL 1: CÓDIGO DE ACESSO -->
+    <div class="panel active" id="panel1">
+      <div class="panel-title">Digite seu código</div>
+      <div class="panel-sub">Insira o código de acesso fornecido pela sua consultoria para continuar.</div>
+      <label>Código de acesso</label>
+      <input type="text" id="codigoInput" placeholder="EX: HORIZONTE-2025-XX"
+        autocomplete="off" autocapitalize="characters"
+        onkeydown="if(event.key==='Enter') validarCodigo()" />
+      <button class="btn btn-green" onclick="validarCodigo()" id="btnCodigo">
+        Continuar →
+      </button>
+      <div class="alert" id="alertCodigo"></div>
+    </div>
+
+    <!-- PANEL 2: LOGIN MELI -->
+    <div class="panel" id="panel2">
+      <div class="panel-title">Conectar ao Mercado Livre</div>
+      <div class="panel-sub">Clique abaixo para autorizar o DisparaMeLi a acessar sua conta do Mercado Livre.</div>
+      <button class="btn btn-meli" onclick="loginMeli()" id="btnMeli">
+        <span class="meli-logo">🛒</span> Entrar com Mercado Livre
+      </button>
+      <div class="alert" id="alertMeli"></div>
+    </div>
+
+    <!-- PANEL 3: PAINEL DO SELLER -->
+    <div class="panel" id="panel3" style="padding:0">
+      <div class="seller-header">
+        <h2>Olá, <span id="sellerNome">Vendedor</span>! 👋</h2>
+        <p>Sua conta está conectada e ativa</p>
+        <span class="seller-nick" id="sellerNick">@usuario</span>
+      </div>
+
+      <div class="metrics">
+        <div class="metric">
+          <div class="metric-val" id="metricAnuncios">—</div>
+          <div class="metric-label">Anúncios ativos</div>
+        </div>
+        <div class="metric">
+          <div class="metric-val" id="metricVendas">—</div>
+          <div class="metric-label">Vendas este mês</div>
+        </div>
+        <div class="metric">
+          <div class="metric-val" id="metricReputacao">—</div>
+          <div class="metric-label">Reputação</div>
+        </div>
+        <div class="metric">
+          <div class="metric-val" id="metricPergunta">—</div>
+          <div class="metric-label">Perguntas</div>
+        </div>
+      </div>
+
+      <div class="chat-section">
+        <h3>Consultora IA <span class="chat-badge">Online</span></h3>
+        <div class="chat-box" id="chatBox">
+          <div class="msg ia">👋 Olá! Sou sua consultora de vendas com IA. Como posso te ajudar hoje?</div>
+        </div>
+        <div class="chat-input-row">
+          <input type="text" class="chat-input" id="chatInput"
+            placeholder="Pergunte algo sobre suas vendas..."
+            onkeydown="if(event.key==='Enter') enviarMensagem()" />
+          <button class="chat-send" onclick="enviarMensagem()">➤</button>
+        </div>
+      </div>
+
+      <button class="btn-logout" onclick="logout()">⬅ Sair da conta</button>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    Desenvolvido por <span>Horizon Consultoria</span>
+  </div>
+
+<script>
+  const API = 'https://disparameli.onrender.com';
+  let sellerId = null;
+  let codigoValido = null;
+
+  // ── Verifica se voltou do OAuth (seller_id na URL) ──
+  window.addEventListener('load', () => {
+    const params = new URLSearchParams(window.location.search);
+    const sid = params.get('seller_id');
+
+    if (sid) {
+      // Voltou do OAuth com seller_id
+      sellerId = sid;
+      history.replaceState({}, '', window.location.pathname);
+      localStorage.setItem('dispara_seller_id', sid);
+      carregarPainel(sid);
+    } else {
+      // Verifica sessão salva
+      const sid_salvo = localStorage.getItem('dispara_seller_id');
+      if (sid_salvo) {
+        sellerId = sid_salvo;
+        carregarPainel(sid_salvo);
+      }
+    }
+  });
+
+  // ── Step 1: Validar código ──
+  async function validarCodigo() {
+    const codigo = document.getElementById('codigoInput').value.trim().toUpperCase();
+    if (!codigo) return showAlert('alertCodigo', 'Digite o código de acesso.', 'error');
+
+    mostrarLoading('btnCodigo', 'Verificando...');
+    ocultarAlert('alertCodigo');
+
+    try {
+      const res = await fetch(`${API}/auth/validar-codigo?codigo=${encodeURIComponent(codigo)}`);
+      const data = await res.json();
+
+      if (data.valido) {
+        codigoValido = codigo;
+        localStorage.setItem('dispara_codigo', codigo);
+        irParaStep(2);
+      } else {
+        showAlert('alertCodigo', data.mensagem || 'Código inválido ou já utilizado.', 'error');
+      }
+    } catch (e) {
+      showAlert('alertCodigo', 'Erro de conexão. Tente novamente.', 'error');
+    } finally {
+      restaurarBotao('btnCodigo', 'Continuar →');
+    }
+  }
+
+  // ── Step 2: Login MELI — redireciona direto para o backend ──
+  function loginMeli() {
+    const codigo = codigoValido || localStorage.getItem('dispara_codigo');
+    if (!codigo) {
+      showAlert('alertMeli', 'Código de acesso não encontrado. Volte ao passo 1.', 'error');
+      return;
+    }
+    mostrarLoading('btnMeli', 'Redirecionando...');
+    // O backend valida o código e redireciona para o MELI
+    window.location.href = `${API}/auth/login?codigo=${encodeURIComponent(codigo)}`;
+  }
+
+  // ── Carregar painel do seller após OAuth ──
+  async function carregarPainel(sid) {
+    irParaStep(3);
+    try {
+      const res = await fetch(`${API}/seller/${sid}/resumo`);
+      const data = await res.json();
+
+      document.getElementById('sellerNome').textContent = data.nickname || 'Vendedor';
+      document.getElementById('sellerNick').textContent = '@' + (data.nickname || 'usuario').toLowerCase();
+
+      // Métricas
+      const anuncios = data.anuncios;
+      const reputacao = data.reputacao;
+
+      document.getElementById('metricAnuncios').textContent =
+        anuncios?.total_ativos ?? '—';
+      document.getElementById('metricVendas').textContent =
+        anuncios?.total ?? '—';
+      document.getElementById('metricReputacao').textContent =
+        reputacao?.level_id ? reputacao.level_id.replace('_', ' ') : '—';
+      document.getElementById('metricPergunta').textContent =
+        reputacao?.transactions?.total ?? '—';
+    } catch(e) {
+      // painel carrega mesmo sem métricas
+    }
+  }
+
+  // ── Chat IA (usa análise do consultor como base) ──
+  async function enviarMensagem() {
+    const input = document.getElementById('chatInput');
+    const msg = input.value.trim();
+    if (!msg || !sellerId) return;
+    input.value = '';
+
+    adicionarMsg(msg, 'user');
+    const loading = adicionarMsg('Consultora está digitando...', 'ia loading');
+
+    try {
+      // Busca resumo do seller para contexto
+      const res = await fetch(`${API}/seller/${sellerId}/resumo`);
+      const dados = await res.json();
+
+      // Usa a IA do consultor passando a senha padrão + pergunta do seller
+      const senha = 'DisparaVendas2025';
+      const resIA = await fetch(`${API}/consultor/seller/${sellerId}/analise-ia?senha=${senha}`);
+      const dataIA = await resIA.json();
+
+      loading.remove();
+      adicionarMsg(dataIA.analise_ia || 'Não foi possível gerar análise no momento.', 'ia');
+    } catch(e) {
+      loading.remove();
+      adicionarMsg('Erro ao conectar com a consultora IA. Tente novamente.', 'ia');
+    }
+  }
+
+  function adicionarMsg(texto, tipo) {
+    const box = document.getElementById('chatBox');
+    const div = document.createElement('div');
+    div.className = 'msg ' + tipo;
+    div.textContent = texto;
+    box.appendChild(div);
+    box.scrollTop = box.scrollHeight;
+    return div;
+  }
+
+  // ── Logout ──
+  function logout() {
+    localStorage.removeItem('dispara_seller_id');
+    localStorage.removeItem('dispara_codigo');
+    sellerId = null;
+    codigoValido = null;
+    document.getElementById('codigoInput').value = '';
+    irParaStep(1);
+  }
+
+  // ── Helpers ──
+  function irParaStep(n) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel' + n).classList.add('active');
+    document.querySelectorAll('.step').forEach((s, i) => {
+      s.className = 'step';
+      if (i + 1 < n) s.classList.add('done');
+      if (i + 1 === n) s.classList.add('active');
+    });
+  }
+
+  function showAlert(id, msg, tipo) {
+    const el = document.getElementById(id);
+    el.textContent = msg;
+    el.className = `alert ${tipo} show`;
+  }
+
+  function ocultarAlert(id) {
+    document.getElementById(id).className = 'alert';
+  }
+
+  function mostrarLoading(id, txt) {
+    const btn = document.getElementById(id);
+    btn.disabled = true;
+    btn.innerHTML = `<span class="spinner"></span>${txt}`;
+  }
+
+  function restaurarBotao(id, txt) {
+    const btn = document.getElementById(id);
+    btn.disabled = false;
+    btn.innerHTML = txt;
+  }
+</script>
+</body>
+</html>
