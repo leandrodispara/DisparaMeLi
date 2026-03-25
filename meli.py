@@ -63,17 +63,18 @@ async def get_anuncios(seller_id: str, access_token: str):
             "ativos": ativos,
             "pausados": pausados,
             "total_pausados": len(pausados)
-        }async def get_anuncios(seller_id: str, access_token: str):
+        }
+
+async def get_anuncios(seller_id: str, access_token: str):
     async with httpx.AsyncClient() as client:
         headers = {"Authorization": f"Bearer {access_token}"}
-        
+
         async def buscar_todos(status):
             ids = []
             offset = 0
             while True:
                 r = await client.get(
-                    f"{MELI_API}/users/{seller_id}/items/search"
-                    f"?status={status}&limit=50&offset={offset}",
+                    f"{MELI_API}/users/{seller_id}/items/search?status={status}&limit=50&offset={offset}",
                     headers=headers
                 )
                 data = r.json()
@@ -87,7 +88,7 @@ async def get_anuncios(seller_id: str, access_token: str):
 
         ativos = await buscar_todos("active")
         pausados = await buscar_todos("paused")
-        
+
         return {
             "ativos": ativos,
             "pausados": pausados,
