@@ -57,7 +57,13 @@ async def callback(code: str = Query(...), state: str = Query(None)):
 
     salvar_token(seller_id, nickname, access_token, refresh_token)
 
-    # Marca o código como usado
+# Marca o código como usado
+    if state:
+        marcar_codigo_usado(state, seller_id)
+
+    frontend_url = os.getenv("FRONTEND_URL", "https://leandrodispara.github.io/DisparaMeLi")
+    return RedirectResponse(f"{frontend_url}/index.html?seller_id={seller_id}")
+
   
 @app.get("/auth/validar-codigo")
 def validar_codigo_endpoint(codigo: str = Query(...)):
