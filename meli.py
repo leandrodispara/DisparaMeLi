@@ -113,7 +113,7 @@ async def analisar_anuncios(seller_id: str, access_token: str):
         alertas.append(f"⚠️ Você tem {anuncios['total_pausados']} anúncio(s) pausado(s)")
 
     # Analisa detalhes dos ativos (até 10 para não sobrecarregar a API)
-    for item_id in anuncios["ativos"][:10]:
+    for item_id in anuncios["ativos"][:50]:
         item = await get_detalhes_anuncio(item_id, access_token)
 
         titulo = item.get("title", "")
