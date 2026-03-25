@@ -55,9 +55,12 @@ def marcar_codigo_usado(codigo: str, seller_id: str):
         "usado_em": datetime.utcnow().isoformat()
     }).eq("codigo", codigo).execute()
 
-def criar_codigo(codigo: str):
+def criar_codigo(codigo: str, nome_cliente: str = None):
     """Cria um novo código de acesso (usado pelo consultor)"""
-    supabase.table("codigos_acesso").insert({"codigo": codigo}).execute()
+    supabase.table("codigos_acesso").insert({
+        "codigo": codigo,
+        "nome_cliente": nome_cliente
+    }).execute()
 
 def listar_codigos():
     """Lista todos os códigos — usados e disponíveis"""
