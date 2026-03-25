@@ -36,18 +36,63 @@ async def get_reputacao(seller_id: str, access_token: str):
 
 async def get_anuncios(seller_id: str, access_token: str):
     async with httpx.AsyncClient() as client:
-        # Busca anúncios ativos e pausados
-        r_ativos = await client.get(
-            f"{MELI_API}/users/{seller_id}/items/search?status=active&limit=50",
-            headers={"Authorization": f"Bearer {access_token}"}
-        )
-        r_pausados = await client.get(
-            f"{MELI_API}/users/{seller_id}/items/search?status=paused&limit=50",
-            headers={"Authorization": f"Bearer {access_token}"}
-        )
-        ativos = r_ativos.json().get("results", [])
-        pausados = r_pausados.json().get("results", [])
-        return {"ativos": ativos, "pausados": pausados, "total_pausados": len(pausados)}
+        headers = {"Authorization": f"Bearer {access_token}"}
+        
+        async def buscar_todos(status):
+            ids = []
+            offset = 0
+            while True:
+                r = await client.get(
+                    f"{MELI_API}/users/{seller_id}/items/search"
+                    f"?status={status}&limit=50&offset={offset}",
+                    headers=headers
+                )
+                data = r.json()
+                resultados = data.get("results", [])
+                ids.extend(resultados)
+                total = data.get("paging", {}).get("total", 0)
+                offset += 50
+                if offset >= total or not resultados:
+                    break
+            return ids
+
+        ativos = await buscar_todos("active")
+        pausados = await buscar_todos("paused")
+        
+        return {
+            "ativos": ativos,
+            "pausados": pausados,
+            "total_pausados": len(pausados)
+        }async def get_anuncios(seller_id: str, access_token: str):
+    async with httpx.AsyncClient() as client:
+        headers = {"Authorization": f"Bearer {access_token}"}
+        
+        async def buscar_todos(status):
+            ids = []
+            offset = 0
+            while True:
+                r = await client.get(
+                    f"{MELI_API}/users/{seller_id}/items/search"
+                    f"?status={status}&limit=50&offset={offset}",
+                    headers=headers
+                )
+                data = r.json()
+                resultados = data.get("results", [])
+                ids.extend(resultados)
+                total = data.get("paging", {}).get("total", 0)
+                offset += 50
+                if offset >= total or not resultados:
+                    break
+            return ids
+
+        ativos = await buscar_todos("active")
+        pausados = await buscar_todos("paused")
+        
+        return {
+            "ativos": ativos,
+            "pausados": pausados,
+            "total_pausados": len(pausados)
+        }
 
 async def get_detalhes_anuncio(item_id: str, access_token: str):
     async with httpx.AsyncClient() as client:
