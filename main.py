@@ -58,15 +58,6 @@ async def callback(code: str = Query(...), state: str = Query(None)):
     salvar_token(seller_id, nickname, access_token, refresh_token)
 
     # Marca o código como usado
-@app.post("/consultor/codigos/gerar")
-def gerar_codigo(quantidade: int = 1, nome_cliente: str = Query(None), auth=Depends(verificar_consultor)):
-    """Gera novos códigos de acesso para sellers"""
-    codigos_gerados = []
-    for _ in range(quantidade):
-        codigo = "DISP-" + "".join(random.choices(string.ascii_uppercase + string.digits, k=8))
-        criar_codigo(codigo, nome_cliente)
-        codigos_gerados.append(codigo)
-    return {"codigos": codigos_gerados}
   
 @app.get("/auth/validar-codigo")
 def validar_codigo_endpoint(codigo: str = Query(...)):
@@ -117,6 +108,16 @@ def verificar_consultor(senha: str = Query(...)):
     if senha != CONSULTOR_PASSWORD:
         raise HTTPException(status_code=403, detail="Acesso negado")
     return True
+
+@app.post("/consultor/codigos/gerar")
+def gerar_codigo(quantidade: int = 1, nome_cliente: str = Query(None), auth=Depends(verificar_consultor)):
+    """Gera novos códigos de acesso para sellers"""
+    codigos_gerados = []
+    for _ in range(quantidade):
+        codigo = "DISP-" + "".join(random.choices(string.ascii_uppercase + string.digits, k=8))
+        criar_codigo(codigo, nome_cliente)
+        codigos_gerados.append(codigo)
+    return {"codigos": codigos_gerados}
 
 @app.get("/consultor/sellers")
 def listar_todos_sellers(auth=Depends(verificar_consultor)):
