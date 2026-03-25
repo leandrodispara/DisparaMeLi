@@ -1,618 +1,535 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>DisparaMeLi — Conecte sua loja</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <title>DisparaMeLi — Painel do Seller</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      --bg: #f0f7f2;
+      --bg: #f4f9f5;
       --surface: #ffffff;
-      --green: #2ecc71;
-      --green-dark: #1a9e52;
-      --green-light: #d4f5e2;
-      --green-muted: #a8dfc0;
-      --text: #1a2e24;
-      --text-muted: #5a7a68;
-      --border: #cce8d8;
-      --meli-yellow: #ffe600;
-      --meli-blue: #3483fa;
-      --error: #e74c3c;
-      --radius: 16px;
-      --shadow: 0 4px 24px rgba(46,204,113,0.10);
+      --surface2: #eef5f0;
+      --border: #d0e8d8;
+      --green: #1db954;
+      --green-dark: #158a3e;
+      --green-light: #e0f5e8;
+      --green-muted: #a0d4b0;
+      --text: #0f2018;
+      --text-muted: #5a7a65;
+      --yellow: #f5a623;
+      --red: #e74c3c;
+      --blue: #3483fa;
+      --meli: #ffe600;
+      --radius: 14px;
+      --shadow: 0 2px 20px rgba(29,185,84,0.08);
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-      background-image:
-        radial-gradient(circle at 20% 20%, rgba(46,204,113,0.08) 0%, transparent 60%),
-        radial-gradient(circle at 80% 80%, rgba(46,204,113,0.06) 0%, transparent 60%);
+    /* LOGIN */
+    #loginScreen {
+      min-height: 100vh; display: flex; align-items: center;
+      justify-content: center; padding: 24px;
+      background-image: radial-gradient(circle at 15% 85%, rgba(29,185,84,0.07) 0%, transparent 55%),
+        radial-gradient(circle at 85% 15%, rgba(29,185,84,0.05) 0%, transparent 55%);
     }
-
-    /* ── LOGO ── */
-    .logo {
-      text-align: center;
-      margin-bottom: 32px;
-      animation: fadeDown 0.6s ease;
-    }
-    .logo-icon {
-      width: 64px; height: 64px;
+    .login-wrap { width: 100%; max-width: 420px; }
+    .brand { text-align: center; margin-bottom: 36px; animation: fadeDown 0.5s ease; }
+    .brand-icon {
+      width: 68px; height: 68px;
       background: linear-gradient(135deg, var(--green), var(--green-dark));
-      border-radius: 18px;
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 12px;
-      box-shadow: 0 8px 24px rgba(46,204,113,0.3);
-      font-size: 28px;
+      border-radius: 20px; display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 14px; font-size: 30px;
+      box-shadow: 0 8px 28px rgba(29,185,84,0.28);
     }
-    .logo h1 {
-      font-family: 'Syne', sans-serif;
-      font-size: 28px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-      color: var(--text);
-    }
-    .logo h1 span { color: var(--green-dark); }
-    .logo p {
-      font-size: 14px;
-      color: var(--text-muted);
-      margin-top: 4px;
-    }
-
-    /* ── CARD ── */
-    .card {
-      background: var(--surface);
-      border-radius: var(--radius);
-      border: 1.5px solid var(--border);
-      box-shadow: var(--shadow);
-      width: 100%;
-      max-width: 420px;
-      overflow: hidden;
-      animation: fadeUp 0.6s ease 0.1s both;
-    }
-
-    /* ── STEPS ── */
-    .steps {
-      display: flex;
-      border-bottom: 1.5px solid var(--border);
-      background: var(--green-light);
-    }
-    .step {
-      flex: 1;
-      padding: 14px 8px;
-      text-align: center;
-      font-family: 'Syne', sans-serif;
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--green-muted);
-      transition: all 0.3s;
-      position: relative;
-    }
+    .brand h1 { font-family: 'Syne', sans-serif; font-size: 30px; font-weight: 800; letter-spacing: -0.5px; }
+    .brand h1 em { color: var(--green-dark); font-style: normal; }
+    .brand p { font-size: 14px; color: var(--text-muted); margin-top: 5px; }
+    .card { background: var(--surface); border-radius: var(--radius); border: 1.5px solid var(--border); box-shadow: var(--shadow); overflow: hidden; animation: fadeUp 0.5s ease 0.1s both; }
+    .steps { display: flex; background: var(--green-light); border-bottom: 1.5px solid var(--border); }
+    .step { flex: 1; padding: 13px 6px; text-align: center; font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--green-muted); transition: color 0.3s; }
+    .step-num { display: block; font-size: 17px; font-weight: 800; margin-bottom: 2px; }
     .step.active { color: var(--green-dark); }
     .step.done { color: var(--green); }
-    .step-num {
-      display: block;
-      font-size: 18px;
-      font-weight: 800;
-      margin-bottom: 2px;
-    }
-    .step.active .step-num { color: var(--green-dark); }
-    .step.done .step-num { color: var(--green); }
-
-    /* ── PANELS ── */
-    .panel { display: none; padding: 32px; }
-    .panel.active { display: block; animation: fadeUp 0.4s ease; }
-
-    .panel-title {
-      font-family: 'Syne', sans-serif;
-      font-size: 20px;
-      font-weight: 700;
-      margin-bottom: 6px;
-    }
-    .panel-sub {
-      font-size: 14px;
-      color: var(--text-muted);
-      margin-bottom: 24px;
-      line-height: 1.5;
-    }
-
-    /* ── FORM ELEMENTS ── */
-    label {
-      display: block;
-      font-size: 12px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--text-muted);
-      margin-bottom: 8px;
-    }
-    input[type="text"], input[type="password"] {
-      width: 100%;
-      padding: 14px 16px;
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 15px;
-      color: var(--text);
-      background: var(--bg);
-      outline: none;
-      transition: border 0.2s, box-shadow 0.2s;
-      letter-spacing: 1px;
-    }
-    input:focus {
-      border-color: var(--green);
-      box-shadow: 0 0 0 3px rgba(46,204,113,0.15);
-    }
-
-    /* ── BUTTONS ── */
-    .btn {
-      width: 100%;
-      padding: 15px;
-      border: none;
-      border-radius: 10px;
-      font-family: 'Syne', sans-serif;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s;
-      margin-top: 16px;
-    }
-    .btn-green {
-      background: linear-gradient(135deg, var(--green), var(--green-dark));
-      color: white;
-      box-shadow: 0 4px 16px rgba(46,204,113,0.3);
-    }
-    .btn-green:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(46,204,113,0.4); }
-    .btn-green:active { transform: translateY(0); }
-
-    .btn-meli {
-      background: var(--meli-yellow);
-      color: #1a1a1a;
-      box-shadow: 0 4px 16px rgba(255,230,0,0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-    .btn-meli:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,230,0,0.5); }
-    .btn-meli .meli-logo { font-size: 20px; }
-
-    /* ── ALERT ── */
-    .alert {
-      display: none;
-      padding: 12px 14px;
-      border-radius: 8px;
-      font-size: 13px;
-      margin-top: 12px;
-      font-weight: 500;
-    }
-    .alert.error { background: #fdf0ef; color: var(--error); border: 1px solid #f5c6c2; }
-    .alert.success { background: var(--green-light); color: var(--green-dark); border: 1px solid var(--green-muted); }
+    .panel { display: none; padding: 30px; }
+    .panel.active { display: block; animation: fadeUp 0.35s ease; }
+    .panel-title { font-family: 'Syne', sans-serif; font-size: 19px; font-weight: 700; margin-bottom: 6px; }
+    .panel-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 22px; line-height: 1.5; }
+    label { display: block; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 7px; }
+    input[type="text"] { width: 100%; padding: 13px 15px; border: 1.5px solid var(--border); border-radius: 9px; font-family: 'DM Sans', sans-serif; font-size: 15px; color: var(--text); background: var(--bg); outline: none; transition: border 0.2s, box-shadow 0.2s; letter-spacing: 0.5px; }
+    input:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(29,185,84,0.12); }
+    .btn { width: 100%; padding: 14px; border: none; border-radius: 9px; font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s; margin-top: 14px; letter-spacing: 0.3px; }
+    .btn-green { background: linear-gradient(135deg, var(--green), var(--green-dark)); color: white; box-shadow: 0 4px 16px rgba(29,185,84,0.28); }
+    .btn-green:hover { transform: translateY(-1px); box-shadow: 0 6px 22px rgba(29,185,84,0.38); }
+    .btn-green:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .btn-meli { background: var(--meli); color: #111; box-shadow: 0 4px 16px rgba(255,230,0,0.28); display: flex; align-items: center; justify-content: center; gap: 10px; }
+    .btn-meli:hover { transform: translateY(-1px); box-shadow: 0 6px 22px rgba(255,230,0,0.45); }
+    .alert { display: none; padding: 11px 13px; border-radius: 8px; font-size: 13px; margin-top: 11px; font-weight: 500; }
+    .alert.error { background: #fdf0ef; color: var(--red); border: 1px solid #f5c6c2; }
     .alert.show { display: block; animation: fadeUp 0.3s ease; }
 
-    /* ── PAINEL SELLER ── */
-    .seller-header {
-      background: linear-gradient(135deg, var(--green-dark), var(--green));
-      padding: 24px 32px;
-      color: white;
-    }
-    .seller-header h2 {
-      font-family: 'Syne', sans-serif;
-      font-size: 18px;
-      font-weight: 700;
-    }
-    .seller-header p { font-size: 13px; opacity: 0.85; margin-top: 4px; }
-    .seller-nick {
-      display: inline-block;
-      background: rgba(255,255,255,0.2);
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 13px;
-      font-weight: 600;
-      margin-top: 8px;
+    /* DASHBOARD */
+    #dashboard { display: none; }
+    .topbar { background: var(--surface); border-bottom: 1.5px solid var(--border); padding: 0 24px; height: 58px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
+    .topbar-brand { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+    .topbar-brand em { color: var(--green-dark); font-style: normal; }
+    .topbar-nick { background: var(--green-light); color: var(--green-dark); font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; border: 1px solid var(--border); }
+    .topbar-right { display: flex; align-items: center; gap: 12px; }
+    .btn-logout { padding: 7px 14px; background: transparent; border: 1.5px solid var(--border); border-radius: 7px; font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); cursor: pointer; transition: all 0.2s; }
+    .btn-logout:hover { border-color: var(--red); color: var(--red); }
+    .dash-body { max-width: 960px; margin: 0 auto; padding: 28px 20px; }
+
+    /* ALERTAS PISCANDO */
+    .alertas-bar { display: none; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; }
+    .alertas-bar.show { display: flex; }
+    .alerta-chip { display: flex; align-items: center; gap: 7px; background: var(--surface); border-radius: 8px; padding: 10px 14px; font-size: 13px; font-weight: 500; border: 1.5px solid transparent; animation: fadeUp 0.4s ease; }
+    .alerta-chip.vermelho { border-color: #f5c6c2; background: #fdf5f5; color: var(--red); }
+    .alerta-chip.amarelo { border-color: #fde8b4; background: #fffbf0; color: #b7791f; }
+    .pulso { width: 9px; height: 9px; border-radius: 50%; animation: pulso 1.2s ease-in-out infinite; flex-shrink: 0; }
+    .vermelho .pulso { background: var(--red); }
+    .amarelo .pulso { background: var(--yellow); }
+    @keyframes pulso {
+      0%   { box-shadow: 0 0 0 0 rgba(231,76,60,0.5); }
+      70%  { box-shadow: 0 0 0 8px rgba(231,76,60,0); }
+      100% { box-shadow: 0 0 0 0 rgba(231,76,60,0); }
     }
 
-    .metrics {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      padding: 20px 32px;
-      border-bottom: 1.5px solid var(--border);
-    }
-    .metric {
-      background: var(--bg);
-      border-radius: 10px;
-      padding: 14px;
-      text-align: center;
-    }
-    .metric-val {
-      font-family: 'Syne', sans-serif;
-      font-size: 24px;
-      font-weight: 800;
-      color: var(--green-dark);
-    }
-    .metric-label { font-size: 11px; color: var(--text-muted); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.5px; }
+    /* STATS */
+    .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 20px; }
+    .stat-card { background: var(--surface); border-radius: var(--radius); border: 1.5px solid var(--border); padding: 16px 18px; box-shadow: var(--shadow); }
+    .stat-val { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; color: var(--green-dark); }
+    .stat-val.warn { color: var(--yellow); }
+    .stat-val.danger { color: var(--red); }
+    .stat-label { font-size: 11px; color: var(--text-muted); margin-top: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
 
-    /* ── CHAT IA ── */
-    .chat-section { padding: 24px 32px; }
-    .chat-section h3 {
-      font-family: 'Syne', sans-serif;
-      font-size: 15px;
-      font-weight: 700;
-      margin-bottom: 14px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .chat-badge {
-      background: var(--green-light);
-      color: var(--green-dark);
-      font-size: 10px;
-      padding: 2px 8px;
-      border-radius: 20px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .chat-box {
-      background: var(--bg);
-      border: 1.5px solid var(--border);
-      border-radius: 12px;
-      height: 220px;
-      overflow-y: auto;
-      padding: 14px;
-      margin-bottom: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .msg {
-      max-width: 85%;
-      padding: 10px 14px;
-      border-radius: 10px;
-      font-size: 13.5px;
-      line-height: 1.5;
-      animation: fadeUp 0.3s ease;
-    }
-    .msg.ia {
-      background: white;
-      border: 1.5px solid var(--border);
-      align-self: flex-start;
-      border-bottom-left-radius: 3px;
-    }
-    .msg.user {
-      background: linear-gradient(135deg, var(--green), var(--green-dark));
-      color: white;
-      align-self: flex-end;
-      border-bottom-right-radius: 3px;
-    }
-    .msg.loading { opacity: 0.6; font-style: italic; }
+    /* REPUTAÇÃO */
+    .reputacao-card { background: var(--surface); border-radius: var(--radius); border: 1.5px solid var(--border); padding: 22px 24px; margin-bottom: 20px; box-shadow: var(--shadow); }
+    .rep-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
+    .rep-title { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); }
+    .rep-nivel { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 800; padding: 5px 14px; border-radius: 20px; }
+    .nivel-verde { background: #e0f5e8; color: var(--green-dark); }
+    .nivel-amarelo { background: #fffbf0; color: #b7791f; }
+    .nivel-vermelho { background: #fdf5f5; color: var(--red); }
+    .nivel-default { background: var(--surface2); color: var(--text-muted); }
+    .rep-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .rep-metric { background: var(--bg); border-radius: 9px; padding: 14px; text-align: center; }
+    .rep-metric-val { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; }
+    .rep-metric-val.ok { color: var(--green-dark); }
+    .rep-metric-val.warn { color: var(--yellow); }
+    .rep-metric-val.danger { color: var(--red); }
+    .rep-metric-label { font-size: 11px; color: var(--text-muted); margin-top: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
 
-    .chat-input-row {
-      display: flex;
-      gap: 8px;
+    /* CHECKLIST */
+    .checklist-card { background: var(--surface); border-radius: var(--radius); border: 1.5px solid var(--border); padding: 22px 24px; margin-bottom: 20px; box-shadow: var(--shadow); }
+    .checklist-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .checklist-title { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); }
+    .checklist-progress { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: var(--green-dark); }
+    .progress-bar-wrap { background: var(--bg); border-radius: 99px; height: 6px; margin-bottom: 16px; overflow: hidden; }
+    .progress-bar { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--green), var(--green-dark)); transition: width 0.4s ease; }
+    .checklist-items { display: grid; gap: 8px; }
+    .check-item { display: flex; align-items: center; gap: 12px; padding: 11px 14px; border-radius: 9px; background: var(--bg); border: 1.5px solid transparent; cursor: pointer; transition: all 0.2s; user-select: none; }
+    .check-item:hover { border-color: var(--border); }
+    .check-item.done { background: var(--green-light); border-color: var(--green-muted); }
+    .check-box { width: 20px; height: 20px; border-radius: 6px; border: 2px solid var(--green-muted); background: white; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s; font-size: 12px; }
+    .check-item.done .check-box { background: var(--green); border-color: var(--green); color: white; }
+    .check-item.alert-item:not(.done) .check-box { border-color: var(--yellow); animation: borderPulso 1.5s ease-in-out infinite; }
+    @keyframes borderPulso {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(245,166,35,0.4); }
+      50% { box-shadow: 0 0 0 5px rgba(245,166,35,0); }
     }
-    .chat-input {
-      flex: 1;
-      padding: 12px 14px;
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 14px;
-      background: var(--bg);
-      outline: none;
-      transition: border 0.2s;
-    }
-    .chat-input:focus { border-color: var(--green); }
-    .chat-send {
-      background: var(--green);
-      border: none;
-      border-radius: 10px;
-      color: white;
-      width: 44px;
-      cursor: pointer;
-      font-size: 18px;
-      transition: all 0.2s;
-    }
-    .chat-send:hover { background: var(--green-dark); transform: scale(1.05); }
+    .check-text { font-size: 14px; flex: 1; }
+    .check-item.done .check-text { text-decoration: line-through; color: var(--text-muted); }
+    .check-badge { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
+    .badge-urgente { background: #fdf0ef; color: var(--red); }
+    .badge-diario { background: var(--green-light); color: var(--green-dark); }
 
-    .btn-logout {
-      margin: 0 32px 24px;
-      width: calc(100% - 64px);
-      padding: 10px;
-      border: 1.5px solid var(--border);
-      border-radius: 8px;
-      background: transparent;
-      color: var(--text-muted);
-      font-family: 'Syne', sans-serif;
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .btn-logout:hover { border-color: var(--error); color: var(--error); }
+    /* ANÚNCIOS */
+    .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; margin-top: 28px; }
+    .section-title { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); display: flex; align-items: center; gap: 8px; }
+    .count-badge { background: var(--green-light); color: var(--green-dark); font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px; }
+    .count-badge.warn { background: #fffbf0; color: #b7791f; }
+    .count-badge.danger { background: #fdf0ef; color: var(--red); }
+    .anuncios-grid { display: grid; gap: 12px; }
+    .anuncio-card { background: var(--surface); border-radius: var(--radius); border: 1.5px solid var(--border); overflow: hidden; transition: box-shadow 0.2s; box-shadow: var(--shadow); }
+    .anuncio-card:hover { box-shadow: 0 4px 24px rgba(29,185,84,0.12); }
+    .anuncio-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 16px 18px 8px; }
+    .anuncio-titulo { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; flex: 1; line-height: 1.4; }
+    .anuncio-mlb { font-size: 11px; color: var(--blue); font-weight: 600; background: #eef4ff; padding: 3px 9px; border-radius: 6px; white-space: nowrap; flex-shrink: 0; }
+    .anuncio-preco { padding: 0 18px 10px; font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; color: var(--green-dark); }
+    .problemas-list { border-top: 1px solid var(--border); padding: 12px 18px; display: grid; gap: 6px; }
+    .problema-item { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; color: #7a4f00; line-height: 1.4; }
+    .problema-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--yellow); flex-shrink: 0; margin-top: 5px; }
+    .problema-item.critico { color: #7a1a1a; }
+    .problema-item.critico .problema-dot { background: var(--red); }
 
-    /* ── FOOTER ── */
-    .footer {
-      margin-top: 24px;
-      text-align: center;
-      font-size: 12px;
-      color: var(--text-muted);
-      animation: fadeUp 0.6s ease 0.2s both;
-    }
+    /* FOOTER */
+    .footer { text-align: center; padding: 28px 20px; font-size: 12px; color: var(--text-muted); }
     .footer span { color: var(--green-dark); font-weight: 600; }
 
-    /* ── SPINNER ── */
-    .spinner {
-      display: inline-block;
-      width: 16px; height: 16px;
-      border: 2px solid rgba(255,255,255,0.3);
-      border-top-color: white;
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-      vertical-align: middle;
-      margin-right: 6px;
-    }
+    /* EMPTY */
+    .empty { text-align: center; padding: 40px 20px; color: var(--text-muted); }
+    .empty-icon { font-size: 36px; margin-bottom: 10px; }
 
-    /* ── ANIMATIONS ── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(12px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeDown {
-      from { opacity: 0; transform: translateY(-12px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+    /* SPINNER */
+    .spinner { display: inline-block; width: 15px; height: 15px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 6px; }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 600px) {
+      .rep-metrics { grid-template-columns: 1fr 1fr; }
+      .topbar { padding: 0 16px; }
+      .dash-body { padding: 20px 14px; }
+    }
   </style>
 </head>
 <body>
 
-  <div class="logo">
-    <div class="logo-icon">🚀</div>
-    <h1>Dispara<span>MeLi</span></h1>
-    <p>Plataforma inteligente para vendedores</p>
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-wrap">
+    <div class="brand">
+      <div class="brand-icon">🚀</div>
+      <h1>Dispara<em>MeLi</em></h1>
+      <p>Plataforma inteligente para vendedores</p>
+    </div>
+    <div class="card">
+      <div class="steps">
+        <div class="step active" id="step1"><span class="step-num">1</span>Código</div>
+        <div class="step" id="step2"><span class="step-num">2</span>Conectar</div>
+        <div class="step" id="step3"><span class="step-num">3</span>Painel</div>
+      </div>
+      <div class="panel active" id="panel1">
+        <div class="panel-title">Digite seu código</div>
+        <div class="panel-sub">Insira o código de acesso fornecido pela sua consultoria.</div>
+        <label>Código de acesso</label>
+        <input type="text" id="codigoInput" placeholder="DISP-XXXXXXXX"
+          autocomplete="off" autocapitalize="characters"
+          onkeydown="if(event.key==='Enter') validarCodigo()"/>
+        <button class="btn btn-green" id="btnCodigo" onclick="validarCodigo()">Continuar →</button>
+        <div class="alert error" id="alertCodigo"></div>
+      </div>
+      <div class="panel" id="panel2">
+        <div class="panel-title">Conectar ao Mercado Livre</div>
+        <div class="panel-sub">Clique abaixo para autorizar o DisparaMeLi a acessar sua conta com segurança.</div>
+        <button class="btn btn-meli" id="btnMeli" onclick="loginMeli()">
+          <span style="font-size:20px">🛒</span> Entrar com Mercado Livre
+        </button>
+        <div class="alert error" id="alertMeli"></div>
+      </div>
+    </div>
+    <div class="footer">Desenvolvido por <span>Horizon Consultoria</span></div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+  <div class="topbar">
+    <div class="topbar-brand">🚀 Dispara<em>MeLi</em></div>
+    <div class="topbar-right">
+      <span class="topbar-nick" id="topNick">@seller</span>
+      <button class="btn-logout" onclick="logout()">Sair</button>
+    </div>
   </div>
 
-  <div class="card" id="mainCard">
+  <div class="dash-body">
+    <div class="alertas-bar" id="alertasBar"></div>
 
-    <!-- STEPS -->
-    <div class="steps" id="stepsBar">
-      <div class="step active" id="step1"><span class="step-num">1</span>Código</div>
-      <div class="step" id="step2"><span class="step-num">2</span>Conectar</div>
-      <div class="step" id="step3"><span class="step-num">3</span>Painel</div>
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-val" id="statAtivos">—</div>
+        <div class="stat-label">Anúncios ativos</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val warn" id="statPausados">—</div>
+        <div class="stat-label">Pausados</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val" id="statNivel">—</div>
+        <div class="stat-label">Reputação</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val danger" id="statProblemas">—</div>
+        <div class="stat-label">Com problemas</div>
+      </div>
     </div>
 
-    <!-- PANEL 1: CÓDIGO DE ACESSO -->
-    <div class="panel active" id="panel1">
-      <div class="panel-title">Digite seu código</div>
-      <div class="panel-sub">Insira o código de acesso fornecido pela sua consultoria para continuar.</div>
-      <label>Código de acesso</label>
-      <input type="text" id="codigoInput" placeholder="EX: HORIZONTE-2025-XX"
-        autocomplete="off" autocapitalize="characters"
-        onkeydown="if(event.key==='Enter') validarCodigo()" />
-      <button class="btn btn-green" onclick="validarCodigo()" id="btnCodigo">
-        Continuar →
-      </button>
-      <div class="alert" id="alertCodigo"></div>
+    <div class="reputacao-card">
+      <div class="rep-header">
+        <div class="rep-title">🏆 Reputação da conta</div>
+        <div class="rep-nivel nivel-default" id="repNivel">Carregando...</div>
+      </div>
+      <div class="rep-metrics">
+        <div class="rep-metric">
+          <div class="rep-metric-val ok" id="repReclamacoes">—</div>
+          <div class="rep-metric-label">Reclamações</div>
+        </div>
+        <div class="rep-metric">
+          <div class="rep-metric-val ok" id="repAtrasos">—</div>
+          <div class="rep-metric-label">Atrasos envio</div>
+        </div>
+        <div class="rep-metric">
+          <div class="rep-metric-val ok" id="repCancelamentos">—</div>
+          <div class="rep-metric-label">Cancelamentos</div>
+        </div>
+      </div>
     </div>
 
-    <!-- PANEL 2: LOGIN MELI -->
-    <div class="panel" id="panel2">
-      <div class="panel-title">Conectar ao Mercado Livre</div>
-      <div class="panel-sub">Clique abaixo para autorizar o DisparaMeLi a acessar sua conta do Mercado Livre.</div>
-      <button class="btn btn-meli" onclick="loginMeli()" id="btnMeli">
-        <span class="meli-logo">🛒</span> Entrar com Mercado Livre
-      </button>
-      <div class="alert" id="alertMeli"></div>
+    <div class="checklist-card">
+      <div class="checklist-header">
+        <div class="checklist-title">📋 Checklist do dia</div>
+        <div class="checklist-progress" id="checkProgress">0/7 feitos</div>
+      </div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar" id="progressBar" style="width:0%"></div>
+      </div>
+      <div class="checklist-items" id="checklistItems"></div>
     </div>
 
-    <!-- PANEL 3: PAINEL DO SELLER -->
-    <div class="panel" id="panel3" style="padding:0">
-      <div class="seller-header">
-        <h2>Olá, <span id="sellerNome">Vendedor</span>! 👋</h2>
-        <p>Sua conta está conectada e ativa</p>
-        <span class="seller-nick" id="sellerNick">@usuario</span>
+    <div class="section-header">
+      <div class="section-title">
+        ⚠️ Anúncios com problemas
+        <span class="count-badge warn" id="badgeProblemas">0</span>
       </div>
+    </div>
+    <div class="anuncios-grid" id="anunciosGrid">
+      <div class="empty"><div class="empty-icon">⏳</div><p>Carregando anúncios...</p></div>
+    </div>
 
-      <div class="metrics">
-        <div class="metric">
-          <div class="metric-val" id="metricAnuncios">—</div>
-          <div class="metric-label">Anúncios ativos</div>
-        </div>
-        <div class="metric">
-          <div class="metric-val" id="metricVendas">—</div>
-          <div class="metric-label">Vendas este mês</div>
-        </div>
-        <div class="metric">
-          <div class="metric-val" id="metricReputacao">—</div>
-          <div class="metric-label">Reputação</div>
-        </div>
-        <div class="metric">
-          <div class="metric-val" id="metricPergunta">—</div>
-          <div class="metric-label">Perguntas</div>
-        </div>
+    <div class="section-header">
+      <div class="section-title">
+        ⏸️ Anúncios pausados
+        <span class="count-badge danger" id="badgePausados">0</span>
       </div>
-
-      <div class="chat-section">
-        <h3>Consultora IA <span class="chat-badge">Online</span></h3>
-        <div class="chat-box" id="chatBox">
-          <div class="msg ia">👋 Olá! Sou sua consultora de vendas com IA. Como posso te ajudar hoje?</div>
-        </div>
-        <div class="chat-input-row">
-          <input type="text" class="chat-input" id="chatInput"
-            placeholder="Pergunte algo sobre suas vendas..."
-            onkeydown="if(event.key==='Enter') enviarMensagem()" />
-          <button class="chat-send" onclick="enviarMensagem()">➤</button>
-        </div>
-      </div>
-
-      <button class="btn-logout" onclick="logout()">⬅ Sair da conta</button>
+    </div>
+    <div id="pausadosGrid">
+      <div class="empty"><div class="empty-icon">✅</div><p>Nenhum anúncio pausado.</p></div>
     </div>
 
   </div>
-
-  <div class="footer">
-    Desenvolvido por <span>Horizon Consultoria</span>
-  </div>
+</div>
 
 <script>
   const API = 'https://disparameli.onrender.com';
   let sellerId = null;
   let codigoValido = null;
 
-  // ── Verifica se voltou do OAuth (seller_id na URL) ──
+  const CHECKLIST = [
+    { id: 'perguntas',  texto: 'Responder todas as perguntas pendentes', badge: 'urgente', urgente: true },
+    { id: 'mensagens',  texto: 'Verificar mensagens pós-venda',          badge: 'urgente', urgente: true },
+    { id: 'envios',     texto: 'Confirmar envios do dia',                badge: 'urgente', urgente: true },
+    { id: 'estoque',    texto: 'Verificar estoque dos anúncios ativos',  badge: 'diario',  urgente: false },
+    { id: 'reputacao',  texto: 'Revisar reputação e reclamações',        badge: 'diario',  urgente: false },
+    { id: 'promocoes',  texto: 'Verificar promoções ativas',             badge: 'diario',  urgente: false },
+    { id: 'anuncios',   texto: 'Corrigir anúncios com problemas',        badge: 'diario',  urgente: false },
+  ];
+
   window.addEventListener('load', () => {
     const params = new URLSearchParams(window.location.search);
     const sid = params.get('seller_id');
-
     if (sid) {
-      // Voltou do OAuth com seller_id
       sellerId = sid;
-      history.replaceState({}, '', window.location.pathname);
       localStorage.setItem('dispara_seller_id', sid);
-      carregarPainel(sid);
+      history.replaceState({}, '', window.location.pathname);
+      mostrarDashboard();
     } else {
-      // Verifica sessão salva
-      const sid_salvo = localStorage.getItem('dispara_seller_id');
-      if (sid_salvo) {
-        sellerId = sid_salvo;
-        carregarPainel(sid_salvo);
-      }
+      const salvo = localStorage.getItem('dispara_seller_id');
+      if (salvo) { sellerId = salvo; mostrarDashboard(); }
     }
   });
 
-  // ── Step 1: Validar código ──
   async function validarCodigo() {
     const codigo = document.getElementById('codigoInput').value.trim().toUpperCase();
-    if (!codigo) return showAlert('alertCodigo', 'Digite o código de acesso.', 'error');
-
-    mostrarLoading('btnCodigo', 'Verificando...');
+    if (!codigo) return showAlert('alertCodigo', 'Digite o código de acesso.');
+    setBtn('btnCodigo', true, 'Verificando...');
     ocultarAlert('alertCodigo');
-
     try {
       const res = await fetch(`${API}/auth/validar-codigo?codigo=${encodeURIComponent(codigo)}`);
       const data = await res.json();
-
       if (data.valido) {
         codigoValido = codigo;
         localStorage.setItem('dispara_codigo', codigo);
-        irParaStep(2);
+        irStep(2);
       } else {
-        showAlert('alertCodigo', data.mensagem || 'Código inválido ou já utilizado.', 'error');
+        showAlert('alertCodigo', data.mensagem || 'Código inválido ou já utilizado.');
       }
-    } catch (e) {
-      showAlert('alertCodigo', 'Erro de conexão. Tente novamente.', 'error');
-    } finally {
-      restaurarBotao('btnCodigo', 'Continuar →');
-    }
+    } catch { showAlert('alertCodigo', 'Erro de conexão. Tente novamente.'); }
+    finally { setBtn('btnCodigo', false, 'Continuar →'); }
   }
 
-  // ── Step 2: Login MELI — redireciona direto para o backend ──
   function loginMeli() {
     const codigo = codigoValido || localStorage.getItem('dispara_codigo');
-    if (!codigo) {
-      showAlert('alertMeli', 'Código de acesso não encontrado. Volte ao passo 1.', 'error');
-      return;
-    }
-    mostrarLoading('btnMeli', 'Redirecionando...');
-    // O backend valida o código e redireciona para o MELI
+    if (!codigo) return showAlert('alertMeli', 'Código não encontrado. Volte ao passo 1.');
+    setBtn('btnMeli', true, 'Redirecionando...');
     window.location.href = `${API}/auth/login?codigo=${encodeURIComponent(codigo)}`;
   }
 
-  // ── Carregar painel do seller após OAuth ──
-  async function carregarPainel(sid) {
-    irParaStep(3);
+  function mostrarDashboard() {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    document.getElementById('topNick').textContent = '@' + sellerId;
+    renderChecklist();
+    carregarDados();
+  }
+
+  async function carregarDados() {
     try {
-      const res = await fetch(`${API}/seller/${sid}/resumo`);
-      const data = await res.json();
-
-      document.getElementById('sellerNome').textContent = data.nickname || 'Vendedor';
-      document.getElementById('sellerNick').textContent = '@' + (data.nickname || 'usuario').toLowerCase();
-
-      // Métricas
-      const anuncios = data.anuncios;
-      const reputacao = data.reputacao;
-
-      document.getElementById('metricAnuncios').textContent =
-        anuncios?.total_ativos ?? '—';
-      document.getElementById('metricVendas').textContent =
-        anuncios?.total ?? '—';
-      document.getElementById('metricReputacao').textContent =
-        reputacao?.level_id ? reputacao.level_id.replace('_', ' ') : '—';
-      document.getElementById('metricPergunta').textContent =
-        reputacao?.transactions?.total ?? '—';
-    } catch(e) {
-      // painel carrega mesmo sem métricas
+      const [repRes, anunciosRes] = await Promise.all([
+        fetch(`${API}/seller/${sellerId}/reputacao`),
+        fetch(`${API}/seller/${sellerId}/anuncios`)
+      ]);
+      const rep = await repRes.json();
+      const anuncios = await anunciosRes.json();
+      renderReputacao(rep);
+      renderAnuncios(anuncios);
+      renderAlertas(rep, anuncios);
+    } catch {
+      document.getElementById('anunciosGrid').innerHTML =
+        `<div class="empty"><div class="empty-icon">⚠️</div><p>Erro ao carregar. Tente recarregar a página.</p></div>`;
     }
   }
 
-  // ── Chat IA (usa análise do consultor como base) ──
-  async function enviarMensagem() {
-    const input = document.getElementById('chatInput');
-    const msg = input.value.trim();
-    if (!msg || !sellerId) return;
-    input.value = '';
+  function renderReputacao(rep) {
+    const nivel = rep.nivel || '';
+    const el = document.getElementById('repNivel');
+    let cls = 'nivel-default', label = '—';
+    if (nivel.includes('green')) { cls = 'nivel-verde'; label = '🟢 Excelente'; }
+    else if (nivel.includes('light')) { cls = 'nivel-verde'; label = '🟢 Bom'; }
+    else if (nivel.includes('yellow')) { cls = 'nivel-amarelo'; label = '🟡 Regular'; }
+    else if (nivel.includes('orange')) { cls = 'nivel-amarelo'; label = '🟠 Baixo'; }
+    else if (nivel.includes('red')) { cls = 'nivel-vermelho'; label = '🔴 Crítico'; }
+    else if (nivel) { label = nivel; }
+    el.textContent = label;
+    el.className = `rep-nivel ${cls}`;
+    document.getElementById('statNivel').textContent = label;
 
-    adicionarMsg(msg, 'user');
-    const loading = adicionarMsg('Consultora está digitando...', 'ia loading');
+    const rec = rep.reclamacoes_pct || 0;
+    const atr = rep.atrasos_pct || 0;
+    const can = rep.cancelamentos || 0;
+    setMetric('repReclamacoes', rec + '%', rec > 2 ? 'danger' : rec > 1 ? 'warn' : 'ok');
+    setMetric('repAtrasos', atr + '%', atr > 5 ? 'danger' : atr > 2 ? 'warn' : 'ok');
+    setMetric('repCancelamentos', String(can), can > 5 ? 'danger' : can > 2 ? 'warn' : 'ok');
+  }
 
-    try {
-      // Busca resumo do seller para contexto
-      const res = await fetch(`${API}/seller/${sellerId}/resumo`);
-      const dados = await res.json();
+  function setMetric(id, val, status) {
+    const el = document.getElementById(id);
+    el.textContent = val;
+    el.className = `rep-metric-val ${status}`;
+  }
 
-      // Usa a IA do consultor passando a senha padrão + pergunta do seller
-      const senha = 'DisparaVendas2025';
-      const resIA = await fetch(`${API}/consultor/seller/${sellerId}/analise-ia?senha=${senha}`);
-      const dataIA = await resIA.json();
+  function renderAnuncios(data) {
+    document.getElementById('statAtivos').textContent = data.total_ativos ?? '—';
+    const pausados = data.total_pausados ?? 0;
+    const problemas = data.anuncios_com_problema ?? [];
+    document.getElementById('statPausados').textContent = pausados;
+    document.getElementById('statProblemas').textContent = problemas.length;
+    document.getElementById('badgeProblemas').textContent = problemas.length;
+    document.getElementById('badgePausados').textContent = pausados;
 
-      loading.remove();
-      adicionarMsg(dataIA.analise_ia || 'Não foi possível gerar análise no momento.', 'ia');
-    } catch(e) {
-      loading.remove();
-      adicionarMsg('Erro ao conectar com a consultora IA. Tente novamente.', 'ia');
+    const grid = document.getElementById('anunciosGrid');
+    if (!problemas.length) {
+      grid.innerHTML = `<div class="empty"><div class="empty-icon">✅</div><p>Todos os anúncios estão em boa forma!</p></div>`;
+    } else {
+      grid.innerHTML = problemas.map(a => `
+        <div class="anuncio-card">
+          <div class="anuncio-header">
+            <div class="anuncio-titulo">${a.titulo || 'Sem título'}</div>
+            <div class="anuncio-mlb">${a.id}</div>
+          </div>
+          <div class="anuncio-preco">R$ ${Number(a.preco || 0).toFixed(2)}</div>
+          <div class="problemas-list">
+            ${(a.problemas || []).map(p => `
+              <div class="problema-item ${p.includes('⚠️') ? 'critico' : ''}">
+                <div class="problema-dot"></div>
+                <span>${p.replace('⚠️ ', '')}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>`).join('');
+    }
+
+    const pgrid = document.getElementById('pausadosGrid');
+    if (!pausados) {
+      pgrid.innerHTML = `<div class="empty"><div class="empty-icon">✅</div><p>Nenhum anúncio pausado.</p></div>`;
+    } else {
+      pgrid.innerHTML = `
+        <div class="anuncio-card">
+          <div class="anuncio-header">
+            <div class="anuncio-titulo" style="color:var(--text-muted)">
+              Você tem <strong>${pausados}</strong> anúncio(s) pausado(s). Acesse o Mercado Livre e reative os que estiverem ok.
+            </div>
+          </div>
+        </div>`;
     }
   }
 
-  function adicionarMsg(texto, tipo) {
-    const box = document.getElementById('chatBox');
-    const div = document.createElement('div');
-    div.className = 'msg ' + tipo;
-    div.textContent = texto;
-    box.appendChild(div);
-    box.scrollTop = box.scrollHeight;
-    return div;
+  function renderAlertas(rep, anuncios) {
+    const bar = document.getElementById('alertasBar');
+    const alertas = [];
+    if ((rep.reclamacoes_pct || 0) > 2) alertas.push({ tipo: 'vermelho', txt: `Reclamações acima do limite: ${rep.reclamacoes_pct}%` });
+    if ((rep.atrasos_pct || 0) > 5) alertas.push({ tipo: 'vermelho', txt: `Atrasos de envio: ${rep.atrasos_pct}%` });
+    if ((rep.cancelamentos || 0) > 5) alertas.push({ tipo: 'amarelo', txt: `${rep.cancelamentos} cancelamentos registrados` });
+    if ((anuncios.total_pausados || 0) > 0) alertas.push({ tipo: 'amarelo', txt: `${anuncios.total_pausados} anúncio(s) pausado(s)` });
+    if ((anuncios.anuncios_com_problema || []).length > 0) alertas.push({ tipo: 'amarelo', txt: `${anuncios.anuncios_com_problema.length} anúncio(s) com problemas` });
+
+    if (!alertas.length) { bar.className = 'alertas-bar'; return; }
+    bar.className = 'alertas-bar show';
+    bar.innerHTML = alertas.map(a => `
+      <div class="alerta-chip ${a.tipo}">
+        <div class="pulso"></div>${a.txt}
+      </div>`).join('');
   }
 
-  // ── Logout ──
+  function renderChecklist() {
+    const hoje = new Date().toDateString();
+    const saved = JSON.parse(localStorage.getItem('checklist_' + hoje) || '{}');
+    const container = document.getElementById('checklistItems');
+    container.innerHTML = CHECKLIST.map(item => `
+      <div class="check-item ${saved[item.id] ? 'done' : ''} ${item.urgente && !saved[item.id] ? 'alert-item' : ''}"
+           onclick="toggleCheck('${item.id}', this)">
+        <div class="check-box">${saved[item.id] ? '✓' : ''}</div>
+        <div class="check-text">${item.texto}</div>
+        <span class="check-badge badge-${item.badge}">${item.badge === 'urgente' ? '🔴 Urgente' : '📅 Diário'}</span>
+      </div>`).join('');
+    atualizarProgresso(saved);
+  }
+
+  function toggleCheck(id, el) {
+    const hoje = new Date().toDateString();
+    const saved = JSON.parse(localStorage.getItem('checklist_' + hoje) || '{}');
+    saved[id] = !saved[id];
+    localStorage.setItem('checklist_' + hoje, JSON.stringify(saved));
+    const item = CHECKLIST.find(i => i.id === id);
+    el.classList.toggle('done', saved[id]);
+    el.classList.toggle('alert-item', item.urgente && !saved[id]);
+    el.querySelector('.check-box').textContent = saved[id] ? '✓' : '';
+    atualizarProgresso(saved);
+  }
+
+  function atualizarProgresso(saved) {
+    const feitos = Object.values(saved).filter(Boolean).length;
+    const total = CHECKLIST.length;
+    document.getElementById('checkProgress').textContent = `${feitos}/${total} feitos`;
+    document.getElementById('progressBar').style.width = `${(feitos / total) * 100}%`;
+  }
+
   function logout() {
     localStorage.removeItem('dispara_seller_id');
     localStorage.removeItem('dispara_codigo');
     sellerId = null;
-    codigoValido = null;
+    document.getElementById('dashboard').style.display = 'none';
+    document.getElementById('loginScreen').style.display = 'flex';
     document.getElementById('codigoInput').value = '';
-    irParaStep(1);
+    irStep(1);
   }
 
-  // ── Helpers ──
-  function irParaStep(n) {
+  function irStep(n) {
     document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-    document.getElementById('panel' + n).classList.add('active');
+    const p = document.getElementById('panel' + n);
+    if (p) p.classList.add('active');
     document.querySelectorAll('.step').forEach((s, i) => {
       s.className = 'step';
       if (i + 1 < n) s.classList.add('done');
@@ -620,26 +537,15 @@
     });
   }
 
-  function showAlert(id, msg, tipo) {
+  function showAlert(id, msg) {
     const el = document.getElementById(id);
-    el.textContent = msg;
-    el.className = `alert ${tipo} show`;
+    el.textContent = msg; el.className = 'alert error show';
   }
-
-  function ocultarAlert(id) {
-    document.getElementById(id).className = 'alert';
-  }
-
-  function mostrarLoading(id, txt) {
+  function ocultarAlert(id) { document.getElementById(id).className = 'alert error'; }
+  function setBtn(id, disabled, txt) {
     const btn = document.getElementById(id);
-    btn.disabled = true;
-    btn.innerHTML = `<span class="spinner"></span>${txt}`;
-  }
-
-  function restaurarBotao(id, txt) {
-    const btn = document.getElementById(id);
-    btn.disabled = false;
-    btn.innerHTML = txt;
+    btn.disabled = disabled;
+    btn.innerHTML = disabled ? `<span class="spinner"></span>${txt}` : txt;
   }
 </script>
 </body>
