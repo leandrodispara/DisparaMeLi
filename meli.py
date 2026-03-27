@@ -37,37 +37,6 @@ async def get_reputacao(seller_id: str, access_token: str):
 async def get_anuncios(seller_id: str, access_token: str):
     async with httpx.AsyncClient() as client:
         headers = {"Authorization": f"Bearer {access_token}"}
-        
-        async def buscar_todos(status):
-            ids = []
-            offset = 0
-            while True:
-                r = await client.get(
-                    f"{MELI_API}/users/{seller_id}/items/search"
-                    f"?status={status}&limit=50&offset={offset}",
-                    headers=headers
-                )
-                data = r.json()
-                resultados = data.get("results", [])
-                ids.extend(resultados)
-                total = data.get("paging", {}).get("total", 0)
-                offset += 50
-                if offset >= total or not resultados:
-                    break
-            return ids
-
-        ativos = await buscar_todos("active")
-        pausados = await buscar_todos("paused")
-        
-        return {
-            "ativos": ativos,
-            "pausados": pausados,
-            "total_pausados": len(pausados)
-        }
-
-async def get_anuncios(seller_id: str, access_token: str):
-    async with httpx.AsyncClient() as client:
-        headers = {"Authorization": f"Bearer {access_token}"}
 
         async def buscar_todos(status):
             ids = []
@@ -108,41 +77,50 @@ async def analisar_anuncios(seller_id: str, access_token: str):
     alertas = []
     problemas = []
 
-    # Alertas de pausados
     if anuncios["total_pausados"] > 0:
         alertas.append(f"⚠️ Você tem {anuncios['total_pausados']} anúncio(s) pausado(s)")
 
-    # Analisa detalhes dos ativos (até 10 para não sobrecarregar a API)
-    for item_id in anuncios["ativos"][:50]:
-        item = await get_detalhes_anuncio(item_id, access_token)
+    async with httpx.AsyncClient() as client:
+        headers = {"Authorization": f"Bearer {access_token}"}
 
-        titulo = item.get("title", "")
-        fotos = item.get("pictures", [])
-        descricao = item.get("descriptions", [])
-        estoque = item.get("available_quantity", 0)
-        preco = item.get("price", 0)
-        frete_gratis = item.get("shipping", {}).get("free_shipping", False)
+        for item_id in anuncios["ativos"][:50]:
+            item = await get_detalhes_anuncio(item_id, access_token)
 
-        problemas_item = []
+            titulo = item.get("title", "")
+            fotos = item.get("pictures", [])
+            estoque = item.get("available_quantity", 0)
+            preco = item.get("price", 0)
+            frete_gratis = item.get("shipping", {}).get("free_shipping", False)
 
-        if len(titulo) < 40:
-            problemas_item.append("Título muito curto (ideal: mais de 40 caracteres)")
-        if len(fotos) < 5:
-            problemas_item.append(f"Poucas fotos ({len(fotos)} foto(s) — ideal: mínimo 5)")
-        if not descricao:
-            problemas_item.append("Sem descrição no anúncio")
-        if estoque <= 2:
-            problemas_item.append(f"⚠️ Estoque baixo: apenas {estoque} unidade(s)")
-        if not frete_gratis and preco < 79:
-            problemas_item.append("Considere frete grátis — produtos abaixo de R$79 têm menos visibilidade sem ele")
+            # Busca descrição separadamente
+            desc_res = await client.get(
+                f"{MELI_API}/items/{item_id}/descriptions",
+                headers=headers
+            )
+            descricao = desc_res.json() if desc_res.status_code == 200 else []
 
-        if problemas_item:
-            problemas.append({
-                "id": item_id,
-                "titulo": titulo,
-                "preco": preco,
-                "problemas": problemas_item
-            })
+            problemas_item = []
+
+            if len(titulo) < 40:
+                problemas_item.append("Título muito curto (ideal: mais de 40 caracteres)")
+            if len(fotos) < 8:
+                problemas_item.append(f"Poucas fotos ({len(fotos)} foto(s) — ideal: mínimo 8, tamanho 1200x1200px)")
+            if not descricao:
+                problemas_item.append("Sem descrição no anúncio")
+            if estoque <= 2:
+                problemas_item.append(f"⚠️ Estoque baixo: apenas {estoque} unidade(s)")
+            if not frete_gratis and preco < 79:
+                problemas_item.append("Considere frete grátis — produtos abaixo de R$79 têm menos visibilidade sem ele")
+
+            if problemas_item:
+                problemas.append({
+                    "id": item_id,
+                    "titulo": titulo,
+                    "preco": preco,
+                    "fotos": len(fotos),
+                    "estoque": estoque,
+                    "problemas": problemas_item
+                })
 
     return {
         "total_ativos": len(anuncios["ativos"]),
