@@ -387,17 +387,20 @@
 
   function renderReputacao(rep, anuncios) {
     const nivel = rep.nivel || '';
-    const info = Object.entries(NIVEIS).find(([k]) => nivel.includes(k.split('_')[0]) && nivel.includes(k.split('_')[1] || ''));
+    // Match exato com a chave
+    const info = Object.entries(NIVEIS).find(([k]) => nivel === k);
     const nivelInfo = info ? info[1] : { label: nivel || '—', cls: 'nivel-default' };
 
     const el = document.getElementById('repNivel');
     el.textContent = nivelInfo.label;
     el.className = `rep-nivel ${nivelInfo.cls}`;
-    document.getElementById('statNivel').textContent = nivelInfo.label.split(' ')[0] + ' ' + nivelInfo.label.split(' ')[1];
+    // Remove emoji e pega só o texto
+    const labelTexto = nivelInfo.label.replace(/\p{Emoji}/gu, '').trim().split('—')[0].trim();
+    document.getElementById('statNivel').textContent = labelTexto;
 
-    // Progresso para próximo nível
-    const totalVendas = rep.transactions?.total || anuncios?.total_ativos || 0;
-    const nivelKey = Object.keys(NIVEIS).find(k => nivel.includes(k.split('_')[0]));
+    // Progresso para próximo nível — usa total de transações da API
+    const totalVendas = rep.total_vendas || 0;
+    const nivelKey = info ? info[0] : null;
 
     if (nivelKey && NIVEIS[nivelKey].max) {
       const proxMin = NIVEIS[nivelKey].max + 1;
