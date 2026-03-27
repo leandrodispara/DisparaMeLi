@@ -340,7 +340,7 @@
         ${problemasHtml}
         ${!isPausado ? `
         <div class="anuncio-footer">
-          <a href="https://www.mercadolivre.com.br/anuncios/${mlbId}" target="_blank" class="btn-meli-link">🔗 Ver no MELI</a>
+          <a href="${a.permalink || 'https://www.mercadolivre.com.br/p/' + mlbId}" target="_blank" class="btn-meli-link">🔗 Ver no MELI</a>
         </div>` : ''}
       </div>`;
   }
