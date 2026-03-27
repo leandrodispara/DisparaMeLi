@@ -97,7 +97,18 @@ async def analisar_anuncios(seller_id: str, access_token: str):
                 f"{MELI_API}/items/{item_id}/descriptions",
                 headers=headers
             )
-            descricao = desc_res.json() if desc_res.status_code == 200 else []
+            desc_data = desc_res.json() if desc_res.status_code == 200 else []
+            # Verifica se há texto real na descrição
+            tem_descricao = False
+            if isinstance(desc_data, list) and len(desc_data) > 0:
+                texto = desc_data[0].get("plain_text", "") or desc_data[0].get("text", "")
+                tem_descricao = bool(texto and texto.strip())
+            elif isinstance(desc_data, dict):
+                texto = desc_data.get("plain_text", "") or desc_data.get("text", "")
+                tem_descricao = bool(texto and texto.strip())
+
+            permalink = item.get("permalink", f"https://www.mercadolivre.com.br/p/{item_id}")
+            sku = item.get("seller_custom_field", "") or ""
 
             problemas_item = []
 
@@ -105,7 +116,7 @@ async def analisar_anuncios(seller_id: str, access_token: str):
                 problemas_item.append("Título muito curto (ideal: mais de 40 caracteres)")
             if len(fotos) < 8:
                 problemas_item.append(f"Poucas fotos ({len(fotos)} foto(s) — ideal: mínimo 8, tamanho 1200x1200px)")
-            if not descricao:
+            if not tem_descricao:
                 problemas_item.append("Sem descrição no anúncio")
             if estoque <= 2:
                 problemas_item.append(f"⚠️ Estoque baixo: apenas {estoque} unidade(s)")
@@ -119,6 +130,8 @@ async def analisar_anuncios(seller_id: str, access_token: str):
                     "preco": preco,
                     "fotos": len(fotos),
                     "estoque": estoque,
+                    "permalink": permalink,
+                    "sku": sku,
                     "problemas": problemas_item
                 })
 
