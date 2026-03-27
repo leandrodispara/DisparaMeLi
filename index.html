@@ -4,45 +4,27 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>DisparaMeLi — Painel do Seller</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      --bg: #f4f9f5;
-      --surface: #ffffff;
-      --surface2: #eef5f0;
-      --border: #d0e8d8;
-      --green: #1db954;
-      --green-dark: #158a3e;
-      --green-light: #e0f5e8;
-      --green-muted: #a0d4b0;
-      --text: #0f2018;
-      --text-muted: #5a7a65;
-      --yellow: #f5a623;
-      --red: #e74c3c;
-      --blue: #3483fa;
-      --meli: #ffe600;
-      --radius: 14px;
+      --bg: #f4f9f5; --surface: #ffffff; --surface2: #eef5f0;
+      --border: #d0e8d8; --green: #1db954; --green-dark: #158a3e;
+      --green-light: #e0f5e8; --green-muted: #a0d4b0;
+      --text: #0f2018; --text-muted: #5a7a65;
+      --yellow: #f5a623; --red: #e74c3c; --blue: #3483fa;
+      --meli: #ffe600; --radius: 14px;
       --shadow: 0 2px 20px rgba(29,185,84,0.08);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
     /* LOGIN */
-    #loginScreen {
-      min-height: 100vh; display: flex; align-items: center;
-      justify-content: center; padding: 24px;
+    #loginScreen { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px;
       background-image: radial-gradient(circle at 15% 85%, rgba(29,185,84,0.07) 0%, transparent 55%),
-        radial-gradient(circle at 85% 15%, rgba(29,185,84,0.05) 0%, transparent 55%);
-    }
+        radial-gradient(circle at 85% 15%, rgba(29,185,84,0.05) 0%, transparent 55%); }
     .login-wrap { width: 100%; max-width: 420px; }
     .brand { text-align: center; margin-bottom: 36px; animation: fadeDown 0.5s ease; }
-    .brand-icon {
-      width: 68px; height: 68px;
-      background: linear-gradient(135deg, var(--green), var(--green-dark));
-      border-radius: 20px; display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 14px; font-size: 30px;
-      box-shadow: 0 8px 28px rgba(29,185,84,0.28);
-    }
+    .brand-icon { width: 68px; height: 68px; background: linear-gradient(135deg, var(--green), var(--green-dark)); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; font-size: 30px; box-shadow: 0 8px 28px rgba(29,185,84,0.28); }
     .brand h1 { font-family: 'Syne', sans-serif; font-size: 30px; font-weight: 800; letter-spacing: -0.5px; }
     .brand h1 em { color: var(--green-dark); font-style: normal; }
     .brand p { font-size: 14px; color: var(--text-muted); margin-top: 5px; }
@@ -57,17 +39,19 @@
     .panel-title { font-family: 'Syne', sans-serif; font-size: 19px; font-weight: 700; margin-bottom: 6px; }
     .panel-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 22px; line-height: 1.5; }
     label { display: block; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 7px; }
-    input[type="text"] { width: 100%; padding: 13px 15px; border: 1.5px solid var(--border); border-radius: 9px; font-family: 'DM Sans', sans-serif; font-size: 15px; color: var(--text); background: var(--bg); outline: none; transition: border 0.2s, box-shadow 0.2s; letter-spacing: 0.5px; }
+    input[type="text"] { width: 100%; padding: 13px 15px; border: 1.5px solid var(--border); border-radius: 9px; font-family: 'DM Sans', sans-serif; font-size: 15px; color: var(--text); background: var(--bg); outline: none; transition: border 0.2s, box-shadow 0.2s; }
     input:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(29,185,84,0.12); }
-    .btn { width: 100%; padding: 14px; border: none; border-radius: 9px; font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s; margin-top: 14px; letter-spacing: 0.3px; }
+    .btn { width: 100%; padding: 14px; border: none; border-radius: 9px; font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s; margin-top: 14px; }
     .btn-green { background: linear-gradient(135deg, var(--green), var(--green-dark)); color: white; box-shadow: 0 4px 16px rgba(29,185,84,0.28); }
-    .btn-green:hover { transform: translateY(-1px); box-shadow: 0 6px 22px rgba(29,185,84,0.38); }
+    .btn-green:hover { transform: translateY(-1px); }
     .btn-green:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
     .btn-meli { background: var(--meli); color: #111; box-shadow: 0 4px 16px rgba(255,230,0,0.28); display: flex; align-items: center; justify-content: center; gap: 10px; }
-    .btn-meli:hover { transform: translateY(-1px); box-shadow: 0 6px 22px rgba(255,230,0,0.45); }
+    .btn-meli:hover { transform: translateY(-1px); }
     .alert { display: none; padding: 11px 13px; border-radius: 8px; font-size: 13px; margin-top: 11px; font-weight: 500; }
     .alert.error { background: #fdf0ef; color: var(--red); border: 1px solid #f5c6c2; }
     .alert.show { display: block; animation: fadeUp 0.3s ease; }
+    .footer { text-align: center; padding: 20px; font-size: 12px; color: var(--text-muted); margin-top: 16px; }
+    .footer span { color: var(--green-dark); font-weight: 600; }
 
     /* DASHBOARD */
     #dashboard { display: none; }
@@ -78,111 +62,102 @@
     .topbar-right { display: flex; align-items: center; gap: 12px; }
     .btn-logout { padding: 7px 14px; background: transparent; border: 1.5px solid var(--border); border-radius: 7px; font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); cursor: pointer; transition: all 0.2s; }
     .btn-logout:hover { border-color: var(--red); color: var(--red); }
-    .dash-body { max-width: 960px; margin: 0 auto; padding: 28px 20px; }
+    .dash-body { max-width: 960px; margin: 0 auto; padding: 24px 20px; }
 
-    /* ALERTAS PISCANDO */
-    .alertas-bar { display: none; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; }
+    /* ALERTAS */
+    .alertas-bar { display: none; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
     .alertas-bar.show { display: flex; }
-    .alerta-chip { display: flex; align-items: center; gap: 7px; background: var(--surface); border-radius: 8px; padding: 10px 14px; font-size: 13px; font-weight: 500; border: 1.5px solid transparent; animation: fadeUp 0.4s ease; }
+    .alerta-chip { display: flex; align-items: center; gap: 7px; border-radius: 8px; padding: 10px 14px; font-size: 13px; font-weight: 500; border: 1.5px solid transparent; animation: fadeUp 0.4s ease; }
     .alerta-chip.vermelho { border-color: #f5c6c2; background: #fdf5f5; color: var(--red); }
     .alerta-chip.amarelo { border-color: #fde8b4; background: #fffbf0; color: #b7791f; }
-    .pulso { width: 9px; height: 9px; border-radius: 50%; animation: pulso 1.2s ease-in-out infinite; flex-shrink: 0; }
+    .pulso { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; animation: pulso 1.2s ease-in-out infinite; }
     .vermelho .pulso { background: var(--red); }
     .amarelo .pulso { background: var(--yellow); }
-    @keyframes pulso {
-      0%   { box-shadow: 0 0 0 0 rgba(231,76,60,0.5); }
-      70%  { box-shadow: 0 0 0 8px rgba(231,76,60,0); }
-      100% { box-shadow: 0 0 0 0 rgba(231,76,60,0); }
-    }
-
-    /* STATS */
-    .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 20px; }
-    .stat-card { background: var(--surface); border-radius: var(--radius); border: 1.5px solid var(--border); padding: 16px 18px; box-shadow: var(--shadow); }
-    .stat-val { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; color: var(--green-dark); }
-    .stat-val.warn { color: var(--yellow); }
-    .stat-val.danger { color: var(--red); }
-    .stat-label { font-size: 11px; color: var(--text-muted); margin-top: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
+    @keyframes pulso { 0% { box-shadow: 0 0 0 0 rgba(231,76,60,0.5); } 70% { box-shadow: 0 0 0 8px rgba(231,76,60,0); } 100% { box-shadow: 0 0 0 0 rgba(231,76,60,0); } }
 
     /* REPUTAÇÃO */
-    .reputacao-card { background: var(--surface); border-radius: var(--radius); border: 1.5px solid var(--border); padding: 22px 24px; margin-bottom: 20px; box-shadow: var(--shadow); }
-    .rep-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
-    .rep-title { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); }
-    .rep-nivel { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 800; padding: 5px 14px; border-radius: 20px; }
-    .nivel-verde { background: #e0f5e8; color: var(--green-dark); }
+    .rep-card { background: var(--surface); border-radius: var(--radius); border: 1.5px solid var(--border); padding: 20px 22px; margin-bottom: 16px; box-shadow: var(--shadow); }
+    .rep-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 10px; }
+    .section-label { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); }
+    .rep-nivel { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 800; padding: 5px 14px; border-radius: 20px; }
+    .nivel-verde-escuro { background: #e0f5e8; color: var(--green-dark); }
+    .nivel-verde-claro { background: #e8f5e0; color: #2d7a1e; }
     .nivel-amarelo { background: #fffbf0; color: #b7791f; }
     .nivel-vermelho { background: #fdf5f5; color: var(--red); }
     .nivel-default { background: var(--surface2); color: var(--text-muted); }
-    .rep-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-    .rep-metric { background: var(--bg); border-radius: 9px; padding: 14px; text-align: center; }
-    .rep-metric-val { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; }
-    .rep-metric-val.ok { color: var(--green-dark); }
-    .rep-metric-val.warn { color: var(--yellow); }
-    .rep-metric-val.danger { color: var(--red); }
-    .rep-metric-label { font-size: 11px; color: var(--text-muted); margin-top: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    .progresso-wrap { background: var(--surface2); border-radius: 10px; padding: 12px 14px; margin-bottom: 14px; border: 1px solid var(--border); }
+    .progresso-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 12px; }
+    .progresso-info strong { color: var(--text); }
+    .progresso-info span { color: var(--green-dark); font-weight: 700; }
+    .progresso-bar { background: var(--border); border-radius: 99px; height: 8px; overflow: hidden; }
+    .progresso-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--green), var(--green-dark)); transition: width 0.6s ease; }
+    .progresso-hint { display: flex; justify-content: space-between; margin-top: 6px; font-size: 11px; color: var(--text-muted); }
+    .progresso-hint em { color: var(--green-dark); font-style: normal; font-weight: 600; }
+
+    .rep-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .rep-metric { background: var(--bg); border-radius: 9px; padding: 12px; text-align: center; }
+    .rep-metric.danger { background: #fdf5f5; border: 1px solid #f5c6c2; }
+    .rep-val { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; }
+    .rep-val.ok { color: var(--green-dark); }
+    .rep-val.warn { color: var(--yellow); }
+    .rep-val.danger { color: var(--red); }
+    .rep-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+    .rep-hint { font-size: 10px; margin-top: 3px; }
+    .rep-hint.ok { color: var(--green-dark); }
+    .rep-hint.danger { color: var(--red); }
 
     /* CHECKLIST */
-    .checklist-card { background: var(--surface); border-radius: var(--radius); border: 1.5px solid var(--border); padding: 22px 24px; margin-bottom: 20px; box-shadow: var(--shadow); }
-    .checklist-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-    .checklist-title { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); }
-    .checklist-progress { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: var(--green-dark); }
-    .progress-bar-wrap { background: var(--bg); border-radius: 99px; height: 6px; margin-bottom: 16px; overflow: hidden; }
+    .checklist-card { background: var(--surface); border-radius: var(--radius); border: 1.5px solid var(--border); padding: 20px 22px; margin-bottom: 16px; box-shadow: var(--shadow); }
+    .checklist-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .check-progress { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: var(--green-dark); }
+    .progress-bar-wrap { background: var(--bg); border-radius: 99px; height: 6px; margin-bottom: 14px; overflow: hidden; }
     .progress-bar { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--green), var(--green-dark)); transition: width 0.4s ease; }
-    .checklist-items { display: grid; gap: 8px; }
+    .check-items { display: grid; gap: 8px; }
     .check-item { display: flex; align-items: center; gap: 12px; padding: 11px 14px; border-radius: 9px; background: var(--bg); border: 1.5px solid transparent; cursor: pointer; transition: all 0.2s; user-select: none; }
-    .check-item:hover { border-color: var(--border); }
     .check-item.done { background: var(--green-light); border-color: var(--green-muted); }
-    .check-box { width: 20px; height: 20px; border-radius: 6px; border: 2px solid var(--green-muted); background: white; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s; font-size: 12px; }
-    .check-item.done .check-box { background: var(--green); border-color: var(--green); color: white; }
     .check-item.alert-item:not(.done) .check-box { border-color: var(--yellow); animation: borderPulso 1.5s ease-in-out infinite; }
-    @keyframes borderPulso {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(245,166,35,0.4); }
-      50% { box-shadow: 0 0 0 5px rgba(245,166,35,0); }
-    }
+    @keyframes borderPulso { 0%,100% { box-shadow: 0 0 0 0 rgba(245,166,35,0.4); } 50% { box-shadow: 0 0 0 5px rgba(245,166,35,0); } }
+    .check-box { width: 20px; height: 20px; border-radius: 6px; border: 2px solid var(--green-muted); background: white; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 12px; transition: all 0.2s; }
+    .check-item.done .check-box { background: var(--green); border-color: var(--green); color: white; }
     .check-text { font-size: 14px; flex: 1; }
     .check-item.done .check-text { text-decoration: line-through; color: var(--text-muted); }
     .check-badge { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
     .badge-urgente { background: #fdf0ef; color: var(--red); }
     .badge-diario { background: var(--green-light); color: var(--green-dark); }
 
-    /* ANÚNCIOS */
-    .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; margin-top: 28px; }
-    .section-title { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); display: flex; align-items: center; gap: 8px; }
-    .count-badge { background: var(--green-light); color: var(--green-dark); font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px; }
-    .count-badge.warn { background: #fffbf0; color: #b7791f; }
-    .count-badge.danger { background: #fdf0ef; color: var(--red); }
-    .anuncios-grid { display: grid; gap: 12px; }
-    .anuncio-card { background: var(--surface); border-radius: var(--radius); border: 1.5px solid var(--border); overflow: hidden; transition: box-shadow 0.2s; box-shadow: var(--shadow); }
-    .anuncio-card:hover { box-shadow: 0 4px 24px rgba(29,185,84,0.12); }
-    .anuncio-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 16px 18px 8px; }
-    .anuncio-titulo { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; flex: 1; line-height: 1.4; }
-    .anuncio-mlb { font-size: 11px; color: var(--blue); font-weight: 600; background: #eef4ff; padding: 3px 9px; border-radius: 6px; white-space: nowrap; flex-shrink: 0; }
-    .anuncio-preco { padding: 0 18px 10px; font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; color: var(--green-dark); }
-    .problemas-list { border-top: 1px solid var(--border); padding: 12px 18px; display: grid; gap: 6px; }
-    .problema-item { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; color: #7a4f00; line-height: 1.4; }
-    .problema-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--yellow); flex-shrink: 0; margin-top: 5px; }
-    .problema-item.critico { color: #7a1a1a; }
-    .problema-item.critico .problema-dot { background: var(--red); }
+    /* MÓDULOS */
+    .modulos-label { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 10px; }
+    .modulos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+    .modulo-card { background: var(--surface); border-radius: var(--radius); border: 1.5px solid var(--border); padding: 20px; box-shadow: var(--shadow); cursor: pointer; transition: all 0.2s; }
+    .modulo-card:hover { border-color: var(--green); box-shadow: 0 4px 24px rgba(29,185,84,0.15); transform: translateY(-1px); }
+    .modulo-icon { font-size: 26px; margin-bottom: 8px; }
+    .modulo-title { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 5px; }
+    .modulo-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; margin-bottom: 16px; }
+    .modulo-btn { background: linear-gradient(135deg, var(--green), var(--green-dark)); color: white; border: none; border-radius: 8px; padding: 10px; font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; text-align: center; cursor: pointer; width: 100%; transition: all 0.2s; }
+    .modulo-btn:hover { opacity: 0.9; }
 
-    /* FOOTER */
-    .footer { text-align: center; padding: 28px 20px; font-size: 12px; color: var(--text-muted); }
-    .footer span { color: var(--green-dark); font-weight: 600; }
-
-    /* EMPTY */
-    .empty { text-align: center; padding: 40px 20px; color: var(--text-muted); }
-    .empty-icon { font-size: 36px; margin-bottom: 10px; }
+    /* STATS */
+    .stats-label { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 10px; }
+    .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .stat-card { background: var(--surface); border-radius: 10px; border: 1px solid var(--border); padding: 14px; text-align: center; }
+    .stat-val { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; color: var(--green-dark); }
+    .stat-val.warn { color: var(--yellow); }
+    .stat-val.danger { color: var(--red); }
+    .stat-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 3px; }
 
     /* SPINNER */
     .spinner { display: inline-block; width: 15px; height: 15px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 6px; }
-
-    /* ANIMATIONS */
     @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes fadeDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes spin { to { transform: rotate(360deg); } }
 
     @media (max-width: 600px) {
+      .modulos-grid { grid-template-columns: 1fr; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
       .rep-metrics { grid-template-columns: 1fr 1fr; }
       .topbar { padding: 0 16px; }
-      .dash-body { padding: 20px 14px; }
+      .dash-body { padding: 16px 14px; }
     }
   </style>
 </head>
@@ -236,8 +211,75 @@
   </div>
 
   <div class="dash-body">
+
+    <!-- ALERTAS -->
     <div class="alertas-bar" id="alertasBar"></div>
 
+    <!-- REPUTAÇÃO -->
+    <div class="rep-card">
+      <div class="rep-header">
+        <div class="section-label">🏆 Reputação da conta</div>
+        <div class="rep-nivel nivel-default" id="repNivel">Carregando...</div>
+      </div>
+      <div class="progresso-wrap" id="progressoWrap" style="display:none">
+        <div class="progresso-info">
+          <strong id="progressoTitulo">Progresso para próximo nível</strong>
+          <span id="progressoVendas">—</span>
+        </div>
+        <div class="progresso-bar"><div class="progresso-fill" id="progressoFill" style="width:0%"></div></div>
+        <div class="progresso-hint">
+          <span id="progressoNivelAtual">—</span>
+          <em id="progressoFaltam">—</em>
+        </div>
+      </div>
+      <div class="rep-metrics">
+        <div class="rep-metric" id="metricRec">
+          <div class="rep-val ok" id="repReclamacoes">—</div>
+          <div class="rep-label">Reclamações</div>
+          <div class="rep-hint ok">Ideal &lt;2%</div>
+        </div>
+        <div class="rep-metric" id="metricAtr">
+          <div class="rep-val ok" id="repAtrasos">—</div>
+          <div class="rep-label">Atrasos envio</div>
+          <div class="rep-hint ok">Ideal &lt;5%</div>
+        </div>
+        <div class="rep-metric" id="metricCan">
+          <div class="rep-val ok" id="repCancelamentos">—</div>
+          <div class="rep-label">Cancelamentos</div>
+          <div class="rep-hint ok" id="hintCan">Ideal &lt;5</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHECKLIST -->
+    <div class="checklist-card">
+      <div class="checklist-header">
+        <div class="section-label">📋 Checklist do dia</div>
+        <div class="check-progress" id="checkProgress">0/7 feitos</div>
+      </div>
+      <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
+      <div class="check-items" id="checkItems"></div>
+    </div>
+
+    <!-- MÓDULOS -->
+    <div class="modulos-label">🔗 Acessar módulos</div>
+    <div class="modulos-grid">
+      <div class="modulo-card" onclick="irPara('dre.html')">
+        <div class="modulo-icon">💰</div>
+        <div class="modulo-title">DRE Financeiro</div>
+        <div class="modulo-desc">Faturamento, tarifas, resultado líquido e conciliação por período</div>
+        <div class="modulo-btn">Ver DRE →</div>
+      </div>
+      <div class="modulo-card" onclick="irPara('anuncios.html')">
+        <div class="modulo-icon">📦</div>
+        <div class="modulo-title">Meus Anúncios</div>
+        <div class="modulo-desc">Qualidade, problemas, imagens e oportunidades de melhoria</div>
+        <div class="modulo-btn">Ver Anúncios →</div>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-label">📊 Resumo da conta</div>
     <div class="stats-row">
       <div class="stat-card">
         <div class="stat-val" id="statAtivos">—</div>
@@ -257,58 +299,6 @@
       </div>
     </div>
 
-    <div class="reputacao-card">
-      <div class="rep-header">
-        <div class="rep-title">🏆 Reputação da conta</div>
-        <div class="rep-nivel nivel-default" id="repNivel">Carregando...</div>
-      </div>
-      <div class="rep-metrics">
-        <div class="rep-metric">
-          <div class="rep-metric-val ok" id="repReclamacoes">—</div>
-          <div class="rep-metric-label">Reclamações</div>
-        </div>
-        <div class="rep-metric">
-          <div class="rep-metric-val ok" id="repAtrasos">—</div>
-          <div class="rep-metric-label">Atrasos envio</div>
-        </div>
-        <div class="rep-metric">
-          <div class="rep-metric-val ok" id="repCancelamentos">—</div>
-          <div class="rep-metric-label">Cancelamentos</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="checklist-card">
-      <div class="checklist-header">
-        <div class="checklist-title">📋 Checklist do dia</div>
-        <div class="checklist-progress" id="checkProgress">0/7 feitos</div>
-      </div>
-      <div class="progress-bar-wrap">
-        <div class="progress-bar" id="progressBar" style="width:0%"></div>
-      </div>
-      <div class="checklist-items" id="checklistItems"></div>
-    </div>
-
-    <div class="section-header">
-      <div class="section-title">
-        ⚠️ Anúncios com problemas
-        <span class="count-badge warn" id="badgeProblemas">0</span>
-      </div>
-    </div>
-    <div class="anuncios-grid" id="anunciosGrid">
-      <div class="empty"><div class="empty-icon">⏳</div><p>Carregando anúncios...</p></div>
-    </div>
-
-    <div class="section-header">
-      <div class="section-title">
-        ⏸️ Anúncios pausados
-        <span class="count-badge danger" id="badgePausados">0</span>
-      </div>
-    </div>
-    <div id="pausadosGrid">
-      <div class="empty"><div class="empty-icon">✅</div><p>Nenhum anúncio pausado.</p></div>
-    </div>
-
   </div>
 </div>
 
@@ -318,14 +308,23 @@
   let codigoValido = null;
 
   const CHECKLIST = [
-    { id: 'perguntas',  texto: 'Responder todas as perguntas pendentes', badge: 'urgente', urgente: true },
-    { id: 'mensagens',  texto: 'Verificar mensagens pós-venda',          badge: 'urgente', urgente: true },
-    { id: 'envios',     texto: 'Confirmar envios do dia',                badge: 'urgente', urgente: true },
-    { id: 'estoque',    texto: 'Verificar estoque dos anúncios ativos',  badge: 'diario',  urgente: false },
-    { id: 'reputacao',  texto: 'Revisar reputação e reclamações',        badge: 'diario',  urgente: false },
-    { id: 'promocoes',  texto: 'Verificar promoções ativas',             badge: 'diario',  urgente: false },
-    { id: 'anuncios',   texto: 'Corrigir anúncios com problemas',        badge: 'diario',  urgente: false },
+    { id: 'perguntas', texto: 'Responder todas as perguntas pendentes', badge: 'urgente', urgente: true },
+    { id: 'mensagens', texto: 'Verificar mensagens pós-venda',          badge: 'urgente', urgente: true },
+    { id: 'envios',    texto: 'Confirmar envios do dia',                badge: 'urgente', urgente: true },
+    { id: 'estoque',   texto: 'Verificar estoque dos anúncios ativos',  badge: 'diario',  urgente: false },
+    { id: 'reputacao', texto: 'Revisar reputação e reclamações',        badge: 'diario',  urgente: false },
+    { id: 'promocoes', texto: 'Verificar promoções ativas',             badge: 'diario',  urgente: false },
+    { id: 'anuncios',  texto: 'Corrigir anúncios com problemas',        badge: 'diario',  urgente: false },
   ];
+
+  // Níveis de reputação MELI
+  const NIVEIS = {
+    '5_green':       { label: '🟢 Verde Escuro', cls: 'nivel-verde-escuro', min: 1000, max: null },
+    '4_light_green': { label: '🟢 Verde Claro — Mercado Decola', cls: 'nivel-verde-claro', min: 100, max: 999 },
+    '3_yellow':      { label: '🟡 Amarelo', cls: 'nivel-amarelo', min: 10, max: 99 },
+    '2_orange':      { label: '🟠 Laranja', cls: 'nivel-amarelo', min: 3, max: 9 },
+    '1_red':         { label: '🔴 Vermelho', cls: 'nivel-vermelho', min: 0, max: 2 },
+  };
 
   window.addEventListener('load', () => {
     const params = new URLSearchParams(window.location.search);
@@ -349,13 +348,8 @@
     try {
       const res = await fetch(`${API}/auth/validar-codigo?codigo=${encodeURIComponent(codigo)}`);
       const data = await res.json();
-      if (data.valido) {
-        codigoValido = codigo;
-        localStorage.setItem('dispara_codigo', codigo);
-        irStep(2);
-      } else {
-        showAlert('alertCodigo', data.mensagem || 'Código inválido ou já utilizado.');
-      }
+      if (data.valido) { codigoValido = codigo; localStorage.setItem('dispara_codigo', codigo); irStep(2); }
+      else showAlert('alertCodigo', data.mensagem || 'Código inválido ou já utilizado.');
     } catch { showAlert('alertCodigo', 'Erro de conexão. Tente novamente.'); }
     finally { setBtn('btnCodigo', false, 'Continuar →'); }
   }
@@ -383,87 +377,68 @@
       ]);
       const rep = await repRes.json();
       const anuncios = await anunciosRes.json();
-      renderReputacao(rep);
-      renderAnuncios(anuncios);
+      renderReputacao(rep, anuncios);
+      renderStats(anuncios);
       renderAlertas(rep, anuncios);
     } catch {
-      document.getElementById('anunciosGrid').innerHTML =
-        `<div class="empty"><div class="empty-icon">⚠️</div><p>Erro ao carregar. Tente recarregar a página.</p></div>`;
+      console.error('Erro ao carregar dados');
     }
   }
 
-  function renderReputacao(rep) {
+  function renderReputacao(rep, anuncios) {
     const nivel = rep.nivel || '';
+    const info = Object.entries(NIVEIS).find(([k]) => nivel.includes(k.split('_')[0]) && nivel.includes(k.split('_')[1] || ''));
+    const nivelInfo = info ? info[1] : { label: nivel || '—', cls: 'nivel-default' };
+
     const el = document.getElementById('repNivel');
-    let cls = 'nivel-default', label = '—';
-    if (nivel.includes('green')) { cls = 'nivel-verde'; label = '🟢 Excelente'; }
-    else if (nivel.includes('light')) { cls = 'nivel-verde'; label = '🟢 Bom'; }
-    else if (nivel.includes('yellow')) { cls = 'nivel-amarelo'; label = '🟡 Regular'; }
-    else if (nivel.includes('orange')) { cls = 'nivel-amarelo'; label = '🟠 Baixo'; }
-    else if (nivel.includes('red')) { cls = 'nivel-vermelho'; label = '🔴 Crítico'; }
-    else if (nivel) { label = nivel; }
-    el.textContent = label;
-    el.className = `rep-nivel ${cls}`;
-    document.getElementById('statNivel').textContent = label;
+    el.textContent = nivelInfo.label;
+    el.className = `rep-nivel ${nivelInfo.cls}`;
+    document.getElementById('statNivel').textContent = nivelInfo.label.split(' ')[0] + ' ' + nivelInfo.label.split(' ')[1];
+
+    // Progresso para próximo nível
+    const totalVendas = rep.transactions?.total || anuncios?.total_ativos || 0;
+    const nivelKey = Object.keys(NIVEIS).find(k => nivel.includes(k.split('_')[0]));
+
+    if (nivelKey && NIVEIS[nivelKey].max) {
+      const proxMin = NIVEIS[nivelKey].max + 1;
+      const atualMin = NIVEIS[nivelKey].min;
+      const pct = Math.min(((totalVendas - atualMin) / (proxMin - atualMin)) * 100, 100);
+      const faltam = Math.max(proxMin - totalVendas, 0);
+      const proximoNivel = Object.entries(NIVEIS).find(([k,v]) => v.min === proxMin);
+
+      document.getElementById('progressoWrap').style.display = 'block';
+      document.getElementById('progressoTitulo').textContent = 'Progresso para ' + (proximoNivel ? proximoNivel[1].label : 'próximo nível');
+      document.getElementById('progressoVendas').textContent = totalVendas + ' vendas';
+      document.getElementById('progressoFill').style.width = pct + '%';
+      document.getElementById('progressoNivelAtual').textContent = nivelInfo.label;
+      document.getElementById('progressoFaltam').textContent = faltam > 0 ? `Faltam ~${faltam} vendas 🎯` : '✅ Nível máximo atingido';
+    }
 
     const rec = rep.reclamacoes_pct || 0;
     const atr = rep.atrasos_pct || 0;
     const can = rep.cancelamentos || 0;
-    setMetric('repReclamacoes', rec + '%', rec > 2 ? 'danger' : rec > 1 ? 'warn' : 'ok');
-    setMetric('repAtrasos', atr + '%', atr > 5 ? 'danger' : atr > 2 ? 'warn' : 'ok');
-    setMetric('repCancelamentos', String(can), can > 5 ? 'danger' : can > 2 ? 'warn' : 'ok');
+
+    setMetric('repReclamacoes', rec + '%', rec > 2 ? 'danger' : rec > 1 ? 'warn' : 'ok', 'metricRec', rec > 2);
+    setMetric('repAtrasos', atr + '%', atr > 5 ? 'danger' : atr > 2 ? 'warn' : 'ok', 'metricAtr', atr > 5);
+    setMetric('repCancelamentos', String(can), can > 5 ? 'danger' : can > 2 ? 'warn' : 'ok', 'metricCan', can > 5);
+
+    if (can > 5) {
+      document.getElementById('hintCan').textContent = '⚠️ Acima do ideal';
+      document.getElementById('hintCan').className = 'rep-hint danger';
+    }
   }
 
-  function setMetric(id, val, status) {
+  function setMetric(id, val, status, cardId, isDanger) {
     const el = document.getElementById(id);
     el.textContent = val;
-    el.className = `rep-metric-val ${status}`;
+    el.className = `rep-val ${status}`;
+    if (cardId && isDanger) document.getElementById(cardId).classList.add('danger');
   }
 
-  function renderAnuncios(data) {
-    document.getElementById('statAtivos').textContent = data.total_ativos ?? '—';
-    const pausados = data.total_pausados ?? 0;
-    const problemas = data.anuncios_com_problema ?? [];
-    document.getElementById('statPausados').textContent = pausados;
-    document.getElementById('statProblemas').textContent = problemas.length;
-    document.getElementById('badgeProblemas').textContent = problemas.length;
-    document.getElementById('badgePausados').textContent = pausados;
-
-    const grid = document.getElementById('anunciosGrid');
-    if (!problemas.length) {
-      grid.innerHTML = `<div class="empty"><div class="empty-icon">✅</div><p>Todos os anúncios estão em boa forma!</p></div>`;
-    } else {
-      grid.innerHTML = problemas.map(a => `
-        <div class="anuncio-card">
-          <div class="anuncio-header">
-            <div class="anuncio-titulo">${a.titulo || 'Sem título'}</div>
-            <div class="anuncio-mlb">${a.id}</div>
-          </div>
-          <div class="anuncio-preco">R$ ${Number(a.preco || 0).toFixed(2)}</div>
-          <div class="problemas-list">
-            ${(a.problemas || []).map(p => `
-              <div class="problema-item ${p.includes('⚠️') ? 'critico' : ''}">
-                <div class="problema-dot"></div>
-                <span>${p.replace('⚠️ ', '')}</span>
-              </div>
-            `).join('')}
-          </div>
-        </div>`).join('');
-    }
-
-    const pgrid = document.getElementById('pausadosGrid');
-    if (!pausados) {
-      pgrid.innerHTML = `<div class="empty"><div class="empty-icon">✅</div><p>Nenhum anúncio pausado.</p></div>`;
-    } else {
-      pgrid.innerHTML = `
-        <div class="anuncio-card">
-          <div class="anuncio-header">
-            <div class="anuncio-titulo" style="color:var(--text-muted)">
-              Você tem <strong>${pausados}</strong> anúncio(s) pausado(s). Acesse o Mercado Livre e reative os que estiverem ok.
-            </div>
-          </div>
-        </div>`;
-    }
+  function renderStats(anuncios) {
+    document.getElementById('statAtivos').textContent = anuncios.total_ativos ?? '—';
+    document.getElementById('statPausados').textContent = anuncios.total_pausados ?? '—';
+    document.getElementById('statProblemas').textContent = (anuncios.anuncios_com_problema || []).length;
   }
 
   function renderAlertas(rep, anuncios) {
@@ -478,15 +453,13 @@
     if (!alertas.length) { bar.className = 'alertas-bar'; return; }
     bar.className = 'alertas-bar show';
     bar.innerHTML = alertas.map(a => `
-      <div class="alerta-chip ${a.tipo}">
-        <div class="pulso"></div>${a.txt}
-      </div>`).join('');
+      <div class="alerta-chip ${a.tipo}"><div class="pulso"></div>${a.txt}</div>`).join('');
   }
 
   function renderChecklist() {
     const hoje = new Date().toDateString();
     const saved = JSON.parse(localStorage.getItem('checklist_' + hoje) || '{}');
-    const container = document.getElementById('checklistItems');
+    const container = document.getElementById('checkItems');
     container.innerHTML = CHECKLIST.map(item => `
       <div class="check-item ${saved[item.id] ? 'done' : ''} ${item.urgente && !saved[item.id] ? 'alert-item' : ''}"
            onclick="toggleCheck('${item.id}', this)">
@@ -511,9 +484,13 @@
 
   function atualizarProgresso(saved) {
     const feitos = Object.values(saved).filter(Boolean).length;
-    const total = CHECKLIST.length;
-    document.getElementById('checkProgress').textContent = `${feitos}/${total} feitos`;
-    document.getElementById('progressBar').style.width = `${(feitos / total) * 100}%`;
+    document.getElementById('checkProgress').textContent = `${feitos}/${CHECKLIST.length} feitos`;
+    document.getElementById('progressBar').style.width = `${(feitos / CHECKLIST.length) * 100}%`;
+  }
+
+  function irPara(pagina) {
+    localStorage.setItem('dispara_seller_id', sellerId);
+    window.location.href = pagina;
   }
 
   function logout() {
@@ -537,10 +514,7 @@
     });
   }
 
-  function showAlert(id, msg) {
-    const el = document.getElementById(id);
-    el.textContent = msg; el.className = 'alert error show';
-  }
+  function showAlert(id, msg) { const el = document.getElementById(id); el.textContent = msg; el.className = 'alert error show'; }
   function ocultarAlert(id) { document.getElementById(id).className = 'alert error'; }
   function setBtn(id, disabled, txt) {
     const btn = document.getElementById(id);
