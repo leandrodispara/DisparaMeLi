@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DisparaMeLi — DRE Financeiro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #f4f9f5; --surface: #ffffff; --surface2: #eef5f0;
+      --border: #d0e8d8; --green: #1db954; --green-dark: #158a3e;
+      --green-light: #e0f5e8; --green-muted: #a0d4b0;
+      --text: #0f2018; --text-muted: #5a7a65;
+      --yellow: #f5a623; --red: #e74c3c; --radius: 14px;
+      --shadow: 0 2px 20px rgba(29,185,84,0.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+    .topbar { background: var(--surface); border-bottom: 1.5px solid var(--border); padding: 0 24px; height: 58px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
+    .topbar-left { display: flex; align-items: center; gap: 12px; }
+    .btn-back { background: transparent; border: 1.5px solid var(--border); border-radius: 8px; padding: 7px 12px; font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; color: var(--text-muted); cursor: pointer; transition: all 0.2s; }
+    .btn-back:hover { border-color: var(--green); color: var(--green-dark); }
+    .topbar-title { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 800; color: var(--text); }
+    .topbar-nick { background: var(--green-light); color: var(--green-dark); font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; border: 1px solid var(--border); }
+
+    .main { max-width: 960px; margin: 0 auto; padding: 24px 20px; }
+
+    /* FILTRO */
+    .filtro-card { background: var(--surface); border-radius: var(--radius); border: 1.5px solid var(--border); padding: 18px 20px; margin-bottom: 16px; box-shadow: var(--shadow); }
+    .filtro-label { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 12px; }
+    .filtro-btns { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+    .filtro-btn { padding: 7px 14px; border-radius: 7px; border: 1.5px solid var(--border); background: transparent; color: var(--text-muted); font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+    .filtro-btn:hover { border-color: var(--green); color: var(--green-dark); }
+    .filtro-btn.active { background: var(--green); color: white; border-color: var(--green); }
+    .filtro-datas { display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; }
+    .filtro-grupo { flex: 1; min-width: 120px; }
+    .filtro-grupo label { display: block; font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+    .filtro-grupo input { width: 100%; padding: 10px 12px; border: 1.5px solid var(--border); border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--text); background: var(--surface2); outline: none; transition: border 0.2s; }
+    .filtro-grupo input:focus { border-color: var(--green); }
+    .btn-filtrar { padding: 10px 20px; background: linear-gradient(135deg, var(--green), var(--green-dark)); color: white; border: none; border-radius: 8px; font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+    .btn-filtrar:hover { transform: translateY(-1px); }
+
+    /* RESUMO CARDS */
+    .resumo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
+    .resumo-card { background: var(--surface); border-radius: var(--radius); border: 1.5px solid var(--border); padding: 16px; text-align: center; box-shadow: var(--shadow); }
+    .resumo-card.destaque { background: var(--green-light); border-color: var(--green-muted); }
+    .resumo-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+    .resumo-val { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; }
+    .resumo-val.positivo { color: var(--green-dark); }
+    .resumo-val.negativo { color: var(--red); }
+
+    /* DRE */
+    .dre-card { background: var(--surface); border-radius: var(--radius); border: 1.5px solid var(--border); overflow: hidden; margin-bottom: 16px; box-shadow: var(--shadow); }
+    .dre-header { background: linear-gradient(135deg, var(--green-dark), var(--green)); padding: 14px 20px; }
+    .dre-header-title { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: white; text-transform: uppercase; letter-spacing: 0.5px; }
+    .dre-header-sub { font-size: 12px; color: rgba(255,255,255,0.8); margin-top: 2px; }
+    .dre-secao { padding: 8px 20px 4px; background: var(--surface2); }
+    .dre-secao-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+    .dre-secao-label.receita { color: var(--green-dark); }
+    .dre-secao-label.deducao { color: var(--red); }
+    .dre-row { display: flex; align-items: center; justify-content: space-between; padding: 11px 20px; border-bottom: 1px solid #f0f0f0; transition: background 0.15s; }
+    .dre-row:hover { background: var(--bg); }
+    .dre-row.subtotal { background: var(--surface2); }
+    .dre-row.negativo-bg { background: #fffbf0; }
+    .dre-row.total { background: var(--green-light); border-top: 2px solid var(--green-muted); }
+    .dre-row-label { font-size: 13px; color: var(--text-muted); }
+    .dre-row-label strong { color: var(--text); font-weight: 600; }
+    .dre-row-val { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; }
+    .dre-row-val.pos { color: var(--green-dark); }
+    .dre-row-val.neg { color: var(--red); }
+    .dre-row-val.grande { font-size: 20px; }
+    .margem-wrap { margin-top: 6px; }
+    .margem-bar { background: var(--green-muted); border-radius: 99px; height: 6px; width: 140px; overflow: hidden; }
+    .margem-fill { height: 100%; border-radius: 99px; transition: width 0.6s ease; }
+    .margem-txt { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
+
+    /* TABELA */
+    .tabela-card { background: var(--surface); border-radius: var(--radius); border: 1.5px solid var(--border); overflow: hidden; box-shadow: var(--shadow); }
+    .tabela-header { padding: 14px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    .tabela-title { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); }
+    .tabela-count { font-size: 12px; color: var(--text-muted); }
+    .tabela-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    thead tr { background: var(--surface2); }
+    th { padding: 10px 14px; text-align: left; font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); white-space: nowrap; }
+    th.right { text-align: right; }
+    th.center { text-align: center; }
+    td { padding: 11px 14px; border-bottom: 1px solid #f5f5f5; color: var(--text); }
+    td.right { text-align: right; font-family: 'Syne', sans-serif; font-weight: 700; }
+    td.center { text-align: center; }
+    td.muted { color: var(--text-muted); }
+    td.pos { color: var(--green-dark); }
+    td.neg { color: var(--red); }
+    tr.cancelado { background: #fdf5f5; }
+    .status-badge { font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
+    .status-pago { background: var(--green-light); color: var(--green-dark); }
+    .status-cancelado { background: #fdf0ef; color: var(--red); }
+    .status-reembolso { background: #fffbf0; color: #b7791f; }
+    .tabela-footer { padding: 12px 20px; text-align: center; font-size: 12px; color: var(--text-muted); border-top: 1px solid var(--border); }
+
+    /* EMPTY / LOADING */
+    .empty { text-align: center; padding: 48px 20px; color: var(--text-muted); }
+    .empty-icon { font-size: 36px; margin-bottom: 10px; }
+    .spinner { display: inline-block; width: 18px; height: 18px; border: 2px solid var(--green-muted); border-top-color: var(--green); border-radius: 50%; animation: spin 0.7s linear infinite; }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 600px) {
+      .resumo-grid { grid-template-columns: 1fr; }
+      .filtro-datas { flex-direction: column; }
+      .main { padding: 16px 14px; }
+      .topbar { padding: 0 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <button class="btn-back" onclick="window.location.href='index.html'">← Voltar</button>
+    <div class="topbar-title">💰 DRE Financeiro</div>
+  </div>
+  <span class="topbar-nick" id="topNick">@seller</span>
+</div>
+
+<div class="main">
+
+  <!-- FILTRO -->
+  <div class="filtro-card">
+    <div class="filtro-label">📅 Período</div>
+    <div class="filtro-btns">
+      <button class="filtro-btn" onclick="filtroRapido('hoje', this)">Hoje</button>
+      <button class="filtro-btn" onclick="filtroRapido('semana', this)">Esta semana</button>
+      <button class="filtro-btn active" onclick="filtroRapido('mes', this)">Este mês</button>
+      <button class="filtro-btn" onclick="filtroRapido('30dias', this)">Últimos 30 dias</button>
+      <button class="filtro-btn" onclick="filtroRapido('tudo', this)">Todas as vendas</button>
+    </div>
+    <div class="filtro-datas">
+      <div class="filtro-grupo">
+        <label>De</label>
+        <input type="date" id="dataInicio"/>
+      </div>
+      <div class="filtro-grupo">
+        <label>Até</label>
+        <input type="date" id="dataFim"/>
+      </div>
+      <button class="btn-filtrar" onclick="aplicarFiltro()">Filtrar →</button>
+    </div>
+  </div>
+
+  <!-- RESUMO -->
+  <div class="resumo-grid" id="resumoGrid">
+    <div class="resumo-card">
+      <div class="resumo-label">Faturamento bruto</div>
+      <div class="resumo-val positivo" id="resumoBruto">—</div>
+    </div>
+    <div class="resumo-card">
+      <div class="resumo-label">Tarifas MELI</div>
+      <div class="resumo-val negativo" id="resumoTarifas">—</div>
+    </div>
+    <div class="resumo-card destaque">
+      <div class="resumo-label">Resultado líquido</div>
+      <div class="resumo-val positivo" id="resumoLiquido">—</div>
+    </div>
+  </div>
+
+  <!-- DRE DETALHADO -->
+  <div class="dre-card" id="dreCard">
+    <div class="dre-header">
+      <div class="dre-header-title">📊 Demonstrativo de Resultado</div>
+      <div class="dre-header-sub" id="drePeriodoLabel">Carregando...</div>
+    </div>
+    <div id="dreBody">
+      <div class="empty"><span class="spinner"></span></div>
+    </div>
+  </div>
+
+  <!-- TABELA CONCILIAÇÃO -->
+  <div class="tabela-card">
+    <div class="tabela-header">
+      <div class="tabela-title">📋 Conciliação — vendas do período</div>
+      <div class="tabela-count" id="tabelaCount">—</div>
+    </div>
+    <div class="tabela-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Produto</th>
+            <th class="right">Valor bruto</th>
+            <th class="right">Tarifa</th>
+            <th class="right">Líquido</th>
+            <th class="center">Status</th>
+          </tr>
+        </thead>
+        <tbody id="tabelaBody">
+          <tr><td colspan="6" style="text-align:center; padding:32px; color:var(--text-muted);">Carregando vendas...</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tabela-footer" id="tabelaFooter"></div>
+  </div>
+
+</div>
+
+<script>
+  const API = 'https://disparameli.onrender.com';
+  const sellerId = localStorage.getItem('dispara_seller_id');
+  let vendasRaw = [];
+  let periodoAtivo = 'mes';
+
+  if (!sellerId) window.location.href = 'index.html';
+  document.getElementById('topNick').textContent = '@' + sellerId;
+
+  // Init datas
+  const hoje = new Date();
+  const primeiroDia = new Date(hoje.getFullYear(), hoje.getMonth(), 1);
+  document.getElementById('dataInicio').value = primeiroDia.toISOString().split('T')[0];
+  document.getElementById('dataFim').value = hoje.toISOString().split('T')[0];
+
+  window.addEventListener('load', carregarVendas);
+
+  async function carregarVendas() {
+    try {
+      const res = await fetch(`${API}/consultor/seller/${sellerId}/completo?senha=DisparaVendas2025`);
+      const data = await res.json();
+      vendasRaw = data.vendas_recentes?.results || [];
+      renderDRE();
+    } catch(e) {
+      document.getElementById('dreBody').innerHTML =
+        `<div class="empty"><div class="empty-icon">⚠️</div><p>Erro ao carregar dados.</p></div>`;
+    }
+  }
+
+  function filtroRapido(tipo, btn) {
+    document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    periodoAtivo = tipo;
+    const h = new Date();
+    let inicio, fim = new Date(h);
+
+    if (tipo === 'hoje') { inicio = new Date(h.setHours(0,0,0,0)); }
+    else if (tipo === 'semana') { inicio = new Date(h - 7 * 86400000); }
+    else if (tipo === 'mes') { inicio = new Date(h.getFullYear(), h.getMonth(), 1); }
+    else if (tipo === '30dias') { inicio = new Date(h - 30 * 86400000); }
+    else { inicio = null; }
+
+    if (inicio) {
+      document.getElementById('dataInicio').value = inicio.toISOString().split('T')[0];
+      document.getElementById('dataFim').value = new Date().toISOString().split('T')[0];
+    }
+    renderDRE();
+  }
+
+  function aplicarFiltro() {
+    document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('active'));
+    renderDRE();
+  }
+
+  function renderDRE() {
+    const inicio = document.getElementById('dataInicio').value;
+    const fim = document.getElementById('dataFim').value;
+
+    let vendas = vendasRaw;
+    if (inicio && fim) {
+      const dInicio = new Date(inicio + 'T00:00:00');
+      const dFim = new Date(fim + 'T23:59:59');
+      vendas = vendasRaw.filter(v => {
+        const d = new Date(v.date_closed);
+        return d >= dInicio && d <= dFim;
+      });
+    }
+
+    const label = inicio && fim
+      ? `${formatData(inicio)} a ${formatData(fim)}`
+      : `Todas as vendas (${vendasRaw.length})`;
+    document.getElementById('drePeriodoLabel').textContent = label;
+
+    // Calcular
+    const pagas = vendas.filter(v => v.status === 'paid');
+    const canceladas = vendas.filter(v => v.status === 'cancelled');
+    const reembolsos = vendas.filter(v => v.payments?.some(p => p.status === 'refunded') && v.status !== 'paid');
+
+    const bruto = pagas.reduce((s, v) => s + (v.total_amount || 0), 0);
+    const tarifas = pagas.reduce((s, v) => s + (v.order_items || []).reduce((si, i) => si + (i.sale_fee || 0), 0), 0);
+    const cupons = pagas.reduce((s, v) => s + (v.coupon?.amount || 0), 0);
+    const frete = pagas.reduce((s, v) => s + (v.payments || []).reduce((sp, p) => sp + (p.shipping_cost || 0), 0), 0);
+    const valReemb = reembolsos.reduce((s, v) => s + (v.payments || []).filter(p => p.status === 'refunded').reduce((sp, p) => sp + (p.transaction_amount_refunded || 0), 0), 0);
+    const valCanc = canceladas.reduce((s, v) => s + (v.total_amount || 0), 0);
+    const liquido = bruto - tarifas - frete;
+    const resultado = liquido - valReemb;
+    const margem = bruto > 0 ? (liquido / bruto) * 100 : 0;
+
+    // Resumo cards
+    document.getElementById('resumoBruto').textContent = f(bruto);
+    document.getElementById('resumoTarifas').textContent = '- ' + f(tarifas);
+    document.getElementById('resumoLiquido').textContent = f(liquido);
+
+    // DRE
+    document.getElementById('dreBody').innerHTML = `
+      <div class="dre-secao"><div class="dre-secao-label receita">+ Receitas</div></div>
+      <div class="dre-row">
+        <div class="dre-row-label">📦 Pedidos pagos (${pagas.length})</div>
+        <div class="dre-row-val pos">${f(bruto)}</div>
+      </div>
+
+      <div class="dre-secao"><div class="dre-secao-label deducao">− Deduções</div></div>
+      <div class="dre-row negativo-bg">
+        <div class="dre-row-label">🏷️ Tarifas Mercado Livre</div>
+        <div class="dre-row-val neg">− ${f(tarifas)}</div>
+      </div>
+      <div class="dre-row negativo-bg">
+        <div class="dre-row-label">🚚 Frete cobrado de você</div>
+        <div class="dre-row-val neg">− ${f(frete)}</div>
+      </div>
+      <div class="dre-row negativo-bg">
+        <div class="dre-row-label">🎟️ Cupons e descontos</div>
+        <div class="dre-row-val neg">− ${f(cupons)}</div>
+      </div>
+      <div class="dre-row negativo-bg">
+        <div class="dre-row-label">↩️ Reembolsos (${reembolsos.length})</div>
+        <div class="dre-row-val neg">− ${f(valReemb)}</div>
+      </div>
+      <div class="dre-row negativo-bg">
+        <div class="dre-row-label">❌ Cancelamentos (${canceladas.length}) — ${f(valCanc)}</div>
+        <div class="dre-row-val neg" style="font-size:12px;color:var(--text-muted);">não entra no bruto</div>
+      </div>
+
+      <div class="dre-row subtotal">
+        <div class="dre-row-label"><strong>📊 Faturamento líquido</strong></div>
+        <div class="dre-row-val ${liquido >= 0 ? 'pos' : 'neg'}">${f(liquido)}</div>
+      </div>
+
+      <div class="dre-row total">
+        <div>
+          <div class="dre-row-label"><strong>🏆 Resultado final</strong></div>
+          <div class="margem-wrap">
+            <div class="margem-bar">
+              <div class="margem-fill" style="width:${Math.min(Math.max(margem,0),100)}%; background:${margem > 30 ? 'var(--green)' : margem > 15 ? 'var(--yellow)' : 'var(--red)'}"></div>
+            </div>
+            <div class="margem-txt">Margem líquida: ${margem.toFixed(1)}%</div>
+          </div>
+        </div>
+        <div class="dre-row-val ${resultado >= 0 ? 'pos grande' : 'neg grande'}">${f(resultado)}</div>
+      </div>
+    `;
+
+    // Tabela conciliação
+    renderTabela(vendas);
+  }
+
+  function renderTabela(vendas) {
+    document.getElementById('tabelaCount').textContent = `${vendas.length} vendas`;
+    const tbody = document.getElementById('tabelaBody');
+
+    if (!vendas.length) {
+      tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:32px; color:var(--text-muted);">Nenhuma venda no período selecionado</td></tr>`;
+      document.getElementById('tabelaFooter').textContent = '';
+      return;
+    }
+
+    tbody.innerHTML = vendas.map(v => {
+      const item = v.order_items?.[0];
+      const titulo = item?.item?.title || 'Sem título';
+      const tituloBreve = titulo.length > 40 ? titulo.substring(0, 40) + '...' : titulo;
+      const valor = v.total_amount || 0;
+      const tarifa = item?.sale_fee || 0;
+      const liquido = valor - tarifa;
+      const data = v.date_closed ? new Date(v.date_closed).toLocaleDateString('pt-BR', { day:'2-digit', month:'2-digit' }) : '—';
+      const isPago = v.status === 'paid';
+      const isCancelado = v.status === 'cancelled';
+      const isReembolso = v.payments?.some(p => p.status === 'refunded') && !isPago;
+
+      let statusBadge = `<span class="status-badge status-pago">Pago</span>`;
+      if (isCancelado) statusBadge = `<span class="status-badge status-cancelado">Cancelado</span>`;
+      if (isReembolso) statusBadge = `<span class="status-badge status-reembolso">Reembolso</span>`;
+
+      return `
+        <tr class="${isCancelado ? 'cancelado' : ''}">
+          <td class="muted" style="white-space:nowrap;">${data}</td>
+          <td style="max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${tituloBreve}</td>
+          <td class="right ${isPago ? 'pos' : 'neg'}">${f(valor)}</td>
+          <td class="right neg">${isPago ? '− ' + f(tarifa) : '—'}</td>
+          <td class="right ${isPago ? 'pos' : 'muted'}">${isPago ? f(liquido) : '—'}</td>
+          <td class="center">${statusBadge}</td>
+        </tr>`;
+    }).join('');
+
+    document.getElementById('tabelaFooter').textContent = `Mostrando ${vendas.length} registros`;
+  }
+
+  function f(v) {
+    return 'R$ ' + Number(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function formatData(str) {
+    const [y, m, d] = str.split('-');
+    return `${d}/${m}/${y}`;
+  }
+</script>
+</body>
+</html>
