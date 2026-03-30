@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>DisparaMeLi — DRE Financeiro</title>
+  <title>DisparaMeLi — Conciliação Financeira</title>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
     :root {
@@ -117,7 +117,7 @@
 <div class="topbar">
   <div class="topbar-left">
     <button class="btn-back" onclick="window.location.href='index.html'">← Voltar</button>
-    <div class="topbar-title">💰 DRE Financeiro</div>
+    <div class="topbar-title">💰 Conciliação Financeira</div>
   </div>
   <span class="topbar-nick" id="topNick">@seller</span>
 </div>
@@ -126,13 +126,13 @@
 
   <!-- FILTRO -->
   <div class="filtro-card">
-    <div class="filtro-label">📅 Período</div>
+    <div class="filtro-label">📅 Escolha o período</div>
     <div class="filtro-btns">
       <button class="filtro-btn" onclick="filtroRapido('hoje', this)">Hoje</button>
       <button class="filtro-btn" onclick="filtroRapido('semana', this)">Esta semana</button>
       <button class="filtro-btn active" onclick="filtroRapido('mes', this)">Este mês</button>
       <button class="filtro-btn" onclick="filtroRapido('30dias', this)">Últimos 30 dias</button>
-      <button class="filtro-btn" onclick="filtroRapido('tudo', this)">Todas as vendas</button>
+      <button class="filtro-btn" onclick="filtroRapido('tudo', this)">Tudo</button>
     </div>
     <div class="filtro-datas">
       <div class="filtro-grupo">
@@ -143,33 +143,33 @@
         <label>Até</label>
         <input type="date" id="dataFim"/>
       </div>
-      <button class="btn-filtrar" onclick="renderDRE()">Filtrar →</button>
+      <button class="btn-filtrar" onclick="renderDRE()">Ver resultados →</button>
     </div>
   </div>
 
   <!-- CONFIGS GLOBAIS -->
   <div class="config-card">
-    <div class="config-title">⚙️ Configurações do período (aplicadas a todas as linhas)</div>
+    <div class="config-title">⚙️ Seus custos do período — preencha para ver seu lucro real</div>
     <div class="config-grid">
       <div class="config-item">
         <label>Imposto (%)</label>
         <input type="number" class="config-input" id="cfgImposto" value="0" min="0" max="100" step="0.1" oninput="renderDRE()"/>
-        <div class="config-hint">Ex: Simples Nacional ~6%</div>
+        <div class="config-hint">Ex: Simples Nacional ≈ 6%</div>
       </div>
       <div class="config-item">
-        <label>ADS / Campanha (R$)</label>
+        <label>Investimento em Anúncios (R$)</label>
         <input type="number" class="config-input" id="cfgAds" value="0" min="0" step="0.01" oninput="renderDRE()"/>
-        <div class="config-hint">Total gasto em anúncios no período</div>
+        <div class="config-hint">Quanto você gastou em anúncios no período</div>
       </div>
       <div class="config-item">
         <label>Despesas Fixas (R$)</label>
         <input type="number" class="config-input" id="cfgDespFixas" value="0" min="0" step="0.01" oninput="renderDRE()"/>
-        <div class="config-hint">Aluguel, salários, etc. no período</div>
+        <div class="config-hint">Aluguel, funcionários, etc.</div>
       </div>
       <div class="config-item">
-        <label>Custo médio do produto (%)</label>
+        <label>Custo do Produto (%)</label>
         <input type="number" class="config-input" id="cfgCustoProd" value="0" min="0" max="100" step="0.1" oninput="renderDRE()"/>
-        <div class="config-hint">% sobre o preço de venda</div>
+        <div class="config-hint">Quanto o produto te custou (% do preço)</div>
       </div>
     </div>
   </div>
@@ -177,19 +177,19 @@
   <!-- RESUMO -->
   <div class="resumo-grid" id="resumoGrid">
     <div class="resumo-card">
-      <div class="resumo-label">Venda Bruta</div>
+      <div class="resumo-label">Total Vendido</div>
       <div class="resumo-val pos" id="resumoBruto">—</div>
     </div>
     <div class="resumo-card">
-      <div class="resumo-label">Tarifa ML + Frete</div>
+      <div class="resumo-label">Descontado pelo MELI</div>
       <div class="resumo-val neg" id="resumoTarifas">—</div>
     </div>
     <div class="resumo-card">
-      <div class="resumo-label">Recebido Líquido</div>
+      <div class="resumo-label">Você Recebeu</div>
       <div class="resumo-val pos" id="resumoLiquido">—</div>
     </div>
     <div class="resumo-card destaque">
-      <div class="resumo-label">Lucro Real</div>
+      <div class="resumo-label">Seu Lucro</div>
       <div class="resumo-val pos" id="resumoLucro">—</div>
     </div>
   </div>
@@ -197,7 +197,7 @@
   <!-- TABELA -->
   <div class="tabela-card">
     <div class="tabela-header">
-      <div class="tabela-title">📋 Conciliação detalhada</div>
+      <div class="tabela-title">📋 Suas vendas detalhadas</div>
       <div class="tabela-count" id="tabelaCount">—</div>
     </div>
     <div class="tabela-wrap">
@@ -209,17 +209,17 @@
             <th class="left" style="min-width:200px">Produto / Variação</th>
             <th style="min-width:40px">Qtd</th>
             <th class="center" style="min-width:80px">Status</th>
-            <th style="min-width:90px">Venda Bruta</th>
-            <th style="min-width:80px">Margem %</th>
-            <th style="min-width:80px">Tarifa ML</th>
+            <th style="min-width:90px">Total Vendido</th>
+            <th style="min-width:80px">Sobrou %</th>
+            <th style="min-width:80px">Taxa MELI</th>
             <th style="min-width:70px">Frete</th>
-            <th style="min-width:90px">Recebido Líq.</th>
+            <th style="min-width:90px">Você Recebeu</th>
             <th style="min-width:70px">Imposto</th>
-            <th style="min-width:70px">ADS</th>
+            <th style="min-width:70px">Anúncios</th>
             <th style="min-width:80px">Desp. Fixas</th>
             <th style="min-width:80px">Custo Prod.</th>
-            <th style="min-width:90px">Lucro Real</th>
-            <th style="min-width:80px">Margem Real</th>
+            <th style="min-width:90px">Seu Lucro</th>
+            <th style="min-width:80px">% de Lucro</th>
           </tr>
         </thead>
         <tbody id="tabelaBody">
@@ -413,7 +413,7 @@
     document.getElementById('resumoLucro').className = `resumo-val ${totLucro >= 0 ? 'pos' : 'neg'}`;
 
     document.getElementById('tabelaFooter').textContent =
-      `${vendas.filter(v => v.status === 'paid').length} vendas pagas · ${vendas.filter(v => v.status === 'cancelled').length} canceladas`;
+      `${vendas.filter(v => v.status === 'paid').length} vendas recebidas · ${vendas.filter(v => v.status === 'cancelled').length} não concluídas`;
   }
 
   function f(v) {
