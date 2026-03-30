@@ -144,8 +144,19 @@ async def analisar_anuncios(seller_id: str, access_token: str):
 
 async def get_vendas_recentes(seller_id: str, access_token: str):
     async with httpx.AsyncClient() as client:
-        r = await client.get(
-            f"{MELI_API}/orders/search?seller={seller_id}&sort=date_desc&limit=50",
-            headers={"Authorization": f"Bearer {access_token}"}
-        )
-        return r.json()
+        headers = {"Authorization": f"Bearer {access_token}"}
+        todos = []
+        offset = 0
+        while len(todos) < 200:
+            r = await client.get(
+                f"{MELI_API}/orders/search?seller={seller_id}&sort=date_desc&limit=50&offset={offset}",
+                headers=headers
+            )
+            data = r.json()
+            resultados = data.get("results", [])
+            todos.extend(resultados)
+            total = data.get("paging", {}).get("total", 0)
+            offset += 50
+            if offset >= total or not resultados:
+                break
+        return {"results": todos, "paging": {"total": len(todos)}}
