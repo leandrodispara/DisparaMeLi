@@ -92,7 +92,7 @@
     .semaforo { font-size: 16px; cursor: help; }
 
     /* Input inline */
-    .td-input { width: 72px; padding: 5px 7px; border: 1.5px solid var(--border); border-radius: 6px; font-family: 'DM Sans', sans-serif; font-size: 11px; color: var(--text); background: var(--surface2); text-align: right; outline: none; transition: all 0.2s; }
+    .td-input { width: 72px; padding: 5px 7px; border: 1.5px solid var(--border); border-radius: 6px; font-family: 'DM Sans', sans-serif; font-size: 11px; color: var(--text); background: var(--surface2); text-align: right; outline: none; transition: all 0.2s; cursor: text; }
     .td-input:focus { border-color: var(--green); background: white; box-shadow: 0 0 0 2px rgba(29,185,84,0.1); }
     .td-input.preenchido { border-color: var(--green-muted); background: var(--green-light); }
 
@@ -359,7 +359,7 @@
 
       const lucro = isPago ? liquido - imposto - desp - custoVal - adsVal : 0;
       const margemLucro = bruto > 0 ? (lucro / bruto * 100) : 0;
-      const roas = adsVal > 0 ? (bruto / adsVal).toFixed(1) + 'x' : '—';
+      const roas = adsVal >= 1 ? (bruto / adsVal).toFixed(1) + 'x' : adsVal > 0 ? '<span style="color:var(--text-muted);font-size:10px">ADS baixo</span>' : '—';
 
       // Semáforo
       let semaforo = '⬜';
@@ -411,7 +411,7 @@
               value="${custoVal > 0 ? custoVal.toFixed(2) : ''}"
               placeholder="0,00" min="0" step="0.01"
               data-sku="${sku}" data-idx="${idx}"
-              oninput="onCustoChange(this)"
+              onfocus="this.select()" onchange="onCustoChange(this)" oninput="onCustoChange(this)"
               title="Custo do produto (R$)"/>` : '—'}
           </td>
           <td>
@@ -419,7 +419,7 @@
               value="${adsVal > 0 ? adsVal.toFixed(2) : ''}"
               placeholder="0,00" min="0" step="0.01"
               data-sku="${sku}" data-idx="${idx}"
-              oninput="onAdsChange(this)"
+              onfocus="this.select()" onchange="onAdsChange(this)" oninput="onAdsChange(this)"
               title="Investimento em ADS (R$)"/>` : '—'}
           </td>
           <td class="muted" id="roas-${idx}">${isPago ? roas : '—'}</td>
@@ -468,7 +468,8 @@
     saveCusto(sku, 'custo', val);
     input.className = val > 0 ? 'td-input preenchido' : 'td-input';
     recalcularLinha(input.dataset.idx);
-    recalcularTotais();
+    // Atualiza totais sem recriar tabela
+    atualizarTotaisSemRecriar();
   }
 
   function onAdsChange(input) {
@@ -477,7 +478,7 @@
     saveCusto(sku, 'ads', val);
     input.className = val > 0 ? 'td-input preenchido' : 'td-input';
     recalcularLinha(input.dataset.idx);
-    recalcularTotais();
+    atualizarTotaisSemRecriar();
   }
 
   function recalcularLinha(idx) {
@@ -514,7 +515,7 @@
     const ads = parseFloat(adsInput.value) || 0;
     const lucro = liquido - imposto - despPorVenda - custo - ads;
     const margem = bruto > 0 ? (lucro / bruto * 100) : 0;
-    const roas = ads > 0 ? (bruto / ads).toFixed(1) + 'x' : '—';
+    const roas = ads >= 1 ? (bruto / ads).toFixed(1) + 'x' : ads > 0 ? '<span style="color:var(--text-muted);font-size:10px">ADS baixo</span>' : '—';
 
     // Semáforo
     let semaforo = '⬜', tip = 'Preencha custo e ADS';
@@ -524,7 +525,7 @@
       else { semaforo = '🔴'; tip = 'Margem baixa — reavalie preço ou custos'; }
     }
 
-    document.getElementById('roas-' + idx).textContent = roas;
+    document.getElementById('roas-' + idx).innerHTML = roas;
     const lucroEl = document.getElementById('lucro-' + idx);
     lucroEl.textContent = f(lucro);
     lucroEl.className = lucro >= 0 ? 'pos' : 'neg';
@@ -535,9 +536,65 @@
     semEl.innerHTML = `<span class="semaforo" title="${tip}">${semaforo}</span>`;
   }
 
-  function recalcularTotais() {
-    // Re-renderiza DRE completo para atualizar totais corretamente
-    renderDRE();
+  function atualizarTotaisSemRecriar() {
+    // Soma os valores das células de lucro sem recriar a tabela
+    const impPct = parseFloat(document.getElementById('cfgImposto').value) / 100 || 0;
+    const despFixasTotal = parseFloat(document.getElementById('cfgDespFixas').value) || 0;
+    let totBruto=0, totTarifa=0, totFrete=0, totLiquido=0;
+    let totImposto=0, totDesp=0, totCusto=0, totAds=0, totLucro=0;
+    const totalPagos = vendasRaw.filter(v => v.status === 'paid').length;
+    const despPorVenda = totalPagos > 0 ? despFixasTotal / totalPagos : 0;
+    
+    document.querySelectorAll('#tabelaBody tr').forEach((row, idx) => {
+      const cells = row.querySelectorAll('td');
+      if (!cells || cells.length < 5) return;
+      const statusEl = cells[4].querySelector('.status-badge');
+      if (!statusEl || !statusEl.classList.contains('status-pago')) return;
+      
+      const bruto = parseMoney(cells[5].textContent);
+      const tarifa = parseMoney(cells[6].textContent);
+      const frete = cells[7].textContent.includes('Grátis') ? 0 : parseMoney(cells[7].textContent);
+      const liquido = bruto - tarifa - frete;
+      const imposto = bruto * impPct;
+      const desp = despPorVenda;
+      
+      const custoInput = row.querySelector('[id^="custo-"]');
+      const adsInput = row.querySelector('[id^="ads-"]');
+      const custo = custoInput ? (parseFloat(custoInput.value) || 0) : 0;
+      const ads = adsInput ? (parseFloat(adsInput.value) || 0) : 0;
+      const lucro = liquido - imposto - desp - custo - ads;
+      
+      totBruto += bruto; totTarifa += tarifa; totFrete += frete;
+      totLiquido += liquido; totImposto += imposto; totDesp += desp;
+      totCusto += custo; totAds += ads; totLucro += lucro;
+    });
+    
+    const totCustosTotais = totImposto + totDesp + totCusto + totAds;
+    const totMargem = totBruto > 0 ? (totLucro / totBruto * 100) : 0;
+    atualizarResumo(totBruto, totTarifa + totFrete, totLiquido, totCustosTotais, totLucro);
+    
+    // Atualiza rodapé da tabela
+    const tfoot = document.getElementById('tabelaFoot');
+    if (tfoot && tfoot.querySelector('tr')) {
+      const tfCells = tfoot.querySelectorAll('td');
+      if (tfCells.length >= 15) {
+        tfCells[5].textContent = f(totBruto);
+        tfCells[6].textContent = '−' + f(totTarifa);
+        tfCells[7].textContent = '−' + f(totFrete);
+        tfCells[8].textContent = f(totLiquido);
+        tfCells[9].textContent = '−' + f(totImposto);
+        tfCells[10].textContent = '−' + f(totDesp);
+        tfCells[11].textContent = '−' + f(totCusto);
+        tfCells[12].textContent = '−' + f(totAds);
+        tfCells[14].textContent = f(totLucro);
+        tfCells[15].textContent = totMargem.toFixed(1) + '%';
+        tfCells[15].className = totMargem >= 20 ? '' : totMargem >= 5 ? 'warn-t' : 'neg-t';
+      }
+    }
+  }
+  
+  function parseMoney(txt) {
+    return parseFloat(txt.replace(/[R$\s.−-]/g, '').replace(',', '.')) || 0;
   }
 
   function atualizarResumo(bruto, meli, liquido, custos, lucro) {
