@@ -43,7 +43,7 @@
     /* CONFIGS GLOBAIS */
     .config-card { background: var(--surface); border-radius: var(--radius); border: 1.5px solid var(--border); padding: 18px 20px; margin-bottom: 16px; box-shadow: var(--shadow); }
     .config-title { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 12px; }
-    .config-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .config-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
     .config-item label { display: block; font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
     .config-input { width: 100%; padding: 9px 12px; border: 1.5px solid var(--border); border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--text); background: var(--surface2); outline: none; transition: border 0.2s; }
     .config-input:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(29,185,84,0.1); }
@@ -172,6 +172,11 @@
         <input type="number" class="config-input" id="cfgCustoProd" value="0" min="0" max="100" step="0.1" oninput="renderDRE()"/>
         <div class="config-hint">Usado quando não preencher por linha</div>
       </div>
+      <div class="config-item">
+        <label>Frete médio por venda (R$)</label>
+        <input type="number" class="config-input" id="cfgFrete" value="0" min="0" step="0.01" oninput="renderDRE()"/>
+        <div class="config-hint">O MELI não informa via API — informe aqui</div>
+      </div>
     </div>
   </div>
 
@@ -182,7 +187,7 @@
       <div class="resumo-val pos" id="resumoBruto">—</div>
     </div>
     <div class="resumo-card">
-      <div class="resumo-label">Descontado pelo MELI</div>
+      <div class="resumo-label">Taxa MELI + Frete</div>
       <div class="resumo-val neg" id="resumoMeli">—</div>
     </div>
     <div class="resumo-card">
@@ -306,6 +311,7 @@
     const impPct = parseFloat(document.getElementById('cfgImposto').value) / 100 || 0;
     const despFixasTotal = parseFloat(document.getElementById('cfgDespFixas').value) || 0;
     const custoPadraoP = parseFloat(document.getElementById('cfgCustoProd').value) / 100 || 0;
+    const cfgFreteVal = parseFloat(document.getElementById('cfgFrete').value) || 0;
     const custosSalvos = getCustos();
 
     let vendas = vendasRaw;
@@ -347,7 +353,8 @@
 
       const bruto = isPago ? (v.total_amount || 0) : 0;
       const tarifa = isPago ? (item.sale_fee || 0) : 0;
-      const frete = isPago ? (v.payments || []).reduce((s, p) => s + (p.shipping_cost || 0), 0) : 0;
+      const freteAPI = isPago ? (v.payments || []).reduce((s, p) => s + (p.shipping_cost || 0), 0) : 0;
+      const frete = isPago ? (freteAPI > 0 ? freteAPI : cfgFreteVal) : 0;
       const liquido = bruto - tarifa - frete;
       const imposto = isPago ? bruto * impPct : 0;
       const desp = isPago ? despPorVenda : 0;
@@ -402,7 +409,7 @@
           <td class="center">${statusBadge}</td>
           <td class="${isPago ? 'pos' : 'muted'}">${isPago ? f(bruto) : '—'}</td>
           <td class="${isPago ? 'neg' : 'muted'}">${isPago ? '−' + f(tarifa) : '—'}</td>
-          <td class="${isPago && frete > 0 ? 'neg' : 'muted'}">${isPago ? (frete > 0 ? '−' + f(frete) : 'Grátis') : '—'}</td>
+          <td class="${isPago && frete > 0 ? 'neg' : 'muted'}">${isPago ? (frete > 0 ? '−' + f(frete) : (cfgFreteVal > 0 ? '−' + f(cfgFreteVal) : 'Grátis')) : '—'}</td>
           <td class="${isPago ? 'pos' : 'muted'}">${isPago ? f(liquido) : '—'}</td>
           <td class="${isPago && imposto > 0 ? 'neg' : 'muted'}">${isPago ? (imposto > 0 ? '−' + f(imposto) : '—') : '—'}</td>
           <td class="${isPago ? 'neg' : 'muted'}">${isPago ? '−' + f(desp) : '—'}</td>
@@ -553,7 +560,9 @@
       
       const bruto = parseMoney(cells[5].textContent);
       const tarifa = parseMoney(cells[6].textContent);
-      const frete = cells[7].textContent.includes('Grátis') ? 0 : parseMoney(cells[7].textContent);
+      const cfgFreteAtual = parseFloat(document.getElementById('cfgFrete').value) || 0;
+      const freteCell = parseMoney(cells[7].textContent);
+      const frete = freteCell > 0 ? freteCell : (cells[7].textContent.includes('Grátis') ? cfgFreteAtual : cfgFreteAtual);
       const liquido = bruto - tarifa - frete;
       const imposto = bruto * impPct;
       const desp = despPorVenda;
