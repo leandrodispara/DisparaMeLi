@@ -24,7 +24,7 @@
     .topbar-title { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 800; }
     .topbar-nick { background: var(--green-light); color: var(--green-dark); font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; border: 1px solid var(--border); }
 
-    .main { max-width: 1200px; margin: 0 auto; padding: 24px 20px; }
+    .main { max-width: 1400px; margin: 0 auto; padding: 24px 20px; }
 
     /* FILTRO */
     .filtro-card { background: var(--surface); border-radius: var(--radius); border: 1.5px solid var(--border); padding: 18px 20px; margin-bottom: 16px; box-shadow: var(--shadow); }
@@ -40,69 +40,75 @@
     .filtro-grupo input[type="date"]:focus { border-color: var(--green); }
     .btn-filtrar { padding: 10px 20px; background: linear-gradient(135deg, var(--green), var(--green-dark)); color: white; border: none; border-radius: 8px; font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; }
 
-    /* RESUMO */
-    .resumo-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
-    .resumo-card { background: var(--surface); border-radius: var(--radius); border: 1.5px solid var(--border); padding: 14px 16px; box-shadow: var(--shadow); }
-    .resumo-card.destaque { background: var(--green-light); border-color: var(--green-muted); }
-    .resumo-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
-    .resumo-val { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; }
-    .resumo-val.pos { color: var(--green-dark); }
-    .resumo-val.neg { color: var(--red); }
-    .resumo-val.warn { color: var(--yellow); }
-
-    /* CONFIGURAÇÕES GLOBAIS */
+    /* CONFIGS GLOBAIS */
     .config-card { background: var(--surface); border-radius: var(--radius); border: 1.5px solid var(--border); padding: 18px 20px; margin-bottom: 16px; box-shadow: var(--shadow); }
     .config-title { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 12px; }
-    .config-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .config-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
     .config-item label { display: block; font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
     .config-input { width: 100%; padding: 9px 12px; border: 1.5px solid var(--border); border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--text); background: var(--surface2); outline: none; transition: border 0.2s; }
     .config-input:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(29,185,84,0.1); }
     .config-hint { font-size: 10px; color: var(--text-muted); margin-top: 4px; }
-    .btn-aplicar { padding: 10px 20px; background: linear-gradient(135deg, var(--green), var(--green-dark)); color: white; border: none; border-radius: 8px; font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; cursor: pointer; margin-top: 12px; }
+
+    /* RESUMO */
+    .resumo-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 16px; }
+    .resumo-card { background: var(--surface); border-radius: var(--radius); border: 1.5px solid var(--border); padding: 14px 16px; box-shadow: var(--shadow); }
+    .resumo-card.destaque { background: var(--green-light); border-color: var(--green-muted); }
+    .resumo-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
+    .resumo-val { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 800; }
+    .resumo-val.pos { color: var(--green-dark); }
+    .resumo-val.neg { color: var(--red); }
+    .resumo-val.warn { color: var(--yellow); }
 
     /* TABELA */
     .tabela-card { background: var(--surface); border-radius: var(--radius); border: 1.5px solid var(--border); overflow: hidden; box-shadow: var(--shadow); }
-    .tabela-header { padding: 14px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    .tabela-header { padding: 14px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: var(--surface); }
     .tabela-title { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); }
-    .tabela-count { font-size: 12px; color: var(--text-muted); }
-    .tabela-wrap { overflow-x: auto; }
+    .tabela-hint { font-size: 11px; color: var(--text-muted); background: var(--green-light); padding: 4px 10px; border-radius: 20px; }
 
-    table { width: 100%; border-collapse: collapse; font-size: 11.5px; min-width: 1400px; }
-    thead tr { background: var(--surface2); position: sticky; top: 58px; z-index: 10; }
-    th { padding: 10px 10px; text-align: right; font-family: 'Syne', sans-serif; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); white-space: nowrap; border-bottom: 1.5px solid var(--border); }
-    th.left { text-align: left; }
-    th.center { text-align: center; }
-    td { padding: 10px 10px; border-bottom: 1px solid #f5f5f5; color: var(--text); text-align: right; vertical-align: middle; }
-    td.left { text-align: left; }
-    td.center { text-align: center; }
-    td.muted { color: var(--text-muted); }
-    td.pos { color: var(--green-dark); font-weight: 700; }
-    td.neg { color: var(--red); font-weight: 700; }
-    td.warn { color: var(--yellow); font-weight: 700; }
-    tr:hover { background: #fafffe; }
-    tr.cancelado { background: #fdf8f8; }
-    tr.cancelado td { color: var(--text-muted); }
+    .tabela-wrap { overflow-x: auto; max-height: 70vh; overflow-y: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 11.5px; min-width: 1500px; }
+
+    thead th { background: var(--surface2); padding: 10px 8px; text-align: right; font-family: 'Syne', sans-serif; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); white-space: nowrap; border-bottom: 2px solid var(--border); position: sticky; top: 0; z-index: 5; }
+    thead th.left { text-align: left; }
+    thead th.center { text-align: center; }
+
+    tbody td { padding: 9px 8px; border-bottom: 1px solid #f0f0f0; color: var(--text); text-align: right; vertical-align: middle; }
+    tbody td.left { text-align: left; }
+    tbody td.center { text-align: center; }
+    tbody td.muted { color: var(--text-muted); font-size: 11px; }
+    tbody td.pos { color: var(--green-dark); font-weight: 700; }
+    tbody td.neg { color: var(--red); font-weight: 700; }
+    tbody td.warn { color: var(--yellow); font-weight: 700; }
+    tbody tr:hover { background: #f8fdf9; }
+    tbody tr.cancelado { background: #fdf8f8; }
+    tbody tr.cancelado td { color: #bbb; }
 
     .status-badge { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 20px; white-space: nowrap; }
     .status-pago { background: var(--green-light); color: var(--green-dark); }
     .status-cancelado { background: #fdf0ef; color: var(--red); }
     .status-reembolso { background: #fffbf0; color: #b7791f; }
 
-    /* Input inline na tabela */
-    .td-input { width: 70px; padding: 4px 6px; border: 1px solid var(--border); border-radius: 5px; font-family: 'DM Sans', sans-serif; font-size: 11px; color: var(--text); background: var(--surface2); text-align: right; outline: none; }
-    .td-input:focus { border-color: var(--green); background: white; }
+    /* Semáforo */
+    .semaforo { font-size: 16px; cursor: help; }
+
+    /* Input inline */
+    .td-input { width: 72px; padding: 5px 7px; border: 1.5px solid var(--border); border-radius: 6px; font-family: 'DM Sans', sans-serif; font-size: 11px; color: var(--text); background: var(--surface2); text-align: right; outline: none; transition: all 0.2s; }
+    .td-input:focus { border-color: var(--green); background: white; box-shadow: 0 0 0 2px rgba(29,185,84,0.1); }
+    .td-input.preenchido { border-color: var(--green-muted); background: var(--green-light); }
+
+    /* Tfoot totais */
+    tfoot tr { background: var(--green-light); border-top: 2px solid var(--green-muted); }
+    tfoot td { padding: 11px 8px; text-align: right; font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 800; color: var(--green-dark); border-top: 2px solid var(--green-muted); }
+    tfoot td.left { text-align: left; }
+    tfoot td.neg-t { color: var(--red); }
+    tfoot td.warn-t { color: var(--yellow); }
 
     .tabela-footer { padding: 12px 20px; text-align: center; font-size: 12px; color: var(--text-muted); border-top: 1px solid var(--border); background: var(--surface2); }
 
-    /* TOTAIS */
-    tr.totais { background: var(--green-light); font-weight: 700; border-top: 2px solid var(--green-muted); }
-    tr.totais td { color: var(--green-dark); font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 800; }
-    tr.totais td.neg-total { color: var(--red); }
-
     .empty { text-align: center; padding: 48px; color: var(--text-muted); }
     .spinner { display: inline-block; width: 20px; height: 20px; border: 2px solid var(--green-muted); border-top-color: var(--green); border-radius: 50%; animation: spin 0.7s linear infinite; }
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
     @media (max-width: 768px) {
       .resumo-grid { grid-template-columns: 1fr 1fr; }
@@ -157,36 +163,35 @@
         <div class="config-hint">Ex: Simples Nacional ≈ 6%</div>
       </div>
       <div class="config-item">
-        <label>Investimento em Anúncios (R$)</label>
-        <input type="number" class="config-input" id="cfgAds" value="0" min="0" step="0.01" oninput="renderDRE()"/>
-        <div class="config-hint">Quanto você gastou em anúncios no período</div>
-      </div>
-      <div class="config-item">
-        <label>Despesas Fixas (R$)</label>
+        <label>Despesas Fixas do período (R$)</label>
         <input type="number" class="config-input" id="cfgDespFixas" value="0" min="0" step="0.01" oninput="renderDRE()"/>
         <div class="config-hint">Aluguel, funcionários, etc.</div>
       </div>
       <div class="config-item">
-        <label>Custo do Produto (%)</label>
+        <label>Custo padrão do produto (%)</label>
         <input type="number" class="config-input" id="cfgCustoProd" value="0" min="0" max="100" step="0.1" oninput="renderDRE()"/>
-        <div class="config-hint">Quanto o produto te custou (% do preço)</div>
+        <div class="config-hint">Usado quando não preencher por linha</div>
       </div>
     </div>
   </div>
 
   <!-- RESUMO -->
-  <div class="resumo-grid" id="resumoGrid">
+  <div class="resumo-grid">
     <div class="resumo-card">
       <div class="resumo-label">Total Vendido</div>
       <div class="resumo-val pos" id="resumoBruto">—</div>
     </div>
     <div class="resumo-card">
       <div class="resumo-label">Descontado pelo MELI</div>
-      <div class="resumo-val neg" id="resumoTarifas">—</div>
+      <div class="resumo-val neg" id="resumoMeli">—</div>
     </div>
     <div class="resumo-card">
       <div class="resumo-label">Você Recebeu</div>
       <div class="resumo-val pos" id="resumoLiquido">—</div>
+    </div>
+    <div class="resumo-card">
+      <div class="resumo-label">Total de Custos</div>
+      <div class="resumo-val neg" id="resumoCustos">—</div>
     </div>
     <div class="resumo-card destaque">
       <div class="resumo-label">Seu Lucro</div>
@@ -198,34 +203,35 @@
   <div class="tabela-card">
     <div class="tabela-header">
       <div class="tabela-title">📋 Suas vendas detalhadas</div>
-      <div class="tabela-count" id="tabelaCount">—</div>
+      <div class="tabela-hint">✏️ Preencha Custo e ADS por linha para calcular o lucro real</div>
     </div>
     <div class="tabela-wrap">
       <table>
         <thead>
           <tr>
-            <th class="left" style="min-width:70px">Data</th>
-            <th class="left" style="min-width:80px">SKU</th>
-            <th class="left" style="min-width:200px">Produto / Variação</th>
-            <th style="min-width:40px">Qtd</th>
-            <th class="center" style="min-width:80px">Status</th>
-            <th style="min-width:90px">Total Vendido</th>
-            <th style="min-width:80px">Sobrou %</th>
-            <th style="min-width:80px">Taxa MELI</th>
-            <th style="min-width:70px">Frete</th>
-            <th style="min-width:90px">Você Recebeu</th>
-            <th style="min-width:70px">Imposto</th>
-            <th style="min-width:70px">Anúncios</th>
-            <th style="min-width:80px">Desp. Fixas</th>
-            <th style="min-width:80px">Custo Prod.</th>
-            <th style="min-width:90px">Seu Lucro</th>
-            <th style="min-width:80px">% de Lucro</th>
+            <th class="left" style="min-width:65px">Data</th>
+            <th class="left" style="min-width:75px">SKU</th>
+            <th class="left" style="min-width:180px">Produto / Variação</th>
+            <th style="min-width:35px">Qtd</th>
+            <th class="center" style="min-width:75px">Status</th>
+            <th style="min-width:85px">Total Vendido</th>
+            <th style="min-width:75px">Taxa MELI</th>
+            <th style="min-width:65px">Frete</th>
+            <th style="min-width:85px">Você Recebeu</th>
+            <th style="min-width:65px">Imposto</th>
+            <th style="min-width:65px">Desp. Fixas</th>
+            <th style="min-width:80px">Custo Prod. R$</th>
+            <th style="min-width:75px">ADS R$</th>
+            <th style="min-width:65px">ROAS</th>
+            <th style="min-width:85px">Seu Lucro</th>
+            <th style="min-width:70px">% Lucro</th>
+            <th class="center" style="min-width:45px">🚦</th>
           </tr>
         </thead>
         <tbody id="tabelaBody">
-          <tr><td colspan="16" style="text-align:center; padding:40px;">
+          <tr><td colspan="17" style="text-align:center; padding:48px;">
             <div class="spinner"></div>
-            <div style="margin-top:10px; color:var(--text-muted)">Carregando vendas...</div>
+            <div style="margin-top:12px; color:var(--text-muted); font-size:14px;">Carregando suas vendas...</div>
           </td></tr>
         </tbody>
         <tfoot id="tabelaFoot"></tfoot>
@@ -243,6 +249,20 @@
   document.getElementById('topNick').textContent = '@' + sellerId;
 
   let vendasRaw = [];
+  const CUSTOS_KEY = 'dispara_custos_' + sellerId;
+
+  // Carrega custos salvos por SKU
+  function getCustos() {
+    try { return JSON.parse(localStorage.getItem(CUSTOS_KEY) || '{}'); }
+    catch { return {}; }
+  }
+  function saveCusto(sku, campo, valor) {
+    if (!sku || sku === '—') return;
+    const custos = getCustos();
+    if (!custos[sku]) custos[sku] = {};
+    custos[sku][campo] = valor;
+    localStorage.setItem(CUSTOS_KEY, JSON.stringify(custos));
+  }
 
   // Init datas
   const hoje = new Date();
@@ -260,7 +280,7 @@
       renderDRE();
     } catch(e) {
       document.getElementById('tabelaBody').innerHTML =
-        `<tr><td colspan="16" class="empty">⚠️ Erro ao carregar dados.</td></tr>`;
+        `<tr><td colspan="17" class="empty">⚠️ Erro ao carregar dados. Tente recarregar.</td></tr>`;
     }
   }
 
@@ -275,13 +295,8 @@
     else if (tipo === '30dias') inicio = new Date(h - 30 * 86400000);
     else inicio = null;
 
-    if (inicio) {
-      document.getElementById('dataInicio').value = inicio.toISOString().split('T')[0];
-      document.getElementById('dataFim').value = new Date().toISOString().split('T')[0];
-    } else {
-      document.getElementById('dataInicio').value = '';
-      document.getElementById('dataFim').value = '';
-    }
+    document.getElementById('dataInicio').value = inicio ? inicio.toISOString().split('T')[0] : '';
+    document.getElementById('dataFim').value = inicio ? new Date().toISOString().split('T')[0] : '';
     renderDRE();
   }
 
@@ -289,9 +304,9 @@
     const inicio = document.getElementById('dataInicio').value;
     const fim = document.getElementById('dataFim').value;
     const impPct = parseFloat(document.getElementById('cfgImposto').value) / 100 || 0;
-    const adsTotal = parseFloat(document.getElementById('cfgAds').value) || 0;
     const despFixasTotal = parseFloat(document.getElementById('cfgDespFixas').value) || 0;
-    const custoPct = parseFloat(document.getElementById('cfgCustoProd').value) / 100 || 0;
+    const custoPadraoP = parseFloat(document.getElementById('cfgCustoProd').value) / 100 || 0;
+    const custosSalvos = getCustos();
 
     let vendas = vendasRaw;
     if (inicio && fim) {
@@ -303,117 +318,236 @@
       });
     }
 
-    const totalVendas = vendas.filter(v => v.status === 'paid').length;
-    // Ratear ADS e despesas fixas por venda
-    const adsPorVenda = totalVendas > 0 ? adsTotal / totalVendas : 0;
-    const despPorVenda = totalVendas > 0 ? despFixasTotal / totalVendas : 0;
+    const totalPagos = vendas.filter(v => v.status === 'paid').length;
+    const despPorVenda = totalPagos > 0 ? despFixasTotal / totalPagos : 0;
 
-    let totBruto = 0, totTarifa = 0, totFrete = 0, totLiquido = 0;
-    let totImposto = 0, totAds = 0, totDesp = 0, totCusto = 0, totLucro = 0;
-
-    const tbody = document.getElementById('tabelaBody');
-    document.getElementById('tabelaCount').textContent = `${vendas.length} registros`;
+    // Acumuladores para totais
+    let totBruto=0, totTarifa=0, totFrete=0, totLiquido=0;
+    let totImposto=0, totDesp=0, totCusto=0, totAds=0, totLucro=0;
 
     if (!vendas.length) {
-      tbody.innerHTML = `<tr><td colspan="16" class="empty">Nenhuma venda no período selecionado</td></tr>`;
+      document.getElementById('tabelaBody').innerHTML =
+        `<tr><td colspan="17" class="empty">Nenhuma venda no período selecionado</td></tr>`;
       document.getElementById('tabelaFoot').innerHTML = '';
       document.getElementById('tabelaFooter').textContent = '';
+      atualizarResumo(0,0,0,0,0);
       return;
     }
 
-    const rows = vendas.map(v => {
+    const rows = vendas.map((v, idx) => {
       const isPago = v.status === 'paid';
       const isCancelado = v.status === 'cancelled';
       const isReembolso = v.payments?.some(p => p.status === 'refunded') && !isPago;
 
       const item = v.order_items?.[0] || {};
       const titulo = item.item?.title || '—';
-      const variacao = (item.item?.variation_attributes || []).map(a => a.value_name).join(' / ') || '—';
+      const variacao = (item.item?.variation_attributes || []).map(a => a.value_name).join(' / ') || '';
       const sku = item.item?.seller_sku || '—';
       const qtd = item.quantity || 1;
+
       const bruto = isPago ? (v.total_amount || 0) : 0;
       const tarifa = isPago ? (item.sale_fee || 0) : 0;
       const frete = isPago ? (v.payments || []).reduce((s, p) => s + (p.shipping_cost || 0), 0) : 0;
       const liquido = bruto - tarifa - frete;
       const imposto = isPago ? bruto * impPct : 0;
-      const ads = isPago ? adsPorVenda : 0;
       const desp = isPago ? despPorVenda : 0;
-      const custo = isPago ? bruto * custoPct : 0;
-      const lucro = liquido - imposto - ads - desp - custo;
-      const margemBruta = bruto > 0 ? ((bruto - tarifa - frete) / bruto * 100) : 0;
-      const margemReal = bruto > 0 ? (lucro / bruto * 100) : 0;
 
-      const data = v.date_closed
-        ? new Date(v.date_closed).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: '2-digit' })
-        : '—';
+      // Custo e ADS — carrega do localStorage por SKU
+      const custoSalvo = sku !== '—' && custosSalvos[sku] ? custosSalvos[sku] : {};
+      const custoVal = custoSalvo.custo !== undefined ? custoSalvo.custo : (bruto * custoPadraoP);
+      const adsVal = custoSalvo.ads !== undefined ? custoSalvo.ads : 0;
+
+      const lucro = isPago ? liquido - imposto - desp - custoVal - adsVal : 0;
+      const margemLucro = bruto > 0 ? (lucro / bruto * 100) : 0;
+      const roas = adsVal > 0 ? (bruto / adsVal).toFixed(1) + 'x' : '—';
+
+      // Semáforo
+      let semaforo = '⬜';
+      let semaforoTip = 'Preencha custo e ADS';
+      if (isPago && (custoSalvo.custo !== undefined || custoPadraoP > 0)) {
+        if (margemLucro >= 20) { semaforo = '🟢'; semaforoTip = 'Ótima margem!'; }
+        else if (margemLucro >= 5) { semaforo = '🟡'; semaforoTip = 'Margem aceitável — revise custos'; }
+        else { semaforo = '🔴'; semaforoTip = 'Margem baixa — reavalie preço ou custos'; }
+      }
 
       if (isPago) {
         totBruto += bruto; totTarifa += tarifa; totFrete += frete;
-        totLiquido += liquido; totImposto += imposto;
-        totAds += ads; totDesp += desp; totCusto += custo; totLucro += lucro;
+        totLiquido += liquido; totImposto += imposto; totDesp += desp;
+        totCusto += custoVal; totAds += adsVal; totLucro += lucro;
       }
+
+      const data = v.date_closed
+        ? new Date(v.date_closed).toLocaleDateString('pt-BR', { day:'2-digit', month:'2-digit', year:'2-digit' })
+        : '—';
+
+      const tituloBreve = titulo.length > 28 ? titulo.substring(0, 28) + '…' : titulo;
+      const skuBreve = sku.length > 10 ? sku.substring(0, 10) + '…' : sku;
 
       let statusBadge = `<span class="status-badge status-pago">Pago</span>`;
       if (isCancelado) statusBadge = `<span class="status-badge status-cancelado">Cancelado</span>`;
       if (isReembolso) statusBadge = `<span class="status-badge status-reembolso">Reembolso</span>`;
 
-      const tituloBreve = titulo.length > 30 ? titulo.substring(0, 30) + '…' : titulo;
+      const custoClass = custoSalvo.custo !== undefined ? 'td-input preenchido' : 'td-input';
+      const adsClass = custoSalvo.ads !== undefined ? 'td-input preenchido' : 'td-input';
 
       return `
-        <tr class="${isCancelado || isReembolso ? 'cancelado' : ''}">
-          <td class="left muted" style="white-space:nowrap; font-size:11px;">${data}</td>
-          <td class="left muted" style="font-size:11px; max-width:80px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${sku}</td>
-          <td class="left" style="max-width:220px;">
-            <div style="font-size:12px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${titulo}">${tituloBreve}</div>
-            <div style="font-size:10px; color:var(--text-muted);">${variacao}</div>
+        <tr class="${!isPago ? 'cancelado' : ''}" id="row-${idx}">
+          <td class="left muted">${data}</td>
+          <td class="left muted" title="${sku}">${skuBreve}</td>
+          <td class="left" style="max-width:200px;">
+            <div style="font-size:12px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="${titulo}">${tituloBreve}</div>
+            ${variacao ? `<div style="font-size:10px; color:var(--text-muted);">${variacao}</div>` : ''}
           </td>
           <td>${qtd}</td>
           <td class="center">${statusBadge}</td>
           <td class="${isPago ? 'pos' : 'muted'}">${isPago ? f(bruto) : '—'}</td>
-          <td class="${margemBruta > 30 ? 'pos' : margemBruta > 15 ? 'warn' : 'neg'}">${isPago ? margemBruta.toFixed(1) + '%' : '—'}</td>
           <td class="${isPago ? 'neg' : 'muted'}">${isPago ? '−' + f(tarifa) : '—'}</td>
-          <td class="${isPago ? 'neg' : 'muted'}">${isPago ? '−' + f(frete) : '—'}</td>
+          <td class="${isPago && frete > 0 ? 'neg' : 'muted'}">${isPago ? (frete > 0 ? '−' + f(frete) : 'Grátis') : '—'}</td>
           <td class="${isPago ? 'pos' : 'muted'}">${isPago ? f(liquido) : '—'}</td>
-          <td class="${isPago ? 'neg' : 'muted'}">${isPago ? '−' + f(imposto) : '—'}</td>
-          <td class="${isPago ? 'neg' : 'muted'}">${isPago ? '−' + f(ads) : '—'}</td>
+          <td class="${isPago && imposto > 0 ? 'neg' : 'muted'}">${isPago ? (imposto > 0 ? '−' + f(imposto) : '—') : '—'}</td>
           <td class="${isPago ? 'neg' : 'muted'}">${isPago ? '−' + f(desp) : '—'}</td>
-          <td class="${isPago ? 'neg' : 'muted'}">${isPago ? '−' + f(custo) : '—'}</td>
-          <td class="${lucro >= 0 ? 'pos' : 'neg'}">${isPago ? f(lucro) : '—'}</td>
-          <td class="${margemReal > 20 ? 'pos' : margemReal > 5 ? 'warn' : 'neg'}">${isPago ? margemReal.toFixed(1) + '%' : '—'}</td>
+          <td>
+            ${isPago ? `<input type="number" class="${custoClass}" id="custo-${idx}"
+              value="${custoVal > 0 ? custoVal.toFixed(2) : ''}"
+              placeholder="0,00" min="0" step="0.01"
+              data-sku="${sku}" data-idx="${idx}"
+              oninput="onCustoChange(this)"
+              title="Custo do produto (R$)"/>` : '—'}
+          </td>
+          <td>
+            ${isPago ? `<input type="number" class="${adsClass}" id="ads-${idx}"
+              value="${adsVal > 0 ? adsVal.toFixed(2) : ''}"
+              placeholder="0,00" min="0" step="0.01"
+              data-sku="${sku}" data-idx="${idx}"
+              oninput="onAdsChange(this)"
+              title="Investimento em ADS (R$)"/>` : '—'}
+          </td>
+          <td class="muted" id="roas-${idx}">${isPago ? roas : '—'}</td>
+          <td class="${lucro >= 0 ? 'pos' : 'neg'}" id="lucro-${idx}">${isPago ? f(lucro) : '—'}</td>
+          <td class="${margemLucro >= 20 ? 'pos' : margemLucro >= 5 ? 'warn' : isPago ? 'neg' : 'muted'}" id="margem-${idx}">
+            ${isPago ? margemLucro.toFixed(1) + '%' : '—'}
+          </td>
+          <td class="center" id="sem-${idx}" title="${semaforoTip}">
+            <span class="semaforo" title="${semaforoTip}">${semaforo}</span>
+          </td>
         </tr>`;
     }).join('');
 
-    tbody.innerHTML = rows;
+    document.getElementById('tabelaBody').innerHTML = rows;
 
     // Totais
-    const totMargemBruta = totBruto > 0 ? ((totBruto - totTarifa - totFrete) / totBruto * 100) : 0;
-    const totMargemReal = totBruto > 0 ? (totLucro / totBruto * 100) : 0;
+    const totMargemLucro = totBruto > 0 ? (totLucro / totBruto * 100) : 0;
+    const totCustosTotais = totImposto + totDesp + totCusto + totAds;
 
     document.getElementById('tabelaFoot').innerHTML = `
-      <tr class="totais">
-        <td class="left" colspan="5" style="font-size:12px;">TOTAIS DO PERÍODO</td>
+      <tr>
+        <td class="left" colspan="5">📊 TOTAIS DO PERÍODO</td>
         <td>${f(totBruto)}</td>
-        <td>${totMargemBruta.toFixed(1)}%</td>
-        <td class="neg-total">−${f(totTarifa)}</td>
-        <td class="neg-total">−${f(totFrete)}</td>
+        <td class="neg-t">−${f(totTarifa)}</td>
+        <td class="neg-t">−${f(totFrete)}</td>
         <td>${f(totLiquido)}</td>
-        <td class="neg-total">−${f(totImposto)}</td>
-        <td class="neg-total">−${f(adsTotal)}</td>
-        <td class="neg-total">−${f(despFixasTotal)}</td>
-        <td class="neg-total">−${f(totCusto)}</td>
+        <td class="neg-t">−${f(totImposto)}</td>
+        <td class="neg-t">−${f(totDesp)}</td>
+        <td class="neg-t">−${f(totCusto)}</td>
+        <td class="neg-t">−${f(totAds)}</td>
+        <td>—</td>
         <td>${f(totLucro)}</td>
-        <td>${totMargemReal.toFixed(1)}%</td>
+        <td class="${totMargemLucro >= 20 ? '' : totMargemLucro >= 5 ? 'warn-t' : 'neg-t'}">${totMargemLucro.toFixed(1)}%</td>
+        <td>—</td>
       </tr>`;
 
-    // Resumo cards
-    document.getElementById('resumoBruto').textContent = f(totBruto);
-    document.getElementById('resumoTarifas').textContent = '−' + f(totTarifa + totFrete);
-    document.getElementById('resumoLiquido').textContent = f(totLiquido);
-    document.getElementById('resumoLucro').textContent = f(totLucro);
-    document.getElementById('resumoLucro').className = `resumo-val ${totLucro >= 0 ? 'pos' : 'neg'}`;
+    atualizarResumo(totBruto, totTarifa + totFrete, totLiquido, totCustosTotais, totLucro);
 
     document.getElementById('tabelaFooter').textContent =
-      `${vendas.filter(v => v.status === 'paid').length} vendas recebidas · ${vendas.filter(v => v.status === 'cancelled').length} não concluídas`;
+      `${totalPagos} vendas recebidas · ${vendas.filter(v => v.status === 'cancelled').length} não concluídas · ${vendas.length} registros no total`;
+  }
+
+  function onCustoChange(input) {
+    const sku = input.dataset.sku;
+    const val = parseFloat(input.value) || 0;
+    saveCusto(sku, 'custo', val);
+    input.className = val > 0 ? 'td-input preenchido' : 'td-input';
+    recalcularLinha(input.dataset.idx);
+    recalcularTotais();
+  }
+
+  function onAdsChange(input) {
+    const sku = input.dataset.sku;
+    const val = parseFloat(input.value) || 0;
+    saveCusto(sku, 'ads', val);
+    input.className = val > 0 ? 'td-input preenchido' : 'td-input';
+    recalcularLinha(input.dataset.idx);
+    recalcularTotais();
+  }
+
+  function recalcularLinha(idx) {
+    const v = vendasRaw.find((_, i) => {
+      // encontra a venda pelo índice na lista filtrada atual
+      return true;
+    });
+
+    const custoInput = document.getElementById('custo-' + idx);
+    const adsInput = document.getElementById('ads-' + idx);
+    if (!custoInput) return;
+
+    const impPct = parseFloat(document.getElementById('cfgImposto').value) / 100 || 0;
+    const despFixasTotal = parseFloat(document.getElementById('cfgDespFixas').value) || 0;
+
+    // Pega o bruto da célula de Total Vendido
+    const row = document.getElementById('row-' + idx);
+    if (!row) return;
+    const cells = row.querySelectorAll('td');
+
+    // bruto está na posição 5 (0-indexed)
+    const brutoTxt = cells[5].textContent.replace(/[R$\s.]/g, '').replace(',', '.');
+    const bruto = parseFloat(brutoTxt) || 0;
+    const tarifaTxt = cells[6].textContent.replace(/[R$\s.−-]/g, '').replace(',', '.');
+    const tarifa = parseFloat(tarifaTxt) || 0;
+    const freteTxt = cells[7].textContent.includes('Grátis') ? '0' : cells[7].textContent.replace(/[R$\s.−-]/g, '').replace(',', '.');
+    const frete = parseFloat(freteTxt) || 0;
+    const liquido = bruto - tarifa - frete;
+
+    const totalPagos = vendasRaw.filter(v => v.status === 'paid').length;
+    const despPorVenda = totalPagos > 0 ? despFixasTotal / totalPagos : 0;
+    const imposto = bruto * impPct;
+    const custo = parseFloat(custoInput.value) || 0;
+    const ads = parseFloat(adsInput.value) || 0;
+    const lucro = liquido - imposto - despPorVenda - custo - ads;
+    const margem = bruto > 0 ? (lucro / bruto * 100) : 0;
+    const roas = ads > 0 ? (bruto / ads).toFixed(1) + 'x' : '—';
+
+    // Semáforo
+    let semaforo = '⬜', tip = 'Preencha custo e ADS';
+    if (custo > 0 || impPct > 0) {
+      if (margem >= 20) { semaforo = '🟢'; tip = 'Ótima margem!'; }
+      else if (margem >= 5) { semaforo = '🟡'; tip = 'Margem aceitável — revise custos'; }
+      else { semaforo = '🔴'; tip = 'Margem baixa — reavalie preço ou custos'; }
+    }
+
+    document.getElementById('roas-' + idx).textContent = roas;
+    const lucroEl = document.getElementById('lucro-' + idx);
+    lucroEl.textContent = f(lucro);
+    lucroEl.className = lucro >= 0 ? 'pos' : 'neg';
+    const margemEl = document.getElementById('margem-' + idx);
+    margemEl.textContent = margem.toFixed(1) + '%';
+    margemEl.className = margem >= 20 ? 'pos' : margem >= 5 ? 'warn' : 'neg';
+    const semEl = document.getElementById('sem-' + idx);
+    semEl.innerHTML = `<span class="semaforo" title="${tip}">${semaforo}</span>`;
+  }
+
+  function recalcularTotais() {
+    // Re-renderiza DRE completo para atualizar totais corretamente
+    renderDRE();
+  }
+
+  function atualizarResumo(bruto, meli, liquido, custos, lucro) {
+    document.getElementById('resumoBruto').textContent = f(bruto);
+    document.getElementById('resumoMeli').textContent = '−' + f(meli);
+    document.getElementById('resumoLiquido').textContent = f(liquido);
+    document.getElementById('resumoCustos').textContent = custos > 0 ? '−' + f(custos) : f(0);
+    const lucroEl = document.getElementById('resumoLucro');
+    lucroEl.textContent = f(lucro);
+    lucroEl.className = `resumo-val ${lucro >= 0 ? 'pos' : 'neg'}`;
   }
 
   function f(v) {
