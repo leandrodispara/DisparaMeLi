@@ -7,23 +7,30 @@ load_dotenv()
 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY")
-
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 # ── SELLERS ──
-
 def salvar_token(seller_id: str, seller_nickname: str, access_token: str, refresh_token: str):
     data = {
         "seller_id": seller_id,
         "seller_nickname": seller_nickname,
         "access_token": access_token,
         "refresh_token": refresh_token,
+        "token_atualizado_em": datetime.utcnow().isoformat(),
     }
     existing = supabase.table("sellers").select("*").eq("seller_id", seller_id).execute()
     if existing.data:
         supabase.table("sellers").update(data).eq("seller_id", seller_id).execute()
     else:
         supabase.table("sellers").insert(data).execute()
+
+def atualizar_tokens(seller_id: str, access_token: str, refresh_token: str):
+    """Atualiza apenas os tokens após renovação automática"""
+    supabase.table("sellers").update({
+        "access_token": access_token,
+        "refresh_token": refresh_token,
+        "token_atualizado_em": datetime.utcnow().isoformat(),
+    }).eq("seller_id", seller_id).execute()
 
 def buscar_token(seller_id: str):
     result = supabase.table("sellers").select("*").eq("seller_id", seller_id).execute()
@@ -36,7 +43,6 @@ def listar_sellers():
     return result.data
 
 # ── CÓDIGOS DE ACESSO ──
-
 def validar_codigo(codigo: str):
     """Verifica se o código existe e ainda não foi usado"""
     result = supabase.table("codigos_acesso").select("*").eq("codigo", codigo).execute()
