@@ -3,559 +3,162 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Horizon Consultoria — Painel</title>
+  <title>Horizon Consultoria — Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      --bg: #0a0a0a;
-      --surface: #111111;
-      --surface2: #1a1a1a;
-      --border: #2a2a2a;
-      --gold: #d4a017;
-      --gold-light: #f0c040;
-      --gold-dark: #a07010;
-      --gold-muted: #3a2a00;
-      --text: #f0e8d0;
-      --text-muted: #7a6a50;
-      --error: #e74c3c;
-      --success: #2ecc71;
-      --radius: 14px;
-      --shadow: 0 4px 32px rgba(212,160,23,0.08);
+      --bg: #0a0a0a; --surface: #111; --surface2: #1a1a1a;
+      --border: #2a2a2a; --gold: #d4a017; --gold-light: #f0c040;
+      --gold-dark: #a07010; --gold-muted: #3a2a00;
+      --text: #f0e8d0; --text-muted: #7a6a50;
+      --error: #e74c3c; --success: #2ecc71; --warn: #f5a623;
+      --radius: 14px; --shadow: 0 4px 32px rgba(212,160,23,0.08);
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      background-image:
-        radial-gradient(circle at 10% 10%, rgba(212,160,23,0.04) 0%, transparent 50%),
-        radial-gradient(circle at 90% 90%, rgba(212,160,23,0.03) 0%, transparent 50%);
+    /* LOGIN */
+    #loginScreen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; }
+    .login-logo { text-align: center; margin-bottom: 40px; animation: fadeDown 0.6s ease; }
+    .login-logo-icon { width: 72px; height: 72px; background: linear-gradient(135deg, var(--gold), var(--gold-dark)); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; box-shadow: 0 8px 32px rgba(212,160,23,0.3); font-size: 32px; }
+    .login-logo h1 { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--gold-light); }
+    .login-logo p { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+    .login-card { background: var(--surface); border: 1px solid var(--border); border-top: 2px solid var(--gold); border-radius: var(--radius); padding: 36px; width: 100%; max-width: 380px; box-shadow: var(--shadow); animation: fadeUp 0.6s ease 0.1s both; }
+    .login-card h2 { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+    .login-card p { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; }
+    label { display: block; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 8px; }
+    input[type="password"], input[type="text"], input[type="email"], input[type="tel"], input[type="number"], input[type="date"], select, textarea {
+      width: 100%; padding: 11px 14px; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--text); outline: none; transition: border 0.2s;
     }
-
-    /* ── LOGIN ── */
-    #loginScreen {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      padding: 24px;
-    }
-
-    .login-logo {
-      text-align: center;
-      margin-bottom: 40px;
-      animation: fadeDown 0.6s ease;
-    }
-    .login-logo-icon {
-      width: 72px; height: 72px;
-      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-      border-radius: 20px;
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 16px;
-      box-shadow: 0 8px 32px rgba(212,160,23,0.3);
-      font-size: 32px;
-    }
-    .login-logo h1 {
-      font-family: 'Syne', sans-serif;
-      font-size: 26px;
-      font-weight: 800;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--gold-light);
-    }
-    .login-logo p {
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-top: 6px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
-
-    .login-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-top: 2px solid var(--gold);
-      border-radius: var(--radius);
-      padding: 36px;
-      width: 100%;
-      max-width: 380px;
-      box-shadow: var(--shadow);
-      animation: fadeUp 0.6s ease 0.1s both;
-    }
-
-    .login-card h2 {
-      font-family: 'Syne', sans-serif;
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 6px;
-      color: var(--text);
-    }
-    .login-card p {
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-bottom: 24px;
-    }
-
-    label {
-      display: block;
-      font-size: 11px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--text-muted);
-      margin-bottom: 8px;
-    }
-
-    input[type="password"], input[type="text"] {
-      width: 100%;
-      padding: 13px 16px;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 15px;
-      color: var(--text);
-      outline: none;
-      transition: border 0.2s, box-shadow 0.2s;
-    }
-    input:focus {
-      border-color: var(--gold);
-      box-shadow: 0 0 0 3px rgba(212,160,23,0.12);
-    }
-
-    .btn {
-      width: 100%;
-      padding: 14px;
-      border: none;
-      border-radius: 8px;
-      font-family: 'Syne', sans-serif;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s;
-      margin-top: 16px;
-      letter-spacing: 0.5px;
-    }
-    .btn-gold {
-      background: linear-gradient(135deg, var(--gold-light), var(--gold));
-      color: #0a0a0a;
-      box-shadow: 0 4px 16px rgba(212,160,23,0.25);
-    }
-    .btn-gold:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(212,160,23,0.4); }
-    .btn-gold:active { transform: translateY(0); }
+    input:focus, select:focus, textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(212,160,23,0.1); }
+    textarea { resize: vertical; min-height: 80px; }
+    .btn { width: 100%; padding: 13px; border: none; border-radius: 8px; font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s; margin-top: 14px; }
+    .btn-gold { background: linear-gradient(135deg, var(--gold-light), var(--gold)); color: #0a0a0a; box-shadow: 0 4px 16px rgba(212,160,23,0.25); }
+    .btn-gold:hover { transform: translateY(-1px); }
     .btn-gold:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .alert-error { display: none; padding: 11px 14px; border-radius: 7px; font-size: 13px; margin-top: 12px; font-weight: 500; background: rgba(231,76,60,0.1); color: var(--error); border: 1px solid rgba(231,76,60,0.2); }
+    .alert-error.show { display: block; }
 
-    .btn-outline {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-      font-size: 13px;
-      padding: 10px;
-    }
-    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
-
-    .alert {
-      display: none;
-      padding: 11px 14px;
-      border-radius: 7px;
-      font-size: 13px;
-      margin-top: 12px;
-      font-weight: 500;
-    }
-    .alert.error { background: rgba(231,76,60,0.1); color: var(--error); border: 1px solid rgba(231,76,60,0.2); }
-    .alert.show { display: block; animation: fadeUp 0.3s ease; }
-
-    /* ── DASHBOARD ── */
+    /* DASHBOARD */
     #dashboard { display: none; }
+    .topbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 28px; height: 60px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+    .topbar-brand { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 800; letter-spacing: 2px; color: var(--gold-light); text-transform: uppercase; display: flex; align-items: center; gap: 10px; }
+    .topbar-right { display: flex; gap: 10px; align-items: center; }
+    .tbtn { padding: 7px 14px; border-radius: 7px; font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; cursor: pointer; transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.5px; border: none; }
+    .tbtn-gold { background: linear-gradient(135deg, var(--gold-light), var(--gold)); color: #0a0a0a; }
+    .tbtn-ghost { background: transparent; border: 1px solid var(--border); color: var(--text-muted); }
+    .tbtn-ghost:hover { border-color: var(--gold); color: var(--gold); }
 
-    .topbar {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      padding: 0 32px;
-      height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    .topbar-brand {
-      font-family: 'Syne', sans-serif;
-      font-size: 16px;
-      font-weight: 800;
-      letter-spacing: 2px;
-      color: var(--gold-light);
-      text-transform: uppercase;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .topbar-brand span { font-size: 20px; }
-    .topbar-actions { display: flex; gap: 12px; align-items: center; }
-    .topbar-btn {
-      padding: 8px 16px;
-      border-radius: 7px;
-      font-family: 'Syne', sans-serif;
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      border: none;
-    }
-    .topbar-btn-gold {
-      background: linear-gradient(135deg, var(--gold-light), var(--gold));
-      color: #0a0a0a;
-    }
-    .topbar-btn-ghost {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-    }
-    .topbar-btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+    .main { max-width: 1100px; margin: 0 auto; padding: 28px 20px; }
 
-    .main {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 32px 24px;
-    }
+    /* STATS */
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 28px; }
+    .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; position: relative; overflow: hidden; }
+    .stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--gold), transparent); }
+    .stat-val { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; color: var(--gold-light); }
+    .stat-val.warn { color: var(--warn); }
+    .stat-val.danger { color: var(--error); }
+    .stat-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 3px; }
 
-    /* ── STATS ── */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 16px;
-      margin-bottom: 32px;
-    }
-    .stat-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 20px;
-      position: relative;
-      overflow: hidden;
-    }
-    .stat-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--gold), transparent);
-    }
-    .stat-val {
-      font-family: 'Syne', sans-serif;
-      font-size: 32px;
-      font-weight: 800;
-      color: var(--gold-light);
-    }
-    .stat-label {
-      font-size: 12px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-top: 4px;
-    }
+    /* TABS */
+    .tabs { display: flex; gap: 4px; margin-bottom: 24px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 4px; width: fit-content; }
+    .tab { padding: 9px 18px; border-radius: 7px; font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; transition: all 0.2s; color: var(--text-muted); border: none; background: transparent; }
+    .tab.active { background: linear-gradient(135deg, var(--gold-light), var(--gold)); color: #0a0a0a; }
 
-    /* ── TABS ── */
-    .tabs {
-      display: flex;
-      gap: 4px;
-      margin-bottom: 24px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 4px;
-      width: fit-content;
-    }
-    .tab {
-      padding: 9px 20px;
-      border-radius: 7px;
-      font-family: 'Syne', sans-serif;
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      cursor: pointer;
-      transition: all 0.2s;
-      color: var(--text-muted);
-      border: none;
-      background: transparent;
-    }
-    .tab.active {
-      background: linear-gradient(135deg, var(--gold-light), var(--gold));
-      color: #0a0a0a;
-    }
-
-    /* ── SELLERS LIST ── */
-    .section-title {
-      font-family: 'Syne', sans-serif;
-      font-size: 16px;
-      font-weight: 700;
-      margin-bottom: 16px;
-      color: var(--text);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .badge {
-      background: var(--gold-muted);
-      color: var(--gold-light);
-      font-size: 11px;
-      padding: 3px 10px;
-      border-radius: 20px;
-      font-weight: 700;
-    }
-
-    .sellers-grid {
-      display: grid;
-      gap: 12px;
-    }
-    .seller-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 20px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      transition: border 0.2s, box-shadow 0.2s;
-      cursor: pointer;
-    }
-    .seller-card:hover {
-      border-color: var(--gold);
-      box-shadow: 0 4px 20px rgba(212,160,23,0.1);
-    }
+    /* SELLERS */
+    .sellers-grid { display: grid; gap: 10px; }
+    .seller-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 20px; transition: all 0.2s; cursor: pointer; }
+    .seller-card:hover { border-color: var(--gold); box-shadow: 0 4px 20px rgba(212,160,23,0.1); }
+    .seller-card.saudavel { border-left: 3px solid var(--success); }
+    .seller-card.atencao { border-left: 3px solid var(--warn); }
+    .seller-card.critico { border-left: 3px solid var(--error); }
+    .seller-card.vencendo { border-left: 3px solid var(--warn); background: #1a1500; }
+    .seller-card.expirado { border-left: 3px solid var(--error); opacity: 0.7; }
+    .seller-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
     .seller-info { flex: 1; }
-    .seller-name {
-      font-family: 'Syne', sans-serif;
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--text);
-    }
-    .seller-id {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 3px;
-    }
-    .seller-actions { display: flex; gap: 8px; }
-    .btn-sm {
-      padding: 7px 14px;
-      border-radius: 7px;
-      font-family: 'Syne', sans-serif;
-      font-size: 11px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      border: none;
-    }
-    .btn-sm-gold {
-      background: var(--gold-muted);
-      color: var(--gold-light);
-      border: 1px solid rgba(212,160,23,0.2);
-    }
-    .btn-sm-gold:hover { background: var(--gold); color: #0a0a0a; }
-    .btn-sm-ghost {
-      background: transparent;
-      color: var(--text-muted);
-      border: 1px solid var(--border);
-    }
-    .btn-sm-ghost:hover { border-color: var(--gold); color: var(--gold); }
+    .seller-nome { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; }
+    .seller-nick { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    .seller-meta { font-size: 11px; color: var(--text-muted); margin-top: 4px; display: flex; gap: 12px; flex-wrap: wrap; }
+    .seller-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .sbtn { padding: 6px 12px; border-radius: 7px; font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; cursor: pointer; transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.5px; border: none; }
+    .sbtn-gold { background: var(--gold-muted); color: var(--gold-light); border: 1px solid rgba(212,160,23,0.2); }
+    .sbtn-gold:hover { background: var(--gold); color: #0a0a0a; }
+    .sbtn-ghost { background: transparent; color: var(--text-muted); border: 1px solid var(--border); }
+    .sbtn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+    .sbtn-danger { background: transparent; color: var(--error); border: 1px solid rgba(231,76,60,0.3); }
+    .sbtn-danger:hover { background: rgba(231,76,60,0.1); }
+    .saude-badge { font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 20px; text-transform: uppercase; white-space: nowrap; }
+    .saude-verde { background: rgba(46,204,113,0.15); color: var(--success); }
+    .saude-amarelo { background: rgba(245,166,35,0.15); color: var(--warn); }
+    .saude-vermelho { background: rgba(231,76,60,0.15); color: var(--error); }
+    .vencimento-badge { font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 20px; white-space: nowrap; }
+    .venc-ok { background: rgba(46,204,113,0.1); color: var(--success); }
+    .venc-warn { background: rgba(245,166,35,0.15); color: var(--warn); }
+    .venc-exp { background: rgba(231,76,60,0.15); color: var(--error); }
 
-    /* ── CÓDIGOS ── */
-    .codigos-panel { display: none; }
-    .gerar-row {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      margin-bottom: 24px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 20px 24px;
-    }
-    .gerar-row label { margin: 0; white-space: nowrap; }
-    .qty-input {
-      width: 80px;
-      padding: 10px 14px;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 7px;
-      color: var(--text);
-      font-size: 15px;
-      text-align: center;
-      outline: none;
-    }
-    .qty-input:focus { border-color: var(--gold); }
-    .btn-gerar {
-      padding: 10px 20px;
-      background: linear-gradient(135deg, var(--gold-light), var(--gold));
-      color: #0a0a0a;
-      border: none;
-      border-radius: 7px;
-      font-family: 'Syne', sans-serif;
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .btn-gerar:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(212,160,23,0.3); }
+    /* FINANCEIRO */
+    .fin-grid { display: grid; gap: 10px; }
+    .fin-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .fin-info { flex: 1; }
+    .fin-nome { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; }
+    .fin-detalhe { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
+    .fin-status { display: flex; align-items: center; gap: 10px; }
+    .status-select { padding: 6px 10px; background: var(--surface2); border: 1px solid var(--border); border-radius: 7px; font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; color: var(--text); cursor: pointer; width: auto; }
+    .pagamento-pago { color: var(--success); }
+    .pagamento-pendente { color: var(--warn); }
+    .pagamento-cancelado { color: var(--error); }
 
+    /* CÓDIGOS */
+    .codigos-topo { display: flex; gap: 12px; align-items: flex-end; margin-bottom: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; flex-wrap: wrap; }
+    .campo-grupo { flex: 1; min-width: 140px; }
+    .campo-grupo label { display: block; margin-bottom: 6px; }
+    .btn-gerar-codigo { padding: 11px 20px; background: linear-gradient(135deg, var(--gold-light), var(--gold)); color: #0a0a0a; border: none; border-radius: 8px; font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s; white-space: nowrap; align-self: flex-end; }
+    .btn-gerar-codigo:hover { transform: translateY(-1px); }
     .codigos-list { display: grid; gap: 8px; }
-    .codigo-item {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 14px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .codigo-val {
-      font-family: 'Syne', sans-serif;
-      font-size: 14px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      color: var(--gold-light);
-    }
-    .codigo-status {
-      font-size: 11px;
-      font-weight: 700;
-      padding: 3px 10px;
-      border-radius: 20px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .status-disponivel { background: rgba(46,204,113,0.1); color: var(--success); }
-    .status-usado { background: rgba(122,106,80,0.2); color: var(--text-muted); }
+    .codigo-item { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .codigo-val { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 1px; color: var(--gold-light); }
+    .codigo-cliente { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    .codigo-direita { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .badge-disponivel { background: rgba(46,204,113,0.1); color: var(--success); font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 20px; text-transform: uppercase; }
+    .badge-usado { background: rgba(122,106,80,0.2); color: var(--text-muted); font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 20px; text-transform: uppercase; }
 
-    /* ── MODAL IA ── */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.8);
-      z-index: 200;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-    }
+    /* MODAL */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 200; align-items: center; justify-content: center; padding: 20px; }
     .modal-overlay.show { display: flex; animation: fadeIn 0.2s ease; }
-    .modal {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-top: 2px solid var(--gold);
-      border-radius: var(--radius);
-      width: 100%;
-      max-width: 620px;
-      max-height: 80vh;
-      overflow-y: auto;
-      animation: fadeUp 0.3s ease;
-    }
-    .modal-header {
-      padding: 24px 28px 16px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .modal-title {
-      font-family: 'Syne', sans-serif;
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--gold-light);
-    }
-    .modal-close {
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      font-size: 20px;
-      cursor: pointer;
-      transition: color 0.2s;
-    }
+    .modal { background: var(--surface); border: 1px solid var(--border); border-top: 2px solid var(--gold); border-radius: var(--radius); width: 100%; max-width: 680px; max-height: 85vh; overflow-y: auto; animation: fadeUp 0.3s ease; }
+    .modal-header { padding: 20px 24px 14px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    .modal-title { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: var(--gold-light); }
+    .modal-close { background: none; border: none; color: var(--text-muted); font-size: 20px; cursor: pointer; transition: color 0.2s; }
     .modal-close:hover { color: var(--text); }
-    .modal-body { padding: 24px 28px; }
+    .modal-body { padding: 20px 24px; }
+    .modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+    .modal-full { grid-column: 1 / -1; }
+    .ia-result { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 16px; font-size: 13px; line-height: 1.7; color: var(--text); min-height: 80px; white-space: pre-wrap; }
+    .ia-loading { display: flex; align-items: center; gap: 10px; color: var(--text-muted); font-size: 13px; }
+    .btn-salvar { padding: 11px 20px; background: linear-gradient(135deg, var(--gold-light), var(--gold)); color: #0a0a0a; border: none; border-radius: 8px; font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s; width: 100%; margin-top: 4px; }
+    .section-label { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 12px; margin-top: 16px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
 
-    .ia-result {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 16px;
-      font-size: 14px;
-      line-height: 1.7;
-      color: var(--text);
-      min-height: 80px;
-      white-space: pre-wrap;
-    }
-    .ia-loading {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: var(--text-muted);
-      font-size: 14px;
-    }
+    /* EMPTY */
+    .empty { text-align: center; padding: 40px; color: var(--text-muted); }
+    .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(212,160,23,0.2); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 6px; }
 
-    /* ── EMPTY STATE ── */
-    .empty {
-      text-align: center;
-      padding: 48px 24px;
-      color: var(--text-muted);
-    }
-    .empty-icon { font-size: 40px; margin-bottom: 12px; }
-    .empty p { font-size: 14px; }
-
-    /* ── SPINNER ── */
-    .spinner {
-      display: inline-block;
-      width: 16px; height: 16px;
-      border: 2px solid rgba(10,10,10,0.2);
-      border-top-color: #0a0a0a;
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-      vertical-align: middle;
-      margin-right: 6px;
-    }
-    .spinner-gold {
-      border-color: rgba(212,160,23,0.2);
-      border-top-color: var(--gold);
-    }
-
-    /* ── ANIMATIONS ── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(12px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeDown {
-      from { opacity: 0; transform: translateY(-12px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeDown { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @keyframes spin { to { transform: rotate(360deg); } }
 
     @media (max-width: 600px) {
       .topbar { padding: 0 16px; }
-      .main { padding: 20px 16px; }
-      .seller-card { flex-direction: column; align-items: flex-start; }
-      .gerar-row { flex-wrap: wrap; }
+      .main { padding: 16px 14px; }
+      .modal-grid { grid-template-columns: 1fr; }
+      .tabs { flex-wrap: wrap; width: 100%; }
     }
   </style>
 </head>
 <body>
 
-<!-- ── LOGIN ── -->
+<!-- LOGIN -->
 <div id="loginScreen">
   <div class="login-logo">
     <div class="login-logo-icon">👑</div>
@@ -565,127 +168,136 @@
   <div class="login-card">
     <h2>Acesso restrito</h2>
     <p>Digite a senha de consultor para continuar.</p>
-    <label>Senha de acesso</label>
-    <input type="password" id="senhaInput" placeholder="••••••••••••"
-      onkeydown="if(event.key==='Enter') fazerLogin()"/>
-    <button class="btn btn-gold" id="btnLogin" onclick="fazerLogin()">
-      Entrar no painel
-    </button>
-    <div class="alert error" id="alertLogin"></div>
+    <label>Senha</label>
+    <input type="password" id="senhaInput" placeholder="••••••••••••" onkeydown="if(event.key==='Enter') fazerLogin()"/>
+    <button class="btn btn-gold" id="btnLogin" onclick="fazerLogin()">Entrar no painel</button>
+    <div class="alert-error" id="alertLogin"></div>
   </div>
 </div>
 
-<!-- ── DASHBOARD ── -->
+<!-- DASHBOARD -->
 <div id="dashboard">
   <div class="topbar">
-    <div class="topbar-brand"><span>👑</span> Horizon Consultoria</div>
-    <div class="topbar-actions">
-      <button class="topbar-btn topbar-btn-gold" onclick="abrirGerarCodigo()">+ Gerar Código</button>
-      <button class="topbar-btn topbar-btn-ghost" onclick="sair()">Sair</button>
+    <div class="topbar-brand">👑 Horizon Consultoria</div>
+    <div class="topbar-right">
+      <button class="tbtn tbtn-gold" onclick="abrirNovoCliente()">+ Novo Cliente</button>
+      <button class="tbtn tbtn-ghost" onclick="sair()">Sair</button>
     </div>
   </div>
 
   <div class="main">
 
-    <!-- Stats -->
+    <!-- STATS -->
     <div class="stats-grid" id="statsGrid">
-      <div class="stat-card">
-        <div class="stat-val" id="statSellers">—</div>
-        <div class="stat-label">Sellers ativos</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-val" id="statCodigos">—</div>
-        <div class="stat-label">Códigos disponíveis</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-val" id="statUsados">—</div>
-        <div class="stat-label">Códigos usados</div>
-      </div>
+      <div class="stat-card"><div class="stat-val" id="statTotal">—</div><div class="stat-label">Clientes ativos</div></div>
+      <div class="stat-card"><div class="stat-val warn" id="statVencendo">—</div><div class="stat-label">Vencem em 7 dias</div></div>
+      <div class="stat-card"><div class="stat-val danger" id="statExpirados">—</div><div class="stat-label">Expirados</div></div>
+      <div class="stat-card"><div class="stat-val" id="statPagos">—</div><div class="stat-label">Pagamentos ok</div></div>
+      <div class="stat-card"><div class="stat-val warn" id="statPendentes">—</div><div class="stat-label">Pagamentos pendentes</div></div>
     </div>
 
-    <!-- Tabs -->
+    <!-- TABS -->
     <div class="tabs">
-      <button class="tab active" onclick="mudarTab('sellers', this)">Sellers</button>
-      <button class="tab" onclick="mudarTab('codigos', this)">Códigos de Acesso</button>
+      <button class="tab active" onclick="mudarTab('sellers', this)">👥 Clientes</button>
+      <button class="tab" onclick="mudarTab('financeiro', this)">💰 Financeiro</button>
+      <button class="tab" onclick="mudarTab('codigos', this)">🔑 Códigos</button>
     </div>
 
-    <!-- Sellers Panel -->
-    <div id="sellersPanel">
-      <div class="section-title">
-        Sellers conectados
-        <span class="badge" id="badgeSellers">0</span>
-      </div>
+    <!-- SELLERS -->
+    <div id="tabSellers">
       <div class="sellers-grid" id="sellersGrid">
-        <div class="empty">
-          <div class="empty-icon">⏳</div>
-          <p>Carregando sellers...</p>
-        </div>
+        <div class="empty"><span class="spinner"></span> Carregando clientes...</div>
       </div>
     </div>
 
-    <!-- Códigos Panel -->
-    <div id="codigosPanel" class="codigos-panel">
-      <div class="section-title">Gerenciar Códigos de Acesso</div>
-      <div class="gerar-row">
-        <label>Nome do cliente</label>
-        <input type="text" id="nomeCliente" placeholder="Ex: João Silva" style="flex:1; padding:10px 14px; background:var(--surface2); border:1px solid var(--border); border-radius:7px; color:var(--text); font-size:14px; outline:none;"/>
-        <label>Qtd</label>
-        <input type="number" class="qty-input" id="qtdCodigos" value="1" min="1" max="20"/>
-        <button class="btn-gerar" id="btnGerar" onclick="gerarCodigos()">
-          Gerar código
-        </button>
+    <!-- FINANCEIRO -->
+    <div id="tabFinanceiro" style="display:none">
+      <div class="fin-grid" id="finGrid">
+        <div class="empty"><span class="spinner"></span> Carregando...</div>
       </div>
-      <div class="section-title">
-        Todos os códigos
-        <span class="badge" id="badgeCodigos">0</span>
+    </div>
+
+    <!-- CÓDIGOS -->
+    <div id="tabCodigos" style="display:none">
+      <div class="codigos-topo">
+        <div class="campo-grupo">
+          <label>Nome do cliente</label>
+          <input type="text" id="nomeCliente" placeholder="Ex: João Silva"/>
+        </div>
+        <div class="campo-grupo" style="max-width:80px">
+          <label>Qtd</label>
+          <input type="number" id="qtdCodigos" value="1" min="1" max="10"/>
+        </div>
+        <button class="btn-gerar-codigo" id="btnGerar" onclick="gerarCodigos()">Gerar código</button>
       </div>
       <div class="codigos-list" id="codigosList">
-        <div class="empty">
-          <div class="empty-icon">🔑</div>
-          <p>Carregando códigos...</p>
-        </div>
+        <div class="empty"><span class="spinner"></span> Carregando códigos...</div>
       </div>
     </div>
 
   </div>
 </div>
 
-<!-- ── MODAL IA ── -->
+<!-- MODAL SELLER -->
+<div class="modal-overlay" id="modalSeller">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modalSellerTitle">Cliente</div>
+      <button class="modal-close" onclick="fecharModal('modalSeller')">✕</button>
+    </div>
+    <div class="modal-body" id="modalSellerBody"></div>
+  </div>
+</div>
+
+<!-- MODAL IA -->
 <div class="modal-overlay" id="modalIA">
   <div class="modal">
     <div class="modal-header">
-      <div class="modal-title" id="modalTitle">Análise IA — Seller</div>
-      <button class="modal-close" onclick="fecharModal()">✕</button>
+      <div class="modal-title" id="modalIATitle">Análise IA</div>
+      <button class="modal-close" onclick="fecharModal('modalIA')">✕</button>
     </div>
     <div class="modal-body">
-      <div style="margin-bottom:16px; font-size:13px; color:var(--text-muted)">
-        Análise completa gerada pela IA com base nos dados do Mercado Livre.
-      </div>
-      <div class="ia-result" id="iaResult">
-        <div class="ia-loading">
-          <span class="spinner spinner-gold"></span> Analisando conta...
-        </div>
-      </div>
+      <div style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">Análise gerada pelo Claude com base nos dados do Mercado Livre. Use como roteiro de consultoria.</div>
+      <div class="ia-result" id="iaResult"><div class="ia-loading"><span class="spinner"></span> Analisando conta...</div></div>
     </div>
   </div>
 </div>
 
 <script>
   const API = 'https://disparameli.onrender.com';
+  const CLIENTES_KEY = 'horizon_clientes';
+  const FIN_KEY = 'horizon_financeiro';
   let SENHA = '';
+  let sellers = [];
+  let codigos = [];
+
+  // ── Dados locais ──
+  function getClientes() {
+    try { return JSON.parse(localStorage.getItem(CLIENTES_KEY) || '{}'); } catch { return {}; }
+  }
+  function saveCliente(seller_id, dados) {
+    const clientes = getClientes();
+    clientes[seller_id] = { ...clientes[seller_id], ...dados };
+    localStorage.setItem(CLIENTES_KEY, JSON.stringify(clientes));
+  }
+  function getFinanceiro() {
+    try { return JSON.parse(localStorage.getItem(FIN_KEY) || '{}'); } catch { return {}; }
+  }
+  function saveFinanceiro(seller_id, dados) {
+    const fin = getFinanceiro();
+    fin[seller_id] = { ...fin[seller_id], ...dados };
+    localStorage.setItem(FIN_KEY, JSON.stringify(fin));
+  }
 
   // ── Login ──
   async function fazerLogin() {
     const senha = document.getElementById('senhaInput').value.trim();
     if (!senha) return;
-
     const btn = document.getElementById('btnLogin');
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner"></span>Verificando...';
-    document.getElementById('alertLogin').className = 'alert error';
-
+    document.getElementById('alertLogin').className = 'alert-error';
     try {
-      // Testa a senha tentando listar sellers
       const res = await fetch(`${API}/consultor/sellers?senha=${encodeURIComponent(senha)}`);
       if (res.ok) {
         SENHA = senha;
@@ -694,13 +306,13 @@
         carregarDados();
       } else {
         const el = document.getElementById('alertLogin');
-        el.textContent = 'Senha incorreta. Tente novamente.';
-        el.className = 'alert error show';
+        el.textContent = 'Senha incorreta.';
+        el.className = 'alert-error show';
       }
-    } catch(e) {
+    } catch {
       const el = document.getElementById('alertLogin');
-      el.textContent = 'Erro de conexão. Tente novamente.';
-      el.className = 'alert error show';
+      el.textContent = 'Erro de conexão.';
+      el.className = 'alert-error show';
     } finally {
       btn.disabled = false;
       btn.innerHTML = 'Entrar no painel';
@@ -710,169 +322,402 @@
   // ── Carregar dados ──
   async function carregarDados() {
     await Promise.all([carregarSellers(), carregarCodigos()]);
+    atualizarStats();
   }
 
   async function carregarSellers() {
     try {
       const res = await fetch(`${API}/consultor/sellers?senha=${encodeURIComponent(SENHA)}`);
-      const sellers = await res.json();
-      const grid = document.getElementById('sellersGrid');
-      document.getElementById('statSellers').textContent = sellers.length;
-      document.getElementById('badgeSellers').textContent = sellers.length;
-
-      if (!sellers.length) {
-        grid.innerHTML = `<div class="empty"><div class="empty-icon">👤</div><p>Nenhum seller conectado ainda.</p></div>`;
-        return;
-      }
-
-      grid.innerHTML = sellers.map(s => `
-        <div class="seller-card">
-          <div class="seller-info">
-            <div class="seller-name">@${s.seller_nickname || s.seller_id}</div>
-            <div class="seller-id">ID: ${s.seller_id}</div>
-          </div>
-          <div class="seller-actions">
-            <button class="btn-sm btn-sm-gold" onclick="verAnaliseIA('${s.seller_id}', '${s.seller_nickname || s.seller_id}')">
-              ✦ Análise IA
-            </button>
-            <button class="btn-sm btn-sm-ghost" onclick="verResumo('${s.seller_id}')">
-              Resumo
-            </button>
-          </div>
-        </div>
-      `).join('');
-    } catch(e) {
-      document.getElementById('sellersGrid').innerHTML =
-        `<div class="empty"><div class="empty-icon">⚠️</div><p>Erro ao carregar sellers.</p></div>`;
-    }
+      sellers = await res.json();
+      renderSellers();
+    } catch { document.getElementById('sellersGrid').innerHTML = '<div class="empty">Erro ao carregar clientes.</div>'; }
   }
 
   async function carregarCodigos() {
     try {
       const res = await fetch(`${API}/consultor/codigos?senha=${encodeURIComponent(SENHA)}`);
-      const codigos = await res.json();
-
-      const disponiveis = codigos.filter(c => !c.usado).length;
-      const usados = codigos.filter(c => c.usado).length;
-      document.getElementById('statCodigos').textContent = disponiveis;
-      document.getElementById('statUsados').textContent = usados;
-      document.getElementById('badgeCodigos').textContent = codigos.length;
-
-      const lista = document.getElementById('codigosList');
-      if (!codigos.length) {
-        lista.innerHTML = `<div class="empty"><div class="empty-icon">🔑</div><p>Nenhum código gerado ainda.</p></div>`;
-        return;
-      }
-
-      lista.innerHTML = codigos.map(c => `
-        <div class="codigo-item">
-          <div>
-            <div class="codigo-val">${c.codigo}</div>
-            ${c.nome_cliente ? `<div style="font-size:12px;color:var(--gold);margin-top:3px">👤 ${c.nome_cliente}</div>` : '<div style="font-size:12px;color:var(--text-muted);margin-top:3px">Sem nome</div>'}
-            ${c.seller_id ? `<div style="font-size:11px;color:var(--text-muted);margin-top:2px">Seller: ${c.seller_id}</div>` : ''}
-          </div>
-          <div style="display:flex; align-items:center; gap:12px">
-            <span class="codigo-status ${c.usado ? 'status-usado' : 'status-disponivel'}">
-              ${c.usado ? 'Usado' : 'Disponível'}
-            </span>
-            ${!c.usado ? `<button class="btn-sm btn-sm-ghost" onclick="copiar('${c.codigo}', this)">Copiar</button>` : ''}
-          </div>
-        </div>
-      `).join('');
-    } catch(e) {
-      document.getElementById('codigosList').innerHTML =
-        `<div class="empty"><div class="empty-icon">⚠️</div><p>Erro ao carregar códigos.</p></div>`;
-    }
+      codigos = await res.json();
+      renderCodigos();
+    } catch { document.getElementById('codigosList').innerHTML = '<div class="empty">Erro ao carregar códigos.</div>'; }
   }
 
-  // ── Gerar códigos ──
-  async function gerarCodigos() {
-    const qtd = parseInt(document.getElementById('qtdCodigos').value) || 1;
-    const nome = document.getElementById('nomeCliente').value.trim();
-    if (!nome) {
-      alert('Por favor, informe o nome do cliente antes de gerar o código.');
+  // ── Render Sellers ──
+  function renderSellers() {
+    const clientes = getClientes();
+    const agora = new Date();
+    const grid = document.getElementById('sellersGrid');
+
+    if (!sellers.length) {
+      grid.innerHTML = '<div class="empty">Nenhum seller conectado ainda.</div>';
       return;
     }
-    const btn = document.getElementById('btnGerar');
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner spinner-gold"></span>Gerando...';
 
-    try {
-      const res = await fetch(
-        `${API}/consultor/codigos/gerar?senha=${encodeURIComponent(SENHA)}&quantidade=${qtd}&nome_cliente=${encodeURIComponent(nome)}`,
-        { method: 'POST' }
-      );
-      const data = await res.json();
-      await carregarCodigos();
-      document.getElementById('nomeCliente').value = '';
-      alert(`Código gerado para ${nome}:\n${data.codigos.join('\n')}`);
+    grid.innerHTML = sellers.map(s => {
+      const c = clientes[s.seller_id] || {};
+      const nome = c.nome || s.seller_nickname;
+      const venceEm = c.vence_em ? new Date(c.vence_em) : null;
+      const diasRestantes = venceEm ? Math.ceil((venceEm - agora) / 86400000) : null;
+      const saude = c.saude || 'saudavel';
 
-    } catch(e) {
-      alert('Erro ao gerar códigos.');
-    } finally {
-      btn.disabled = false;
-      btn.innerHTML = 'Gerar códigos';
+      let vencBadge = '';
+      let cardClass = saude;
+      if (diasRestantes !== null) {
+        if (diasRestantes <= 0) { vencBadge = `<span class="vencimento-badge venc-exp">Expirado</span>`; cardClass = 'expirado'; }
+        else if (diasRestantes <= 7) { vencBadge = `<span class="vencimento-badge venc-warn">Vence em ${diasRestantes}d</span>`; cardClass = 'vencendo'; }
+        else { vencBadge = `<span class="vencimento-badge venc-ok">Vence em ${diasRestantes}d</span>`; }
+      }
+
+      const saudeBadge = saude === 'saudavel'
+        ? '<span class="saude-badge saude-verde">🟢 Saudável</span>'
+        : saude === 'atencao'
+        ? '<span class="saude-badge saude-amarelo">🟡 Atenção</span>'
+        : '<span class="saude-badge saude-vermelho">🔴 Crítico</span>';
+
+      return `
+        <div class="seller-card ${cardClass}">
+          <div class="seller-row">
+            <div class="seller-info">
+              <div class="seller-nome">${nome}</div>
+              <div class="seller-nick">@${s.seller_nickname} · ID: ${s.seller_id}</div>
+              <div class="seller-meta">
+                ${c.telefone ? `📞 ${c.telefone}` : ''}
+                ${c.email ? `✉️ ${c.email}` : ''}
+                ${c.inicio ? `📅 Início: ${formatData(c.inicio)}` : ''}
+              </div>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:flex-end; gap:6px;">
+              ${saudeBadge}
+              ${vencBadge}
+            </div>
+          </div>
+          <div style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap;">
+            <button class="sbtn sbtn-gold" onclick="verAnaliseIA('${s.seller_id}', '${nome}')">✦ Análise IA</button>
+            <button class="sbtn sbtn-ghost" onclick="editarCliente('${s.seller_id}')">✏️ Editar</button>
+            <button class="sbtn sbtn-ghost" onclick="verResumo('${s.seller_id}', '${nome}')">📊 Resumo</button>
+            ${c.notas ? `<button class="sbtn sbtn-ghost" onclick="verNotas('${s.seller_id}')">📝 Notas</button>` : ''}
+          </div>
+          ${c.notas ? `<div style="margin-top:10px; padding:10px 12px; background:var(--surface2); border-radius:8px; font-size:12px; color:var(--text-muted); line-height:1.5; border-left:2px solid var(--gold);">${c.notas.substring(0,120)}${c.notas.length > 120 ? '...' : ''}</div>` : ''}
+        </div>`;
+    }).join('');
+  }
+
+  // ── Render Financeiro ──
+  function renderFinanceiro() {
+    const fin = getFinanceiro();
+    const clientes = getClientes();
+    const grid = document.getElementById('finGrid');
+
+    if (!sellers.length) {
+      grid.innerHTML = '<div class="empty">Nenhum cliente cadastrado.</div>';
+      return;
     }
+
+    grid.innerHTML = sellers.map(s => {
+      const c = clientes[s.seller_id] || {};
+      const f = fin[s.seller_id] || { status: 'pendente', valor: '', data: '' };
+      const nome = c.nome || s.seller_nickname;
+      const statusClass = f.status === 'pago' ? 'pagamento-pago' : f.status === 'cancelado' ? 'pagamento-cancelado' : 'pagamento-pendente';
+      const statusIcon = f.status === 'pago' ? '✅' : f.status === 'cancelado' ? '❌' : '⏳';
+
+      return `
+        <div class="fin-card">
+          <div class="fin-info">
+            <div class="fin-nome">${nome}</div>
+            <div class="fin-detalhe">@${s.seller_nickname} ${f.data ? '· Pgto: ' + formatData(f.data) : ''} ${f.valor ? '· R$ ' + f.valor : ''}</div>
+          </div>
+          <div class="fin-status">
+            <span class="${statusClass}" style="font-size:13px;">${statusIcon}</span>
+            <select class="status-select" onchange="salvarPagamento('${s.seller_id}', this.value, '${f.valor}', '${f.data}', '${f.notas || ''}')">
+              <option value="pendente" ${f.status === 'pendente' ? 'selected' : ''}>⏳ Pendente</option>
+              <option value="pago" ${f.status === 'pago' ? 'selected' : ''}>✅ Pago</option>
+              <option value="cancelado" ${f.status === 'cancelado' ? 'selected' : ''}>❌ Cancelado</option>
+            </select>
+            <button class="sbtn sbtn-ghost" onclick="editarPagamento('${s.seller_id}', '${nome}')">✏️</button>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  // ── Render Códigos ──
+  function renderCodigos() {
+    const lista = document.getElementById('codigosList');
+    if (!codigos.length) {
+      lista.innerHTML = '<div class="empty">Nenhum código gerado ainda.</div>';
+      return;
+    }
+    lista.innerHTML = codigos.map(c => `
+      <div class="codigo-item">
+        <div>
+          <div class="codigo-val">${c.codigo}</div>
+          <div class="codigo-cliente">${c.nome_cliente || 'Sem nome'} ${c.seller_id ? '· Usado por: ' + c.seller_id : ''}</div>
+        </div>
+        <div class="codigo-direita">
+          <span class="${c.usado ? 'badge-usado' : 'badge-disponivel'}">${c.usado ? 'Usado' : 'Disponível'}</span>
+          ${!c.usado ? `<button class="sbtn sbtn-ghost" onclick="copiarCodigo('${c.codigo}', this)">Copiar</button>` : ''}
+          ${c.usado ? `<button class="sbtn sbtn-danger" onclick="excluirCodigo(${c.id}, this)">Excluir</button>` : ''}
+        </div>
+      </div>`).join('');
+  }
+
+  // ── Stats ──
+  function atualizarStats() {
+    const clientes = getClientes();
+    const fin = getFinanceiro();
+    const agora = new Date();
+    let vencendo = 0, expirados = 0, pagos = 0, pendentes = 0;
+
+    sellers.forEach(s => {
+      const c = clientes[s.seller_id] || {};
+      const f = fin[s.seller_id] || {};
+      if (c.vence_em) {
+        const d = Math.ceil((new Date(c.vence_em) - agora) / 86400000);
+        if (d <= 0) expirados++;
+        else if (d <= 7) vencendo++;
+      }
+      if (f.status === 'pago') pagos++;
+      else if (f.status !== 'cancelado') pendentes++;
+    });
+
+    document.getElementById('statTotal').textContent = sellers.length;
+    document.getElementById('statVencendo').textContent = vencendo;
+    document.getElementById('statExpirados').textContent = expirados;
+    document.getElementById('statPagos').textContent = pagos;
+    document.getElementById('statPendentes').textContent = pendentes;
+  }
+
+  // ── Editar cliente ──
+  function editarCliente(seller_id) {
+    const c = getClientes()[seller_id] || {};
+    const s = sellers.find(x => x.seller_id === seller_id) || {};
+    document.getElementById('modalSellerTitle').textContent = `✏️ Editar — ${c.nome || s.seller_nickname}`;
+    document.getElementById('modalSellerBody').innerHTML = `
+      <div class="section-label">Dados do cliente</div>
+      <div class="modal-grid">
+        <div><label>Nome completo</label><input type="text" id="edit_nome" value="${c.nome || ''}"/></div>
+        <div><label>Telefone / WhatsApp</label><input type="tel" id="edit_tel" value="${c.telefone || ''}"/></div>
+        <div><label>Email</label><input type="email" id="edit_email" value="${c.email || ''}"/></div>
+        <div><label>Data de início</label><input type="date" id="edit_inicio" value="${c.inicio || ''}"/></div>
+        <div><label>Data de vencimento (30 dias)</label><input type="date" id="edit_vence" value="${c.vence_em ? c.vence_em.split('T')[0] : ''}"/></div>
+        <div>
+          <label>Saúde da conta</label>
+          <select id="edit_saude">
+            <option value="saudavel" ${c.saude === 'saudavel' ? 'selected' : ''}>🟢 Saudável</option>
+            <option value="atencao" ${c.saude === 'atencao' ? 'selected' : ''}>🟡 Atenção</option>
+            <option value="critico" ${c.saude === 'critico' ? 'selected' : ''}>🔴 Crítico</option>
+          </select>
+        </div>
+      </div>
+      <div class="section-label">Anotações de atendimento</div>
+      <textarea id="edit_notas" placeholder="Registre o que foi discutido, próximos passos, observações...">${c.notas || ''}</textarea>
+      <button class="btn-salvar" onclick="salvarCliente('${seller_id}')">💾 Salvar dados</button>
+    `;
+    // Auto-calcular vencimento quando digitar início
+    document.getElementById('edit_inicio').addEventListener('change', function() {
+      if (!document.getElementById('edit_vence').value) {
+        const d = new Date(this.value);
+        d.setDate(d.getDate() + 30);
+        document.getElementById('edit_vence').value = d.toISOString().split('T')[0];
+      }
+    });
+    document.getElementById('modalSeller').className = 'modal-overlay show';
+  }
+
+  function salvarCliente(seller_id) {
+    saveCliente(seller_id, {
+      nome: document.getElementById('edit_nome').value,
+      telefone: document.getElementById('edit_tel').value,
+      email: document.getElementById('edit_email').value,
+      inicio: document.getElementById('edit_inicio').value,
+      vence_em: document.getElementById('edit_vence').value,
+      saude: document.getElementById('edit_saude').value,
+      notas: document.getElementById('edit_notas').value,
+    });
+    fecharModal('modalSeller');
+    renderSellers();
+    atualizarStats();
+  }
+
+  // ── Novo cliente ──
+  function abrirNovoCliente() {
+    document.getElementById('modalSellerTitle').textContent = '➕ Novo Cliente';
+    const hoje = new Date().toISOString().split('T')[0];
+    const vence = new Date(); vence.setDate(vence.getDate() + 30);
+    document.getElementById('modalSellerBody').innerHTML = `
+      <div class="section-label">Dados do cliente</div>
+      <div class="modal-grid">
+        <div><label>Nome completo</label><input type="text" id="edit_nome" placeholder="João Silva"/></div>
+        <div><label>Telefone / WhatsApp</label><input type="tel" id="edit_tel" placeholder="(11) 99999-9999"/></div>
+        <div><label>Email</label><input type="email" id="edit_email" placeholder="joao@email.com"/></div>
+        <div><label>Data de início</label><input type="date" id="edit_inicio" value="${hoje}"/></div>
+        <div><label>Vencimento</label><input type="date" id="edit_vence" value="${vence.toISOString().split('T')[0]}"/></div>
+        <div>
+          <label>Saúde da conta</label>
+          <select id="edit_saude"><option value="saudavel">🟢 Saudável</option><option value="atencao">🟡 Atenção</option><option value="critico">🔴 Crítico</option></select>
+        </div>
+      </div>
+      <div class="section-label">Anotações iniciais</div>
+      <textarea id="edit_notas" placeholder="Primeiro contato, objetivos do cliente..."></textarea>
+      <p style="font-size:12px; color:var(--text-muted); margin-top:12px; margin-bottom:8px;">⚠️ O seller precisa estar conectado via Mercado Livre para aparecer aqui. Gere um código na aba Códigos e envie para ele.</p>
+      <button class="btn-salvar" onclick="salvarNovoCliente()">💾 Salvar cliente</button>
+    `;
+    document.getElementById('modalSeller').className = 'modal-overlay show';
+  }
+
+  function salvarNovoCliente() {
+    const nome = document.getElementById('edit_nome').value.trim();
+    if (!nome) return alert('Digite o nome do cliente!');
+    // Salva com chave temporária até o seller conectar
+    const tempId = 'pendente_' + Date.now();
+    saveCliente(tempId, {
+      nome, telefone: document.getElementById('edit_tel').value,
+      email: document.getElementById('edit_email').value,
+      inicio: document.getElementById('edit_inicio').value,
+      vence_em: document.getElementById('edit_vence').value,
+      saude: document.getElementById('edit_saude').value,
+      notas: document.getElementById('edit_notas').value,
+      pendente: true
+    });
+    fecharModal('modalSeller');
+    alert(`✅ Cliente "${nome}" salvo! Gere um código de acesso e envie para ele se conectar.`);
+  }
+
+  // ── Editar pagamento ──
+  function editarPagamento(seller_id, nome) {
+    const f = getFinanceiro()[seller_id] || {};
+    document.getElementById('modalSellerTitle').textContent = `💰 Pagamento — ${nome}`;
+    document.getElementById('modalSellerBody').innerHTML = `
+      <div class="modal-grid">
+        <div>
+          <label>Status</label>
+          <select id="fin_status">
+            <option value="pendente" ${f.status === 'pendente' ? 'selected' : ''}>⏳ Pendente</option>
+            <option value="pago" ${f.status === 'pago' ? 'selected' : ''}>✅ Pago</option>
+            <option value="cancelado" ${f.status === 'cancelado' ? 'selected' : ''}>❌ Cancelado</option>
+          </select>
+        </div>
+        <div><label>Valor (R$)</label><input type="number" id="fin_valor" value="${f.valor || ''}" placeholder="0,00" step="0.01"/></div>
+        <div><label>Data do pagamento</label><input type="date" id="fin_data" value="${f.data || ''}"/></div>
+        <div><label>Forma de pagamento</label><input type="text" id="fin_forma" value="${f.forma || ''}" placeholder="PIX, cartão..."/></div>
+        <div class="modal-full"><label>Observações</label><textarea id="fin_notas" placeholder="Observações sobre este pagamento...">${f.notas || ''}</textarea></div>
+      </div>
+      <button class="btn-salvar" onclick="salvarPagamentoModal('${seller_id}')">💾 Salvar pagamento</button>
+    `;
+    document.getElementById('modalSeller').className = 'modal-overlay show';
+  }
+
+  function salvarPagamentoModal(seller_id) {
+    saveFinanceiro(seller_id, {
+      status: document.getElementById('fin_status').value,
+      valor: document.getElementById('fin_valor').value,
+      data: document.getElementById('fin_data').value,
+      forma: document.getElementById('fin_forma').value,
+      notas: document.getElementById('fin_notas').value,
+    });
+    fecharModal('modalSeller');
+    renderFinanceiro();
+    atualizarStats();
+  }
+
+  function salvarPagamento(seller_id, status, valor, data, notas) {
+    saveFinanceiro(seller_id, { status, valor, data, notas });
+    atualizarStats();
   }
 
   // ── Análise IA ──
   async function verAnaliseIA(sellerId, nome) {
-    document.getElementById('modalTitle').textContent = `Análise IA — @${nome}`;
-    document.getElementById('iaResult').innerHTML =
-      `<div class="ia-loading"><span class="spinner spinner-gold"></span> Analisando conta do @${nome}...</div>`;
+    document.getElementById('modalIATitle').textContent = `✦ Análise IA — ${nome}`;
+    document.getElementById('iaResult').innerHTML = `<div class="ia-loading"><span class="spinner"></span> Analisando conta de ${nome}...</div>`;
     document.getElementById('modalIA').className = 'modal-overlay show';
-
     try {
-      const res = await fetch(
-        `${API}/consultor/seller/${sellerId}/analise-ia?senha=${encodeURIComponent(SENHA)}`
-      );
+      const res = await fetch(`${API}/consultor/seller/${sellerId}/analise-ia?senha=${encodeURIComponent(SENHA)}`);
       const data = await res.json();
-      document.getElementById('iaResult').textContent =
-        data.analise_ia || JSON.stringify(data, null, 2);
-    } catch(e) {
-      document.getElementById('iaResult').textContent = 'Erro ao carregar análise. Tente novamente.';
+      document.getElementById('iaResult').textContent = data.analise_ia || JSON.stringify(data, null, 2);
+    } catch {
+      document.getElementById('iaResult').textContent = 'Erro ao carregar análise.';
     }
   }
 
-  async function verResumo(sellerId) {
-    document.getElementById('modalTitle').textContent = `Resumo — Seller ${sellerId}`;
-    document.getElementById('iaResult').innerHTML =
-      `<div class="ia-loading"><span class="spinner spinner-gold"></span> Carregando dados...</div>`;
+  // ── Resumo ──
+  async function verResumo(sellerId, nome) {
+    document.getElementById('modalIATitle').textContent = `📊 Resumo — ${nome}`;
+    document.getElementById('iaResult').innerHTML = `<div class="ia-loading"><span class="spinner"></span> Carregando dados...</div>`;
     document.getElementById('modalIA').className = 'modal-overlay show';
-
     try {
       const res = await fetch(`${API}/seller/${sellerId}/resumo`);
       const data = await res.json();
-      document.getElementById('iaResult').textContent = JSON.stringify(data, null, 2);
-    } catch(e) {
+      const rep = data.reputacao || {};
+      const an = data.anuncios || {};
+      document.getElementById('iaResult').textContent =
+        `REPUTAÇÃO: ${rep.nivel || '—'}\n` +
+        `Reclamações: ${rep.reclamacoes_pct}% | Atrasos: ${rep.atrasos_pct}% | Cancelamentos: ${rep.cancelamentos}\n\n` +
+        `ANÚNCIOS\n` +
+        `Ativos: ${an.total_ativos} | Pausados: ${an.total_pausados}\n` +
+        `Com problema: ${(an.anuncios_com_problema || []).length}\n\n` +
+        `ALERTAS\n` +
+        [...(rep.alertas || []), ...(an.alertas_gerais || [])].join('\n') || 'Nenhum alerta';
+    } catch {
       document.getElementById('iaResult').textContent = 'Erro ao carregar resumo.';
     }
   }
 
-  function fecharModal() {
-    document.getElementById('modalIA').className = 'modal-overlay';
+  // ── Gerar Códigos ──
+  async function gerarCodigos() {
+    const nome = document.getElementById('nomeCliente').value.trim();
+    const qtd = parseInt(document.getElementById('qtdCodigos').value) || 1;
+    if (!nome) return alert('Digite o nome do cliente!');
+    const btn = document.getElementById('btnGerar');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>Gerando...';
+    try {
+      const res = await fetch(`${API}/consultor/codigos/gerar?senha=${encodeURIComponent(SENHA)}&quantidade=${qtd}&nome_cliente=${encodeURIComponent(nome)}`, { method: 'POST' });
+      const data = await res.json();
+      await carregarCodigos();
+      document.getElementById('nomeCliente').value = '';
+      alert(`✅ Código gerado para ${nome}:\n${data.codigos.join('\n')}`);
+    } catch { alert('Erro ao gerar código.'); }
+    finally { btn.disabled = false; btn.innerHTML = 'Gerar código'; }
+  }
+
+  // ── Excluir código ──
+  async function excluirCodigo(id, btn) {
+    if (!confirm('Excluir este código?')) return;
+    btn.disabled = true;
+    try {
+      await fetch(`${API}/consultor/codigos/${id}?senha=${encodeURIComponent(SENHA)}`, { method: 'DELETE' });
+      await carregarCodigos();
+    } catch {
+      // Fallback: remove localmente se endpoint não existir ainda
+      codigos = codigos.filter(c => c.id !== id);
+      renderCodigos();
+    }
+    btn.disabled = false;
+  }
+
+  // ── Copiar código ──
+  function copiarCodigo(codigo, btn) {
+    navigator.clipboard.writeText(codigo);
+    btn.textContent = '✓ Copiado';
+    setTimeout(() => btn.textContent = 'Copiar', 2000);
   }
 
   // ── Tabs ──
   function mudarTab(tab, el) {
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     el.classList.add('active');
-    document.getElementById('sellersPanel').style.display = tab === 'sellers' ? 'block' : 'none';
-    document.getElementById('codigosPanel').style.display = tab === 'codigos' ? 'block' : 'none';
-    if (tab === 'codigos') carregarCodigos();
-  }
-
-  function abrirGerarCodigo() {
-    mudarTab('codigos', document.querySelectorAll('.tab')[1]);
+    document.getElementById('tabSellers').style.display = tab === 'sellers' ? 'block' : 'none';
+    document.getElementById('tabFinanceiro').style.display = tab === 'financeiro' ? 'block' : 'none';
+    document.getElementById('tabCodigos').style.display = tab === 'codigos' ? 'block' : 'none';
+    if (tab === 'financeiro') renderFinanceiro();
+    if (tab === 'codigos') renderCodigos();
   }
 
   // ── Utilitários ──
-  function copiar(texto, btn) {
-    navigator.clipboard.writeText(texto);
-    btn.textContent = '✓ Copiado';
-    setTimeout(() => btn.textContent = 'Copiar', 2000);
+  function fecharModal(id) { document.getElementById(id).className = 'modal-overlay'; }
+  function formatData(str) {
+    if (!str) return '';
+    const [y, m, d] = str.split('-');
+    return `${d}/${m}/${y}`;
   }
-
   function sair() {
     SENHA = '';
     document.getElementById('dashboard').style.display = 'none';
@@ -881,8 +726,8 @@
   }
 
   // Fecha modal clicando fora
-  document.getElementById('modalIA').addEventListener('click', function(e) {
-    if (e.target === this) fecharModal();
+  document.querySelectorAll('.modal-overlay').forEach(m => {
+    m.addEventListener('click', function(e) { if (e.target === this) fecharModal(this.id); });
   });
 </script>
 </body>
