@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DisparaMeLi — Promoções e Cupons</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #f4f9f5; --surface: #fff; --surface2: #eef5f0;
+      --border: #d0e8d8; --green: #1db954; --green-dark: #158a3e;
+      --green-light: #e0f5e8; --green-muted: #a0d4b0;
+      --text: #0f2018; --text-muted: #5a7a65;
+      --yellow: #f5a623; --red: #e74c3c; --blue: #3483fa;
+      --purple: #8b5cf6; --radius: 14px;
+      --shadow: 0 2px 20px rgba(29,185,84,0.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+    .topbar { background: var(--surface); border-bottom: 1.5px solid var(--border); padding: 0 24px; height: 58px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
+    .topbar-left { display: flex; align-items: center; gap: 12px; }
+    .btn-back { background: transparent; border: 1.5px solid var(--border); border-radius: 8px; padding: 7px 12px; font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; color: var(--text-muted); cursor: pointer; transition: all 0.2s; }
+    .btn-back:hover { border-color: var(--green); color: var(--green-dark); }
+    .topbar-title { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 800; }
+    .topbar-nick { background: var(--green-light); color: var(--green-dark); font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; border: 1px solid var(--border); }
+
+    .main { max-width: 960px; margin: 0 auto; padding: 24px 20px; }
+
+    /* HERO */
+    .hero { background: linear-gradient(135deg, var(--green-dark), var(--green)); border-radius: var(--radius); padding: 28px 32px; margin-bottom: 24px; color: white; }
+    .hero h2 { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+    .hero p { font-size: 14px; opacity: 0.9; line-height: 1.6; max-width: 600px; }
+    .hero-stats { display: flex; gap: 24px; margin-top: 20px; flex-wrap: wrap; }
+    .hero-stat { background: rgba(255,255,255,0.15); border-radius: 10px; padding: 12px 16px; text-align: center; min-width: 100px; }
+    .hero-stat-val { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; }
+    .hero-stat-label { font-size: 11px; opacity: 0.85; margin-top: 2px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    /* ALERTAS INTELIGENTES */
+    .alertas-section { margin-bottom: 24px; }
+    .section-title { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .alerta-card { background: var(--surface); border-radius: var(--radius); border: 1.5px solid var(--border); padding: 16px 18px; margin-bottom: 10px; display: flex; align-items: flex-start; gap: 14px; box-shadow: var(--shadow); }
+    .alerta-card.urgente { border-color: #f5c6c2; background: #fdf8f8; }
+    .alerta-card.oportunidade { border-color: #fde8b4; background: #fffcf5; }
+    .alerta-card.dica { border-color: var(--green-muted); background: var(--green-light); }
+    .alerta-icon { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+    .alerta-content { flex: 1; }
+    .alerta-titulo { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .alerta-card.urgente .alerta-titulo { color: var(--red); }
+    .alerta-card.oportunidade .alerta-titulo { color: #b7791f; }
+    .alerta-card.dica .alerta-titulo { color: var(--green-dark); }
+    .alerta-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+    .alerta-acao { display: inline-block; margin-top: 10px; padding: 7px 14px; border-radius: 7px; font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; text-decoration: none; transition: all 0.2s; }
+    .alerta-card.urgente .alerta-acao { background: #fdf0ef; color: var(--red); border: 1px solid #f5c6c2; }
+    .alerta-card.oportunidade .alerta-acao { background: #fffbf0; color: #b7791f; border: 1px solid #fde8b4; }
+    .alerta-card.dica .alerta-acao { background: var(--green-light); color: var(--green-dark); border: 1px solid var(--green-muted); }
+
+    /* TIPOS DE PROMOÇÃO */
+    .tipos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin-bottom: 24px; }
+    .tipo-card { background: var(--surface); border-radius: var(--radius); border: 1.5px solid var(--border); overflow: hidden; box-shadow: var(--shadow); transition: all 0.2s; }
+    .tipo-card:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(29,185,84,0.12); }
+    .tipo-header { padding: 18px 20px 12px; display: flex; align-items: flex-start; gap: 12px; }
+    .tipo-icon { font-size: 28px; flex-shrink: 0; }
+    .tipo-info { flex: 1; }
+    .tipo-nome { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 800; margin-bottom: 3px; }
+    .tipo-badge { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; display: inline-block; text-transform: uppercase; letter-spacing: 0.5px; }
+    .badge-facil { background: var(--green-light); color: var(--green-dark); }
+    .badge-medio { background: #fffbf0; color: #b7791f; }
+    .badge-avancado { background: #f0eeff; color: var(--purple); }
+    .tipo-desc { padding: 0 20px 12px; font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+    .tipo-quando { padding: 12px 20px; background: var(--surface2); border-top: 1px solid var(--border); }
+    .tipo-quando-titulo { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 6px; }
+    .tipo-quando-lista { display: grid; gap: 4px; }
+    .tipo-quando-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-muted); }
+    .tipo-quando-item::before { content: '✓'; color: var(--green); font-weight: 700; font-size: 11px; }
+    .tipo-footer { padding: 12px 20px; border-top: 1px solid var(--border); display: flex; gap: 8px; }
+    .btn-ir { flex: 1; padding: 9px 14px; background: linear-gradient(135deg, var(--green), var(--green-dark)); color: white; border: none; border-radius: 8px; font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; cursor: pointer; text-align: center; text-decoration: none; display: block; transition: all 0.2s; }
+    .btn-ir:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    /* CHECKLIST PROMOÇÕES */
+    .checklist-card { background: var(--surface); border-radius: var(--radius); border: 1.5px solid var(--border); padding: 20px 22px; margin-bottom: 24px; box-shadow: var(--shadow); }
+    .checklist-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+    .check-progress { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: var(--green-dark); }
+    .progress-bar-wrap { background: var(--bg); border-radius: 99px; height: 6px; margin-bottom: 14px; overflow: hidden; }
+    .progress-bar { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--green), var(--green-dark)); transition: width 0.4s ease; }
+    .check-items { display: grid; gap: 8px; }
+    .check-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px; border-radius: 9px; background: var(--bg); border: 1.5px solid transparent; cursor: pointer; transition: all 0.2s; user-select: none; }
+    .check-item:hover { border-color: var(--border); }
+    .check-item.done { background: var(--green-light); border-color: var(--green-muted); }
+    .check-box { width: 20px; height: 20px; border-radius: 6px; border: 2px solid var(--green-muted); background: white; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 12px; transition: all 0.2s; margin-top: 1px; }
+    .check-item.done .check-box { background: var(--green); border-color: var(--green); color: white; }
+    .check-content { flex: 1; }
+    .check-text { font-size: 14px; font-weight: 500; }
+    .check-item.done .check-text { text-decoration: line-through; color: var(--text-muted); }
+    .check-sub { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.4; }
+    .check-item.done .check-sub { color: var(--green-muted); }
+
+    /* POR QUE FAZER */
+    .porque-card { background: var(--surface); border-radius: var(--radius); border: 1.5px solid var(--border); padding: 20px 22px; margin-bottom: 24px; box-shadow: var(--shadow); }
+    .porque-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 14px; }
+    .porque-item { background: var(--bg); border-radius: 10px; padding: 14px; border: 1px solid var(--border); }
+    .porque-numero { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; color: var(--green-dark); margin-bottom: 4px; }
+    .porque-label { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
+
+    /* LOADING */
+    .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid var(--green-muted); border-top-color: var(--green); border-radius: 50%; animation: spin 0.7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 600px) {
+      .main { padding: 16px 14px; }
+      .topbar { padding: 0 16px; }
+      .hero { padding: 20px; }
+      .hero-stats { gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <button class="btn-back" onclick="window.location.href='index.html'">← Voltar</button>
+    <div class="topbar-title">🎯 Promoções e Cupons</div>
+  </div>
+  <span class="topbar-nick" id="topNick">@seller</span>
+</div>
+
+<div class="main">
+
+  <!-- HERO -->
+  <div class="hero">
+    <h2>Promoções são o combustível das suas vendas 🚀</h2>
+    <p>Sellers que fazem promoções regularmente vendem até 3x mais. Aqui você vai aprender quando e como usar cada tipo de promoção para crescer no Mercado Livre.</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-val" id="heroAtivos">—</div>
+        <div class="hero-stat-label">Anúncios ativos</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val" id="heroPausados">—</div>
+        <div class="hero-stat-label">Pausados</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val" id="heroNivel">—</div>
+        <div class="hero-stat-label">Reputação</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALERTAS INTELIGENTES -->
+  <div class="alertas-section">
+    <div class="section-title">⚡ Oportunidades identificadas na sua conta</div>
+    <div id="alertasInteligentes">
+      <div style="text-align:center; padding:20px; color:var(--text-muted);">
+        <span class="spinner"></span>
+        <span style="margin-left:8px; font-size:13px;">Analisando sua conta...</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHECKLIST DIÁRIO DE PROMOÇÕES -->
+  <div class="checklist-card">
+    <div class="checklist-header">
+      <div class="section-title" style="margin:0">📋 O que fazer hoje em promoções</div>
+      <div class="check-progress" id="checkProgress">0/5 feitos</div>
+    </div>
+    <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
+    <div class="check-items">
+      <div class="check-item" onclick="toggleCheck(this, 'promo1')">
+        <div class="check-box"></div>
+        <div class="check-content">
+          <div class="check-text">Verificar promoções ativas no painel do MELI</div>
+          <div class="check-sub">Acesse Meu Mercado Livre → Anúncios → Promoções e veja o que está ativo hoje</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this, 'promo2')">
+        <div class="check-box"></div>
+        <div class="check-content">
+          <div class="check-text">Verificar canal de promoções (newsletter do MELI)</div>
+          <div class="check-sub">O MELI envia seus produtos por email para clientes interessados — verifique se está participando</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this, 'promo3')">
+        <div class="check-box"></div>
+        <div class="check-content">
+          <div class="check-text">Checar cupons de carrinho abandonado</div>
+          <div class="check-sub">Clientes que adicionaram seu produto ao carrinho mas não compraram — envie um cupom de desconto</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this, 'promo4')">
+        <div class="check-box"></div>
+        <div class="check-content">
+          <div class="check-text">Avaliar produtos com estoque alto para promoção relâmpago</div>
+          <div class="check-sub">Produtos com mais de 10 unidades paradas há mais de 30 dias são candidatos perfeitos</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this, 'promo5')">
+        <div class="check-box"></div>
+        <div class="check-content">
+          <div class="check-text">Verificar se há promoções programadas do MELI para participar</div>
+          <div class="check-sub">O MELI organiza eventos como Semana do Consumidor, Black Friday, etc. — participe sempre que possível</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- POR QUE FAZER PROMOÇÕES -->
+  <div class="porque-card">
+    <div class="section-title" style="margin:0 0 4px 0">💡 Por que fazer promoções todo dia?</div>
+    <p style="font-size:13px; color:var(--text-muted); line-height:1.5; margin-bottom:4px;">O algoritmo do Mercado Livre favorece anúncios com promoções ativas. Além de vender mais, você melhora seu posicionamento nos resultados de busca.</p>
+    <div class="porque-grid">
+      <div class="porque-item">
+        <div class="porque-numero">3x</div>
+        <div class="porque-label">mais visibilidade nos resultados de busca com promoção ativa</div>
+      </div>
+      <div class="porque-item">
+        <div class="porque-numero">47%</div>
+        <div class="porque-label">dos compradores usam filtro "Em promoção" na busca</div>
+      </div>
+      <div class="porque-item">
+        <div class="porque-numero">2x</div>
+        <div class="porque-label">maior taxa de conversão em produtos com desconto visível</div>
+      </div>
+      <div class="porque-item">
+        <div class="porque-numero">🏆</div>
+        <div class="porque-label">promoções regulares ajudam a subir de nível de reputação mais rápido</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIPOS DE PROMOÇÃO -->
+  <div class="section-title">🎁 Tipos de promoção — quando e como usar</div>
+  <div class="tipos-grid">
+
+    <!-- Promoção Relâmpago -->
+    <div class="tipo-card">
+      <div class="tipo-header">
+        <div class="tipo-icon">⚡</div>
+        <div class="tipo-info">
+          <div class="tipo-nome">Promoção Relâmpago</div>
+          <span class="tipo-badge badge-facil">Fácil de fazer</span>
+        </div>
+      </div>
+      <div class="tipo-desc">
+        Desconto por tempo limitado (geralmente 24-48h) que aparece com destaque nos resultados. O MELI mostra um contador regressivo que gera urgência no comprador.
+      </div>
+      <div class="tipo-quando">
+        <div class="tipo-quando-titulo">Use quando:</div>
+        <div class="tipo-quando-lista">
+          <div class="tipo-quando-item">Estoque parado há mais de 30 dias</div>
+          <div class="tipo-quando-item">Quiser aumentar vendas rapidamente</div>
+          <div class="tipo-quando-item">Lançar um produto novo</div>
+          <div class="tipo-quando-item">Final de temporada</div>
+        </div>
+      </div>
+      <div class="tipo-footer">
+        <a href="https://www.mercadolivre.com.br/anuncios/promocoes" target="_blank" class="btn-ir">
+          Criar promoção relâmpago →
+        </a>
+      </div>
+    </div>
+
+    <!-- Canal de Promoções -->
+    <div class="tipo-card">
+      <div class="tipo-header">
+        <div class="tipo-icon">📧</div>
+        <div class="tipo-info">
+          <div class="tipo-nome">Canal de Promoções</div>
+          <span class="tipo-badge badge-facil">Fácil de fazer</span>
+        </div>
+      </div>
+      <div class="tipo-desc">
+        O MELI envia seus produtos por email e notificação para clientes que demonstraram interesse em produtos similares. É gratuito e aumenta muito a visibilidade.
+      </div>
+      <div class="tipo-quando">
+        <div class="tipo-quando-titulo">Use quando:</div>
+        <div class="tipo-quando-lista">
+          <div class="tipo-quando-item">Sempre que possível — é gratuito!</div>
+          <div class="tipo-quando-item">Produto com boa margem para dar desconto</div>
+          <div class="tipo-quando-item">Quiser alcançar novos compradores</div>
+          <div class="tipo-quando-item">Produto com muitas visitas mas pouca venda</div>
+        </div>
+      </div>
+      <div class="tipo-footer">
+        <a href="https://www.mercadolivre.com.br/anuncios/promocoes/canal" target="_blank" class="btn-ir">
+          Acessar canal de promoções →
+        </a>
+      </div>
+    </div>
+
+    <!-- Cupom de Carrinho Abandonado -->
+    <div class="tipo-card">
+      <div class="tipo-header">
+        <div class="tipo-icon">🛒</div>
+        <div class="tipo-info">
+          <div class="tipo-nome">Cupom — Carrinho Abandonado</div>
+          <span class="tipo-badge badge-medio">Médio</span>
+        </div>
+      </div>
+      <div class="tipo-desc">
+        Envia automaticamente um cupom de desconto para clientes que adicionaram seu produto ao carrinho mas não finalizaram a compra. Taxa de recuperação média de 15-20%.
+      </div>
+      <div class="tipo-quando">
+        <div class="tipo-quando-titulo">Use quando:</div>
+        <div class="tipo-quando-lista">
+          <div class="tipo-quando-item">Produto tem muitas visitas mas poucas vendas</div>
+          <div class="tipo-quando-item">Preço está próximo do concorrente</div>
+          <div class="tipo-quando-item">Quiser recuperar vendas perdidas</div>
+          <div class="tipo-quando-item">Produto de ticket médio/alto</div>
+        </div>
+      </div>
+      <div class="tipo-footer">
+        <a href="https://www.mercadolivre.com.br/anuncios/cupons" target="_blank" class="btn-ir">
+          Criar cupom de carrinho →
+        </a>
+      </div>
+    </div>
+
+    <!-- Cupom de Lançamento -->
+    <div class="tipo-card">
+      <div class="tipo-header">
+        <div class="tipo-icon">🎉</div>
+        <div class="tipo-info">
+          <div class="tipo-nome">Cupom de Lançamento</div>
+          <span class="tipo-badge badge-medio">Médio</span>
+        </div>
+      </div>
+      <div class="tipo-desc">
+        Desconto especial para as primeiras vendas de um produto novo. Ajuda a conseguir as primeiras avaliações e histórico de vendas, que são fundamentais para o algoritmo do MELI.
+      </div>
+      <div class="tipo-quando">
+        <div class="tipo-quando-titulo">Use quando:</div>
+        <div class="tipo-quando-lista">
+          <div class="tipo-quando-item">Produto novo sem nenhuma venda ainda</div>
+          <div class="tipo-quando-item">Anúncio sem avaliações</div>
+          <div class="tipo-quando-item">Entrando em uma categoria nova</div>
+          <div class="tipo-quando-item">Produto sazonais no início da temporada</div>
+        </div>
+      </div>
+      <div class="tipo-footer">
+        <a href="https://www.mercadolivre.com.br/anuncios/cupons/lancamento" target="_blank" class="btn-ir">
+          Criar cupom de lançamento →
+        </a>
+      </div>
+    </div>
+
+    <!-- Promoções do MELI -->
+    <div class="tipo-card">
+      <div class="tipo-header">
+        <div class="tipo-icon">🏪</div>
+        <div class="tipo-info">
+          <div class="tipo-nome">Promoções do MELI</div>
+          <span class="tipo-badge badge-avancado">Avançado</span>
+        </div>
+      </div>
+      <div class="tipo-desc">
+        Eventos organizados pelo MELI (Black Friday, Semana do Consumidor, etc.) onde você pode cadastrar produtos com desconto e ganhar destaque especial na plataforma.
+      </div>
+      <div class="tipo-quando">
+        <div class="tipo-quando-titulo">Use quando:</div>
+        <div class="tipo-quando-lista">
+          <div class="tipo-quando-item">MELI anunciar um evento promocional</div>
+          <div class="tipo-quando-item">Tiver margem para dar desconto real</div>
+          <div class="tipo-quando-item">Estoque suficiente para demanda alta</div>
+          <div class="tipo-quando-item">Produto competitivo no mercado</div>
+        </div>
+      </div>
+      <div class="tipo-footer">
+        <a href="https://www.mercadolivre.com.br/anuncios/promocoes/eventos" target="_blank" class="btn-ir">
+          Ver eventos do MELI →
+        </a>
+      </div>
+    </div>
+
+    <!-- Desconto Progressivo -->
+    <div class="tipo-card">
+      <div class="tipo-header">
+        <div class="tipo-icon">📈</div>
+        <div class="tipo-info">
+          <div class="tipo-nome">Desconto Progressivo</div>
+          <span class="tipo-badge badge-avancado">Avançado</span>
+        </div>
+      </div>
+      <div class="tipo-desc">
+        Quanto mais o cliente compra, maior o desconto. Excelente para aumentar o ticket médio e girar estoque de produtos com variações (tamanhos, cores).
+      </div>
+      <div class="tipo-quando">
+        <div class="tipo-quando-titulo">Use quando:</div>
+        <div class="tipo-quando-lista">
+          <div class="tipo-quando-item">Produto com múltiplas variações</div>
+          <div class="tipo-quando-item">Quiser aumentar quantidade por pedido</div>
+          <div class="tipo-quando-item">Produto de baixo ticket unitário</div>
+          <div class="tipo-quando-item">Estoque alto de várias variações</div>
+        </div>
+      </div>
+      <div class="tipo-footer">
+        <a href="https://www.mercadolivre.com.br/anuncios/promocoes/progressivo" target="_blank" class="btn-ir">
+          Criar desconto progressivo →
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- DICA FINAL -->
+  <div style="background:var(--surface); border-radius:var(--radius); border:1.5px solid var(--border); padding:20px 22px; box-shadow:var(--shadow); margin-bottom:24px;">
+    <div class="section-title" style="margin:0 0 10px 0">🧠 Estratégia para sellers iniciantes</div>
+    <p style="font-size:13px; color:var(--text-muted); line-height:1.7;">
+      <strong style="color:var(--text)">Semana 1-2:</strong> Foque em conseguir as primeiras vendas. Use cupom de lançamento em todos os produtos novos com 10-15% de desconto. O objetivo é ter avaliações positivas, não lucro máximo ainda.<br><br>
+      <strong style="color:var(--text)">Semana 3-4:</strong> Com as primeiras vendas e avaliações, ative o canal de promoções em seus melhores produtos. Isso vai trazer tráfego gratuito do MELI.<br><br>
+      <strong style="color:var(--text)">Mês 2 em diante:</strong> Configure cupons de carrinho abandonado em todos os produtos. Use promoções relâmpago semanais para manter o algoritmo ativo nos seus anúncios.<br><br>
+      <strong style="color:var(--green-dark)">Regra de ouro:</strong> Nunca fique mais de 7 dias sem alguma promoção ativa. O algoritmo do MELI "esquece" anúncios sem atividade.
+    </p>
+  </div>
+
+</div>
+
+<script>
+  const API = 'https://disparameli.onrender.com';
+  const sellerId = localStorage.getItem('dispara_seller_id');
+  if (!sellerId) window.location.href = 'index.html';
+  document.getElementById('topNick').textContent = '@' + sellerId;
+
+  const CHECKLIST_KEY = 'dispara_promo_checklist_' + new Date().toDateString();
+
+  window.addEventListener('load', () => {
+    carregarDados();
+    restaurarChecklist();
+  });
+
+  async function carregarDados() {
+    try {
+      const [repRes, anunciosRes] = await Promise.all([
+        fetch(`${API}/seller/${sellerId}/reputacao`),
+        fetch(`${API}/seller/${sellerId}/anuncios`)
+      ]);
+      const rep = await repRes.json();
+      const anuncios = await anunciosRes.json();
+
+      // Hero stats
+      document.getElementById('heroAtivos').textContent = anuncios.total_ativos || '—';
+      document.getElementById('heroPausados').textContent = anuncios.total_pausados || '—';
+
+      const nivelMap = {
+        '5_green': '🟢 Excelente', '4_light_green': '🟢 Bom',
+        '3_yellow': '🟡 Regular', '2_orange': '🟠 Baixo', '1_red': '🔴 Crítico'
+      };
+      const nivel = rep.nivel || '';
+      const nivelLabel = Object.entries(nivelMap).find(([k]) => nivel.includes(k.split('_')[0]))
+      document.getElementById('heroNivel').textContent = nivelLabel ? nivelLabel[1] : '—';
+
+      // Alertas inteligentes
+      renderAlertas(rep, anuncios);
+    } catch(e) {
+      document.getElementById('alertasInteligentes').innerHTML =
+        `<div style="text-align:center; padding:20px; color:var(--text-muted); font-size:13px;">Não foi possível carregar os dados da conta.</div>`;
+    }
+  }
+
+  function renderAlertas(rep, anuncios) {
+    const alertas = [];
+    const problemas = anuncios.anuncios_com_problema || [];
+    const pausados = anuncios.total_pausados || 0;
+    const cancelamentos = rep.cancelamentos || 0;
+
+    // Alertas baseados nos dados reais
+    if (pausados > 0) {
+      alertas.push({
+        tipo: 'oportunidade',
+        icon: '⏸️',
+        titulo: `Você tem ${pausados} anúncio(s) pausado(s)`,
+        desc: 'Anúncios pausados não aparecem nas buscas e não podem participar de promoções. Reative-os e coloque em promoção para recuperar visibilidade.',
+        acao: 'Ver anúncios pausados →',
+        link: 'anuncios.html'
+      });
+    }
+
+    if (problemas.length > 0) {
+      const semDescricao = problemas.filter(p => p.problemas?.some(x => x.includes('descrição'))).length;
+      if (semDescricao > 0) {
+        alertas.push({
+          tipo: 'urgente',
+          icon: '📝',
+          titulo: `${semDescricao} anúncio(s) sem descrição`,
+          desc: 'Anúncios sem descrição têm menor chance de aparecer em promoções do MELI. Adicione uma descrição com storytelling do produto para ser elegível.',
+          acao: 'Corrigir anúncios →',
+          link: 'anuncios.html'
+        });
+      }
+
+      const poucasFotos = problemas.filter(p => p.problemas?.some(x => x.includes('foto'))).length;
+      if (poucasFotos > 0) {
+        alertas.push({
+          tipo: 'oportunidade',
+          icon: '📷',
+          titulo: `${poucasFotos} anúncio(s) com poucas fotos`,
+          desc: 'Anúncios com menos de 8 fotos têm menor conversão. Promoções em anúncios com fotos boas convertem até 2x mais.',
+          acao: 'Ver anúncios →',
+          link: 'anuncios.html'
+        });
+      }
+    }
+
+    if (cancelamentos > 5) {
+      alertas.push({
+        tipo: 'urgente',
+        icon: '⚠️',
+        titulo: `${cancelamentos} cancelamentos registrados`,
+        desc: 'Alto número de cancelamentos prejudica sua reputação e pode te impedir de participar de promoções do MELI. Resolva as causas antes de criar novas promoções.',
+        acao: 'Ver reputação →',
+        link: 'index.html'
+      });
+    }
+
+    // Dica sempre presente
+    alertas.push({
+      tipo: 'dica',
+      icon: '💡',
+      titulo: 'Dica do dia: Ative o canal de promoções agora',
+      desc: 'O canal de promoções é gratuito e o MELI divulga seus produtos para clientes interessados. É a promoção com melhor custo-benefício para iniciantes.',
+      acao: 'Ativar canal de promoções →',
+      link: 'https://www.mercadolivre.com.br/anuncios/promocoes/canal'
+    });
+
+    if (!alertas.length) {
+      document.getElementById('alertasInteligentes').innerHTML =
+        `<div class="alerta-card dica">
+          <div class="alerta-icon">✅</div>
+          <div class="alerta-content">
+            <div class="alerta-titulo">Sua conta está em boa forma!</div>
+            <div class="alerta-desc">Aproveite para criar promoções e aumentar ainda mais suas vendas.</div>
+          </div>
+        </div>`;
+      return;
+    }
+
+    document.getElementById('alertasInteligentes').innerHTML = alertas.map(a => `
+      <div class="alerta-card ${a.tipo}" style="animation:fadeUp 0.3s ease">
+        <div class="alerta-icon">${a.icon}</div>
+        <div class="alerta-content">
+          <div class="alerta-titulo">${a.titulo}</div>
+          <div class="alerta-desc">${a.desc}</div>
+          <a href="${a.link}" class="alerta-acao" ${a.link.startsWith('http') ? 'target="_blank"' : ''}>${a.acao}</a>
+        </div>
+      </div>`).join('');
+  }
+
+  function toggleCheck(el, id) {
+    el.classList.toggle('done');
+    const box = el.querySelector('.check-box');
+    box.textContent = el.classList.contains('done') ? '✓' : '';
+    salvarChecklist();
+    atualizarProgresso();
+  }
+
+  function salvarChecklist() {
+    const items = document.querySelectorAll('.check-item');
+    const estado = {};
+    items.forEach((el, i) => { estado['item' + i] = el.classList.contains('done'); });
+    localStorage.setItem(CHECKLIST_KEY, JSON.stringify(estado));
+  }
+
+  function restaurarChecklist() {
+    try {
+      const estado = JSON.parse(localStorage.getItem(CHECKLIST_KEY) || '{}');
+      const items = document.querySelectorAll('.check-item');
+      items.forEach((el, i) => {
+        if (estado['item' + i]) {
+          el.classList.add('done');
+          el.querySelector('.check-box').textContent = '✓';
+        }
+      });
+      atualizarProgresso();
+    } catch(e) {}
+  }
+
+  function atualizarProgresso() {
+    const items = document.querySelectorAll('.check-item');
+    const feitos = document.querySelectorAll('.check-item.done').length;
+    const total = items.length;
+    document.getElementById('checkProgress').textContent = `${feitos}/${total} feitos`;
+    document.getElementById('progressBar').style.width = `${(feitos/total)*100}%`;
+  }
+</script>
+</body>
+</html>
