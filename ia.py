@@ -66,7 +66,7 @@ O seller é brasileiro, então escreva em português do Brasil.
     }
 
     body = {
-        "model": "claude-sonnet-4-20250514",
+        "model": "claude-sonnet-4-5",
         "max_tokens": 2000,
         "messages": [
             {"role": "user", "content": prompt}
