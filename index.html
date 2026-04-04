@@ -128,7 +128,7 @@
 
     /* MÓDULOS */
     .modulos-label { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 10px; }
-    .modulos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+    .modulos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 20px; }
     .modulo-card { background: var(--surface); border-radius: var(--radius); border: 1.5px solid var(--border); padding: 20px; box-shadow: var(--shadow); cursor: pointer; transition: all 0.2s; }
     .modulo-card:hover { border-color: var(--green); box-shadow: 0 4px 24px rgba(29,185,84,0.15); transform: translateY(-1px); }
     .modulo-icon { font-size: 26px; margin-bottom: 8px; }
@@ -275,6 +275,12 @@
         <div class="modulo-title">Meus Anúncios</div>
         <div class="modulo-desc">Qualidade, problemas, imagens e oportunidades de melhoria</div>
         <div class="modulo-btn">Ver Anúncios →</div>
+      </div>
+      <div class="modulo-card" onclick="irPara('promocoes.html')">
+        <div class="modulo-icon">🎯</div>
+        <div class="modulo-title">Promoções e Cupons</div>
+        <div class="modulo-desc">Guia completo de quando e como usar cada tipo de promoção</div>
+        <div class="modulo-btn">Ver Promoções →</div>
       </div>
     </div>
 
