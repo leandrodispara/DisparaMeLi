@@ -184,6 +184,13 @@ def ver_codigos(auth=Depends(verificar_consultor)):
     """Lista todos os códigos — disponíveis e usados"""
     return listar_codigos()
 
+@app.delete("/consultor/codigos/{codigo_id}")
+def excluir_codigo(codigo_id: int, auth=Depends(verificar_consultor)):
+    """Exclui um código de acesso usado"""
+    from database import excluir_codigo_db
+    excluir_codigo_db(codigo_id)
+    return {"ok": True}
+
 @app.get("/")
 def root():
     return {"status": "Dispara Vendas - Horizon MELI API online 🚀"}
