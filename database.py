@@ -72,3 +72,7 @@ def listar_codigos():
     """Lista todos os códigos — usados e disponíveis"""
     result = supabase.table("codigos_acesso").select("*").order("criado_em", desc=True).execute()
     return result.data
+
+def excluir_codigo_db(codigo_id: int):
+    """Exclui um código de acesso pelo ID"""
+    supabase.table("codigos_acesso").delete().eq("id", codigo_id).execute()
