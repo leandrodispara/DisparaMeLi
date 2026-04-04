@@ -31,21 +31,34 @@ async def chamar_api(url: str, seller_id: str, access_token: str, refresh_token:
 
     headers = {"Authorization": f"Bearer {access_token}"}
 
-    async with httpx.AsyncClient() as client:
-        r = await client.get(url, headers=headers)
+    async with httpx.AsyncClient(timeout=30.0) as client:
+        try:
+            r = await client.get(url, headers=headers)
 
-        if r.status_code == 401 and refresh_token:
-            novos = await renovar_access_token(refresh_token)
-            if "access_token" in novos:
-                novo_access = novos["access_token"]
-                novo_refresh = novos.get("refresh_token", refresh_token)
-                atualizar_tokens(seller_id, novo_access, novo_refresh)
-                r = await client.get(url, headers={"Authorization": f"Bearer {novo_access}"})
-                return r.json(), novo_access
-            else:
-                return {"error": "token_expired"}, access_token
+            # Resposta vazia
+            if not r.content:
+                return {}, access_token
 
-        return r.json(), access_token
+            if r.status_code == 401 and refresh_token:
+                novos = await renovar_access_token(refresh_token)
+                if "access_token" in novos:
+                    novo_access = novos["access_token"]
+                    novo_refresh = novos.get("refresh_token", refresh_token)
+                    atualizar_tokens(seller_id, novo_access, novo_refresh)
+                    r2 = await client.get(url, headers={"Authorization": f"Bearer {novo_access}"})
+                    if not r2.content:
+                        return {}, novo_access
+                    return r2.json(), novo_access
+                else:
+                    return {"error": "token_expired"}, access_token
+
+            try:
+                return r.json(), access_token
+            except Exception:
+                return {}, access_token
+
+        except Exception as e:
+            return {"error": str(e)}, access_token
 
 
 async def get_seller_info(access_token: str):
